@@ -27,7 +27,12 @@
   },
   "license": "MIT",
   "peerDependencies": {},
-  "dependencies": {},
+  "dependencies": {
+    "apify": "^1.2.1",
+    "axios": "^0.21.1",
+    "playwright": "^1.12.3",
+    "puppeteer": "^10.1.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/plugin-proposal-class-properties": "^7.4.0",

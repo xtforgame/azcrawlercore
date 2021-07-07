@@ -4,14 +4,13 @@ const Apify = require('apify');
 
 // Apify.main is a helper function, you don't need to use it.
 
-const startUrl = 'https://finviz.com/screener.ashx?v=111&f=ind_exchangetradedfund,sec_financial';
 
 export default async function echo(data : any, err : Error) {
   await Apify.main(async () => {
     // Apify.openRequestQueue() creates a preconfigured RequestQueue instance.
     // We add our first request to it - the initial page the crawler will visit.
     const requestQueue = await Apify.openRequestQueue();
-    await requestQueue.addRequest({ url: startUrl });
+    await requestQueue.addRequest({ url: 'https://news.ycombinator.com/' });
 
     // Create an instance of the PuppeteerCrawler class - a crawler
     // that automatically loads the URLs in headless Chrome / Puppeteer.
@@ -22,18 +21,12 @@ export default async function echo(data : any, err : Error) {
       launchContext: {
         launchOptions: {
           headless: true,
-
-          // devtools: true,
-          // headless: false,
-          // slowMo: 250,
-
           // Other Puppeteer options
         },
       },
-      handlePageTimeoutSecs: 999999,
 
       // Stop crawling after several pages
-      // maxRequestsPerCrawl: 50,
+      maxRequestsPerCrawl: 50,
 
       // This function will be called for each URL to crawl.
       // Here you can write the Puppeteer scripts you are familiar with,
@@ -42,29 +35,22 @@ export default async function echo(data : any, err : Error) {
       // - request: an instance of the Request class with information such as URL and HTTP method
       // - page: Puppeteer's Page object (see https://pptr.dev/#show=api-class-page)
       handlePageFunction: async ({ request, page }) => {
-        // console.log('page :', page);
+        console.log('page :', page);
         console.log(`Processing ${request.url}...`);
 
         // A function to be evaluated by Puppeteer within the browser context.
-        const data = await page.$$eval('#screener-content tbody tr:nth-child(4) tbody', ($tbody) => {
+        const data = await page.$$eval('.athing', ($posts) => {
           const scrapedData = [];
 
-          const $etfs = Array.from($tbody[0].querySelectorAll('tr'));
-          const $header = $etfs.shift(0);
-          const $columns = Array.from($header.querySelectorAll('td'));
           // We're getting the title, rank and URL of each post on Hacker News.
-          $etfs.forEach(($etf) => {
-            const record = {};
-            const a = Array.from($etf.querySelectorAll('td'));
-            a.forEach((cell, i) => {
-              record[$columns[i].innerText] = cell.innerText;
+          $posts.forEach(($post) => {
+            scrapedData.push({
+              title: $post.querySelector('.title a').innerText,
+              rank: $post.querySelector('.rank').innerText,
+              href: $post.querySelector('.title a').href,
             });
-            scrapedData.push(record);
           });
 
-          // const x = document.querySelectorAll('.screener_pagination .tab-link');
-          // console.log('x :', x);
-          // debugger;
           return scrapedData;
         });
 
@@ -72,21 +58,11 @@ export default async function echo(data : any, err : Error) {
         await Apify.pushData(data);
 
         // Find a link to the next page and enqueue it if it exists.
-        let infos = [];
-
-        if (request.url === startUrl) {
-          infos = await Apify.utils.enqueueLinks({
-            page,
-            requestQueue,
-            selector: '.screener_pagination a.tab-link:last-child',
-          });
-        } else {
-          infos = await Apify.utils.enqueueLinks({
-            page,
-            requestQueue,
-            selector: '.screener_pagination a.tab-link:last-child',
-          });
-        }
+        const infos = await Apify.utils.enqueueLinks({
+          page,
+          requestQueue,
+          selector: '.morelink',
+        });
 
         if (infos.length === 0) console.log(`${request.url} is the last page!`);
       },

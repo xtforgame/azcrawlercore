@@ -24,27 +24,12 @@ describe('Main Test Cases', () => {
     });
   });
 
-  describe('Echo Test', () => {
+  describe('Echo Test', function () {
+    this.timeout(30000000);
     it('.then()', () => mainFunc(data01)
         .then((result) => {
           expect(result).to.exists;
           expect(result.val01).to.equal(1);
         }));
-
-    it('.catch()', () => {
-      let then = false;
-      return mainFunc(null, err01)
-        .then(() => {
-          then = 1;
-          throw Error();
-        })
-        .catch((result) => {
-          if (then) {
-            throw Error();
-          }
-          expect(result).to.exists;
-          expect(result.message).to.equal('Error');
-        });
-    });
   });
 });
