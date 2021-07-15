@@ -93,28 +93,30 @@ export default async (keys) => {
           const kvs : any[] = [];
           console.log('$list :', $list);
           // debugger;
-          if ($list[0]) {
-            // debugger;
-            const lis = Array.from($list[0].querySelectorAll('li'));
-            // debugger;
-            lis.forEach((li) => {
-              const parseValue = (span: HTMLElement) => {
-                if (!span) {
-                  return { value: '', link: '' };
-                }
-                if (span?.children?.[0]?.tagName === 'A') {
-                  return { value: span?.children?.[0].innerText || '', link: span?.children?.[0].getAttribute('href') || '' };
-                } else {
-                  return { value: span?.innerText || '', link: '' };
-                }
-              };
-              const spans = Array.from(li.querySelectorAll('span'));
-              const key = spans[0].innerText || '';
-              const value = parseValue(spans[1]);
-              // console.log('spans :', spans);
-              kvs.push({ key, value });
-            });
-            // debugger;
+          for (let i = 0; i < 2; i++) {
+            if ($list[i]) {
+              // debugger;
+              const lis = Array.from($list[i].querySelectorAll('li'));
+              // debugger;
+              lis.forEach((li) => {
+                const parseValue = (span: HTMLElement) => {
+                  if (!span) {
+                    return { value: '', link: '' };
+                  }
+                  if (span?.children?.[0]?.tagName === 'A') {
+                    return { value: span?.children?.[0].innerText || '', link: span?.children?.[0].getAttribute('href') || '' };
+                  } else {
+                    return { value: span?.innerText || '', link: '' };
+                  }
+                };
+                const spans = Array.from(li.querySelectorAll('span'));
+                const key = spans[0].innerText || '';
+                const value = parseValue(spans[1]);
+                // console.log('spans :', spans);
+                kvs.push({ key, value });
+              });
+              // debugger;
+            }
           }
           // console.log('kvs :', kvs);
           // debugger;
