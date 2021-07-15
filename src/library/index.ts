@@ -1,16 +1,19 @@
 import utils from './utils';
+import getGuru from './getGuru';
+import getEtfDb from './getEtfDb';
 
 const Apify = require('apify');
 
 // Apify.main is a helper function, you don't need to use it.
 
-const startUrl = 'https://finviz.com/screener.ashx?v=111&f=ind_exchangetradedfund,sec_financial';
+const startUrl = 'https://finviz.com/screener.ashx?v=111&f=ind_exchangetradedfund,sec_financial&r=1981';
 
 export default async function echo(data : any, err : Error) {
   await Apify.main(async () => {
     // Apify.openRequestQueue() creates a preconfigured RequestQueue instance.
     // We add our first request to it - the initial page the crawler will visit.
     const requestQueue = await Apify.openRequestQueue();
+    const symbolStore = await Apify.openKeyValueStore('symbols');
     await requestQueue.addRequest({ url: startUrl });
 
     // Create an instance of the PuppeteerCrawler class - a crawler
@@ -62,33 +65,48 @@ export default async function echo(data : any, err : Error) {
             scrapedData.push(record);
           });
 
-          // const x = document.querySelectorAll('.screener_pagination .tab-link');
+          const tabLinks = document.querySelectorAll('.screener_pagination .tab-link');
           // console.log('x :', x);
           // debugger;
-          return scrapedData;
+          return {
+            scrapedData,
+            tabLinks: tabLinks.length,
+          };
         });
 
         // Store the results to the default dataset.
-        await Apify.pushData(data);
+        // Store the results to the default dataset.
+        await Promise.all(data.scrapedData.map(async (d) => {
+          await symbolStore.setValue(d.Ticker, d);
+        }));
+        // await Apify.pushData(data);
 
         // Find a link to the next page and enqueue it if it exists.
-        let infos = [];
+        const infos = await Apify.utils.enqueueLinks({
+          page,
+          requestQueue,
+          selector: '.screener_pagination a.tab-link:last-child',
+        });
 
-        if (request.url === startUrl) {
-          infos = await Apify.utils.enqueueLinks({
-            page,
-            requestQueue,
-            selector: '.screener_pagination a.tab-link:last-child',
+        if (data.tabLinks === 2 && startUrl !== request.url) {
+          console.log(`${request.url} is the last page!`);
+          const etfInfo : any[] = [];
+          await symbolStore.forEachKey(async (key, index, info) => {
+            etfInfo.push({ key, index, info });
           });
-        } else {
-          infos = await Apify.utils.enqueueLinks({
-            page,
-            requestQueue,
-            selector: '.screener_pagination a.tab-link:last-child',
-          });
+
+          const keys = etfInfo.map(v => v.key);
+          const d2 = await getEtfDb(keys);
+          console.log('d2 :', d2);
+          // console.log(`Key at ${index}: ${key} has size ${info.size}`);
+          // const d = await getGuru(`https://www.gurufocus.com/etf/${key}`);
+          // // console.log('d :', d);
+          // const d2 = await getEtfDb(`https://etfdb.com/etf/${key}/#realtime-rating`);
+          // console.log('d2 :', d2);
         }
-
-        if (infos.length === 0) console.log(`${request.url} is the last page!`);
+        if (infos.length === 0) {
+          
+        }
       },
 
       // This function is called if the page processing failed more than maxRequestRetries+1 times.
