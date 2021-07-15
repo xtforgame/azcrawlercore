@@ -96,11 +96,12 @@ export default async function echo(data : any, err : Error) {
           });
 
           const keys = etfInfo.map(v => v.key);
-          const d2 = await getEtfDb(keys);
-          console.log('d2 :', d2);
-          // console.log(`Key at ${index}: ${key} has size ${info.size}`);
-          // const d = await getGuru(`https://www.gurufocus.com/etf/${key}`);
-          // // console.log('d :', d);
+          // const d2 = await getEtfDb(keys);
+          // console.log('d2 :', d2);
+          const d = await getGuru(keys);
+          console.log('d :', d);
+
+
           // const d2 = await getEtfDb(`https://etfdb.com/etf/${key}/#realtime-rating`);
           // console.log('d2 :', d2);
         }
