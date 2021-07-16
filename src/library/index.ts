@@ -1,4 +1,4 @@
-import utils from './utils';
+import utils, { promiseReduce } from './utils';
 import getGuru from './getGuru';
 import getEtfDb from './getEtfDb';
 
@@ -6,7 +6,7 @@ const Apify = require('apify');
 
 // Apify.main is a helper function, you don't need to use it.
 
-const startUrl = 'https://finviz.com/screener.ashx?v=111&f=ind_exchangetradedfund,sec_financial&r=1981';
+const startUrl = 'https://finviz.com/screener.ashx?v=111&f=ind_exchangetradedfund,sec_financial';
 
 export default async function echo(data : any, err : Error) {
   await Apify.main(async () => {
@@ -96,34 +96,50 @@ export default async function echo(data : any, err : Error) {
           const etfInfo : any[] = [];
           await symbolStore.forEachKey(async (key, index, info) => {
             const value = await symbolStore.getValue(key);
-            etfInfo.push({ key, index, info, value });
+            etfInfo.push({
+              key, index, info, value,
+            });
           });
 
 
-          const keys = etfInfo.map(v => v.key);
-          const etfDbResults = await getEtfDb(keys);
-          await Promise.all(etfDbResults.profiles.map(async (d) => {
-            // console.log('d :', d);
-            await etfDbProfileStore.setValue(d.key, d);
-          }));
-          await Promise.all(etfDbResults.ratings.map(async (d) => {
-            // console.log('d :', d);
-            await etfDbScoreStore.setValue(d.key, d);
-          }));
+          const sliceIntoChunks = (arr, chunkSize) => {
+            const res : any[] = [];
+            for (let i = 0; i < arr.length; i += chunkSize) {
+              const chunk = arr.slice(i, i + chunkSize);
+              res.push(chunk);
+            }
+            return res;
+          };
 
-          const guruResults = await getGuru(etfInfo);
-          await Promise.all(guruResults.map(async (d) => {
-            // console.log('d :', d);
-            await gurufocusStore.setValue(d.key, d);
-          }));
-          console.log('guruResults :', guruResults);
+          const etfInfoChunks : any[][] = sliceIntoChunks(etfInfo, 20);
+          await promiseReduce(etfInfoChunks, async (_, etfInfoChunk) => {
+            const keys = etfInfoChunk.map(v => v.key);
 
+            const [etfDbResults, guruResults] = await Promise.all([
+              getEtfDb(keys),
+              getGuru(etfInfoChunk),
+            ]);
+            await Promise.all(etfDbResults.profiles.map(async (d) => {
+              // console.log('d :', d);
+              await etfDbProfileStore.setValue(d.key, d);
+            }));
+            await Promise.all(etfDbResults.ratings.map(async (d) => {
+              // console.log('d :', d);
+              await etfDbScoreStore.setValue(d.key, d);
+            }));
+
+            await Promise.all(guruResults.map(async (d) => {
+              // console.log('d :', d);
+              await gurufocusStore.setValue(d.key, d);
+            }));
+            console.log('guruResults :', guruResults);
+          }, null);
 
           // const d2 = await getEtfDb(`https://etfdb.com/etf/${key}/#realtime-rating`);
           // console.log('d2 :', d2);
         }
         if (infos.length === 0) {
-          
+
         }
       },
 

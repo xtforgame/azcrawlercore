@@ -44,9 +44,9 @@ export default async (etfInfo) => {
   const estimates : any[] = [];
 
   await promiseReduce(etfInfo, async (_, { key, value }, i) => {
-    if (i) {
-      return true;
-    }
+    // if (i) {
+    //   return true;
+    // }
     console.log('key :', key);
 
     const estimateUrl = `https://www.gurufocus.com/etf/${key}`;
@@ -71,12 +71,12 @@ export default async (etfInfo) => {
               resp.json().then(resolve);
             }
           });
-          // setTimeout(() => {
-          //   if (!fulfill) {
-          //     fulfill = true;
-          //     reject(new Error('Expired'));
-          //   }
-          // }, 15000);
+          setTimeout(() => {
+            if (!fulfill) {
+              fulfill = true;
+              reject(new Error('Expired'));
+            }
+          }, 15000);
         });
         await page.goto(estimateUrl, {
           waitUntil: 'networkidle2',
@@ -145,6 +145,7 @@ export default async (etfInfo) => {
     };
     await estimateRetry();
   }, null);
+  await browser.close();
   return estimates;
 };
 
