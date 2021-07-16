@@ -14,6 +14,9 @@ export default async function echo(data : any, err : Error) {
     // We add our first request to it - the initial page the crawler will visit.
     const requestQueue = await Apify.openRequestQueue();
     const symbolStore = await Apify.openKeyValueStore('symbols');
+    const gurufocusStore = await Apify.openKeyValueStore('gurufocus');
+    const etfDbProfileStore = await Apify.openKeyValueStore('etfDbProfile');
+    const etfDbScoreStore = await Apify.openKeyValueStore('etfDbScore');
     await requestQueue.addRequest({ url: startUrl });
 
     // Create an instance of the PuppeteerCrawler class - a crawler
@@ -92,14 +95,28 @@ export default async function echo(data : any, err : Error) {
           console.log(`${request.url} is the last page!`);
           const etfInfo : any[] = [];
           await symbolStore.forEachKey(async (key, index, info) => {
-            etfInfo.push({ key, index, info });
+            const value = await symbolStore.getValue(key);
+            etfInfo.push({ key, index, info, value });
           });
 
+
           const keys = etfInfo.map(v => v.key);
-          // const d2 = await getEtfDb(keys);
-          // console.log('d2 :', d2);
-          const d = await getGuru(keys);
-          console.log('d :', d);
+          const etfDbResults = await getEtfDb(keys);
+          await Promise.all(etfDbResults.profiles.map(async (d) => {
+            // console.log('d :', d);
+            await etfDbProfileStore.setValue(d.key, d);
+          }));
+          await Promise.all(etfDbResults.ratings.map(async (d) => {
+            // console.log('d :', d);
+            await etfDbScoreStore.setValue(d.key, d);
+          }));
+
+          const guruResults = await getGuru(etfInfo);
+          await Promise.all(guruResults.map(async (d) => {
+            // console.log('d :', d);
+            await gurufocusStore.setValue(d.key, d);
+          }));
+          console.log('guruResults :', guruResults);
 
 
           // const d2 = await getEtfDb(`https://etfdb.com/etf/${key}/#realtime-rating`);
