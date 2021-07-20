@@ -149,6 +149,7 @@ export default async () => {
     });
   });
 
+  await sendQuery(`ALTER TABLE etf_info MODIFY home_page VARCHAR(300);`);
   await promiseReduce(updateRecords, async (_, r) => {
     const toSetter = (r) => {
       const keys = Object.keys(r);
