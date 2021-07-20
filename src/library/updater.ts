@@ -76,6 +76,9 @@ export default async () => {
     };
 
     scores.score = totalScore / totalWeight;
+    if (!scores.score) {
+      scores.score = 0;
+    }
     // console.log('scores :', scores);
 
     const result = {
