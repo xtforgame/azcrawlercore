@@ -76,12 +76,12 @@ export default class EtfManager {
         symbolJson,
        } = s;
   
-      const profileData = fs.readFileSync(`../apify_storage/key_value_stores/etfDbProfile/${symbol}`, { encoding: 'utf-8' });
+      const profileData = fs.readFileSync(`../apify_storage/key_value_stores/etfDbProfile/${symbol}.json`, { encoding: 'utf-8' });
       const profileJson = JSON.parse(profileData);
   
       let scoreJson : any = {};
       try {
-        const scoreData = fs.readFileSync(`../apify_storage/key_value_stores/etfDbScore/${symbol}`, { encoding: 'utf-8' });
+        const scoreData = fs.readFileSync(`../apify_storage/key_value_stores/etfDbScore/${symbol}.json`, { encoding: 'utf-8' });
         scoreJson = JSON.parse(scoreData);
       } catch (error) {
         
@@ -89,7 +89,7 @@ export default class EtfManager {
   
       let gurufocusJson : any = {};
       try {
-        const gurufocusData = fs.readFileSync(`../apify_storage/key_value_stores/gurufocus/${symbol}`, { encoding: 'utf-8' });
+        const gurufocusData = fs.readFileSync(`../apify_storage/key_value_stores/gurufocus/${symbol}.json`, { encoding: 'utf-8' });
         gurufocusJson = JSON.parse(gurufocusData);
       } catch (error) {
         
