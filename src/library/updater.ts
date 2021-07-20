@@ -33,8 +33,8 @@ export default async () => {
       
     }
 
-    console.log('gurufocusJson.price :', gurufocusJson.price);
-    console.log('gurufocusJson.bestMultipiler :', gurufocusJson.bestMultipiler);
+    // console.log('gurufocusJson.price :', gurufocusJson.price);
+    // console.log('gurufocusJson.bestMultipiler :', gurufocusJson.bestMultipiler);
 
     // console.log('symbolJson :', symbolJson);
     // console.log('profileJson :', profileJson);
@@ -157,7 +157,7 @@ export default async () => {
       });
     }
     const x = toSetter(r).join(',');
-    await sendQuery(`UPDATE etf_info SET '${x}' WHERE symbol_uid = '${r.symbol}';`);
+    await sendQuery(`UPDATE etf_info SET ${x} WHERE symbol_uid = '${r.symbol}';`);
   }, (<any>null));
 
   connection.end();
