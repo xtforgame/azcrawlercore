@@ -23,6 +23,8 @@ services:
       - "../secrets:/usr/volumes/share/secrets"
 
     command: bash docker-cmd.sh
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
     # ports:
     #   # - "22006:443"
