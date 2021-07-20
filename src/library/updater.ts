@@ -18,5 +18,13 @@ export default async () => {
     });
   });
 
+  await new Promise((resolve, reject) => {
+    connection.query('SELECT * AS tags', (error, results, fields) => {
+      if (error) reject(error);
+      console.log('The solution is: ', results[0].solution);
+      resolve(results);
+    });
+  });
+
   connection.end();
 };
