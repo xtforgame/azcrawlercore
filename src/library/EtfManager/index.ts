@@ -4,18 +4,69 @@ import fs from 'fs';
 import { promiseReduce, toMap } from '../utils';
 
 
+export type ExecFunc = (connection : any) => Promise<any>;
+
 export default class EtfManager {
-  update = async () => {
+
+  async getSymbolList() {
     const symbolList = fs.readdirSync('../apify_storage/key_value_stores/symbols');
-    symbolList.forEach((f) => {
-      // console.log('f :', f);
-    });
-  
-    const updateRecords : any[] = [];
-    await promiseReduce(symbolList, async (_, s) => {
+    return symbolList.map((s) => {
       const symbol = s.replace(/\.json/g, '');
       const symbolData = fs.readFileSync(`../apify_storage/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
       const symbolJson = JSON.parse(symbolData);
+      return {
+        symbol,
+        symbolJson,
+      }
+    });
+  }
+
+  async execInDb(run : ExecFunc) {
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: 'mrlp2938!@#',
+      database: 'gugu',
+    });
+    connection.connect();
+
+    try {
+      await run(connection);
+    } catch (error) {
+      
+    }
+    connection.end();
+  }
+
+  sendQuery = async (connection, q) => new Promise((resolve, reject) => {
+    connection.query(q, (error, results, fields) => {
+      if (error) return reject(error);
+      resolve({
+        results, fields,
+      });
+    });
+  });
+
+  async selectAllCompanyInfo() {
+    await this.execInDb(async (c) => {
+      const x = await this.sendQuery(c, 'SELECT symbol from company_info;');
+      console.log('x :', x);
+    });
+  }
+
+  async run() {
+    return this.selectAllCompanyInfo();
+  }
+
+  update = async () => {
+    const symbolList = await this.getSymbolList();
+  
+    const updateRecords : any[] = [];
+    await promiseReduce(symbolList, async (_, s) => {
+      const {
+        symbol,
+        symbolJson,
+       } = s;
   
       const profileData = fs.readFileSync(`../apify_storage/key_value_stores/etfDbProfile/${s}`, { encoding: 'utf-8' });
       const profileJson = JSON.parse(profileData);

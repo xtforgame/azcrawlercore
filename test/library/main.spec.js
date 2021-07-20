@@ -15,7 +15,7 @@ describe('Main Test Cases', () => {
     this.timeout(30000000);
     it('.then()', async () => {
       const etfManager = new EtfManager();
-      await etfManager.update();
+      await etfManager.run();
     });
   });
 });
