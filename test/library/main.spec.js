@@ -20,10 +20,8 @@ describe('Main Test Cases', () => {
 
   describe('Echo Test', function () {
     this.timeout(30000000);
-    it('.then()', () => mainFunc(data01)
-        .then((result) => {
-          expect(result).to.exists;
-          expect(result.val01).to.equal(1);
-        }));
+    it('.then()', async () => {
+      await mainFunc(data01);
+    });
   });
 });
