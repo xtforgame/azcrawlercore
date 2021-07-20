@@ -47,5 +47,13 @@ export default async () => {
   //   const x = await sendQuery(`INSERT INTO etf_info (symbol_uid) VALUES ('${symbol}')`)
   // }, (<any>null));
 
+  await promiseReduce(symbolList, async (_, s) => {
+    const symbol = s.replace(/\.json/g, '');
+    const data = fs.readFileSync(`../apify_storage/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
+    const symbolJson = JSON.parse(data);
+    console.log('symbolJson :', symbolJson);
+    // const x = await sendQuery(`UPDATE etf_info SET  WHERE symbol_uid = '${symbol}'`)
+  }, (<any>null));
+
   connection.end();
 };
