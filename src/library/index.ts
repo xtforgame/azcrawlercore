@@ -1,6 +1,7 @@
 import utils, { promiseReduce } from './utils';
 import getGuru from './getGuru';
 import getEtfDb from './getEtfDb';
+import updater from './updater';
 
 const Apify = require('apify');
 
@@ -8,7 +9,7 @@ const Apify = require('apify');
 
 const startUrl = 'https://finviz.com/screener.ashx?v=111&f=ind_exchangetradedfund,sec_financial';
 
-export default async function echo(data : any, err : Error) {
+async function echo(data : any, err : Error) {
   await Apify.main(async () => {
     // Apify.openRequestQueue() creates a preconfigured RequestQueue instance.
     // We add our first request to it - the initial page the crawler will visit.
@@ -159,6 +160,8 @@ export default async function echo(data : any, err : Error) {
   }
   return Promise.resolve(utils(data));
 }
+
+export default updater;
 
 
 const envName = process.env.NODE_ENV ? process.env.NODE_ENV : 'production';
