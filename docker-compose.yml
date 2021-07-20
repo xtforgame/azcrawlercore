@@ -1,0 +1,34 @@
+# EnvironmentVariableList:
+#   Global:
+#     VXL_IMAGE_NS: vxlinternal
+#     VXL_IMAGE_PROJ: default
+#     VXL_CONTAINER_NS: vxlinternal
+#     VXL_CONTAINER_PROJ: default
+#   Project:
+
+version: '3'
+services:
+  webserver:
+    image: ${VXL_IMAGE_NS:-vxlinternal}/${VXL_IMAGE_PROJ:-default}/afswebserver
+    build:
+      context: .
+
+    container_name: ${VXL_CONTAINER_NS:-vxlinternal}-${VXL_CONTAINER_PROJ:-default}-afs-webserver
+
+    environment:
+      AFS_SECRETS_FOLDER: "/usr/volumes/share/secrets"
+
+    volumes:
+      - ".:/usr/volumes/src/"
+      - "../secrets:/usr/volumes/share/secrets"
+
+    command: bash docker-cmd.sh
+
+    # ports:
+    #   # - "22006:443"
+    #   - "80:80"
+
+networks:
+  default:
+    external:
+      name: mainginx_net
