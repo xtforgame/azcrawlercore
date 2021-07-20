@@ -2,11 +2,17 @@ import mysql from 'mysql';
 import { v4 } from 'uuid';
 import fs from 'fs';
 import { promiseReduce, toMap } from '../utils';
+import Crawler from './Crawler';
 
 
 export type ExecFunc = (connection : any) => Promise<any>;
 
 export default class EtfManager {
+  crawler: Crawler;
+
+  constructor () {
+    this.crawler = new Crawler();
+  }
 
   async getSymbolList() {
     const symbolList = fs.readdirSync('../apify_storage/key_value_stores/symbols');
@@ -55,7 +61,9 @@ export default class EtfManager {
   }
 
   async run() {
-    return this.selectAllCompanyInfo();
+    // return this.crawler.fetch();
+    // return this.selectAllCompanyInfo();
+    return this.update();
   }
 
   update = async () => {
@@ -146,6 +154,7 @@ export default class EtfManager {
         category: profile?.Category?.value?.value,
         asset_class: profile?.['Asset Class']?.value?.value,
         region: profile?.['Region (General)']?.value?.value,
+        exchange: symbolJson.exchange,
         // description: profile?.['Region (General)']?.value,
         price: symbolJson.Price,
         fair_price: gurufocusJson.bestMultipiler && gurufocusJson.price * gurufocusJson.bestMultipiler,
