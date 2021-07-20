@@ -2,7 +2,7 @@ import mysql from 'mysql';
 
 export default async () => {
   const connection = mysql.createConnection({
-    host: '172.18.0.1',
+    host: 'localhost',
     user: 'root',
     password: 'mrlp2938!@#',
     database: 'gugu',
