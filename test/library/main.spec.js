@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, no-undef */
 
 import chai from 'chai';
-import mainFunc from 'library';
+import EtfManager from 'library/EtfManager';
 
 import {
   data01,
@@ -21,7 +21,8 @@ describe('Main Test Cases', () => {
   describe('Echo Test', function () {
     this.timeout(30000000);
     it('.then()', async () => {
-      await mainFunc(data01);
+      const etfManager = new EtfManager();
+      await etfManager.update();
     });
   });
 });

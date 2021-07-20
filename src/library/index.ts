@@ -1,7 +1,7 @@
 import utils, { promiseReduce } from './utils';
 import getGuru from './getGuru';
 import getEtfDb from './getEtfDb';
-import updater from './updater';
+import EtfManager from './EtfManager';
 
 const Apify = require('apify');
 
@@ -161,8 +161,9 @@ async function echo(data : any, err : Error) {
   return Promise.resolve(utils(data));
 }
 
-export default updater;
+// const etfManager = new EtfManager();
 
+// export default etfManager;
 
 const envName = process.env.NODE_ENV ? process.env.NODE_ENV : 'production';
 
