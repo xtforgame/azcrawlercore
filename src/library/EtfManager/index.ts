@@ -49,7 +49,7 @@ export default class EtfManager {
 
   async selectAllCompanyInfo() {
     await this.execInDb(async (c) => {
-      const x = await this.sendQuery(c, 'SELECT symbol from company_info;');
+      const x = await this.sendQuery(c, 'SELECT symbol, symbol_uid from company_info;');
       console.log('x :', x);
     });
   }
