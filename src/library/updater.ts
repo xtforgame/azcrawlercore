@@ -35,17 +35,17 @@ export default async () => {
   });
 
   await new Promise((resolve, reject) => {
-    connection.query('SELECT * FROM tags', (error, results, fields) => {
+    connection.query('SELECT * FROM etf_info', (error, results, fields) => {
       if (error) reject(error);
-      console.log('The solution is: ', results[0].solution);
+      console.log('etf_info: ', results[0]);
       resolve(results);
     });
   });
 
-  await promiseReduce(symbolList, async (_, s) => {
-    const symbol = s.replace(/\.json/g, '');
-    const x = await sendQuery(`INSERT INTO etf_info (symbol_uid) VALUES ('${symbol}')`)
-  }, (<any>null));
+  // await promiseReduce(symbolList, async (_, s) => {
+  //   const symbol = s.replace(/\.json/g, '');
+  //   const x = await sendQuery(`INSERT INTO etf_info (symbol_uid) VALUES ('${symbol}')`)
+  // }, (<any>null));
 
   connection.end();
 };
