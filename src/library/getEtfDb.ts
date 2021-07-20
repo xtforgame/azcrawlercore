@@ -54,9 +54,9 @@ export default async (keys) => {
   // await loginPage.type('#user_login', 'xtforgame@gmail.com');
   // await loginPage.type('#password', 'qqppaall');
   await loginPage.evaluate(() => {
-    document.querySelector('#user_login').value = 'xtforgame@gmail.com';
-    document.querySelector('#password').value = 'qqppaall';
-    document.querySelector('#remember').click();
+    (<any>document.querySelector('#user_login')).value = 'xtforgame@gmail.com';
+    (<any>document.querySelector('#password')).value = 'qqppaall';
+    (<any>document.querySelector('#remember')).click();
   });
   await Promise.all([
     loginPage.click('#login-button'),
@@ -104,7 +104,7 @@ export default async (keys) => {
                     return { value: '', link: '' };
                   }
                   if (span?.children?.[0]?.tagName === 'A') {
-                    return { value: span?.children?.[0].innerText || '', link: span?.children?.[0].getAttribute('href') || '' };
+                    return { value: (<any>span?.children?.[0]).innerText || '', link: span?.children?.[0].getAttribute('href') || '' };
                   } else {
                     return { value: span?.innerText || '', link: '' };
                   }
@@ -164,37 +164,37 @@ export default async (keys) => {
         const overallRating = await page.$$eval('.panel-body .h4.badge.badge-primary', ($v) => {
           console.log('$v :', $v);
           // debugger;
-          return ($v[0].innerText || '').replace(/\n/gm, '');
+          return ((<any>$v[0]).innerText || '').replace(/\n/gm, '');
         });
         const liquidity = await page.$$eval('#rc-1-liquidity td', ($v) => {
           console.log('$v :', $v);
           // debugger;
-          return ($v?.[1]?.innerText || '').replace(/\n/gm, '');
+          return ((<any>$v?.[1]).innerText || '').replace(/\n/gm, '');
         });
         const expenses = await page.$$eval('#rc-1-expenses td', ($v) => {
           console.log('$v :', $v);
           // debugger;
-          return ($v?.[1]?.innerText || '').replace(/\n/gm, '');
+          return ((<any>$v?.[1]).innerText || '').replace(/\n/gm, '');
         });
         const performance = await page.$$eval('#rc-1-performance td', ($v) => {
           console.log('$v :', $v);
           // debugger;
-          return ($v?.[1]?.innerText || '').replace(/\n/gm, '');
+          return ((<any>$v?.[1]).innerText || '').replace(/\n/gm, '');
         });
         const volatility = await page.$$eval('#rc-1-volatility td', ($v) => {
           console.log('$v :', $v);
           // debugger;
-          return ($v?.[1]?.innerText || '').replace(/\n/gm, '');
+          return ((<any>$v?.[1]).innerText || '').replace(/\n/gm, '');
         });
         const dividend = await page.$$eval('#rc-1-dividend td', ($v) => {
           console.log('$v :', $v);
           // debugger;
-          return ($v?.[1]?.innerText || '').replace(/\n/gm, '');
+          return ((<any>$v?.[1]).innerText || '').replace(/\n/gm, '');
         });
         const concentration = await page.$$eval('#rc-1-concentration td', ($v) => {
           console.log('$v :', $v);
           // debugger;
-          return ($v?.[1]?.innerText || '').replace(/\n/gm, '');
+          return ((<any>$v?.[1]).innerText || '').replace(/\n/gm, '');
         });
 
         const ratingResult = {

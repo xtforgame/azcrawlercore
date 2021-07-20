@@ -53,15 +53,15 @@ export default async function echo(data : any, err : Error) {
 
         // A function to be evaluated by Puppeteer within the browser context.
         const data = await page.$$eval('#screener-content tbody tr:nth-child(4) tbody', ($tbody) => {
-          const scrapedData = [];
+          const scrapedData : any[] = [];
 
-          const $etfs = Array.from($tbody[0].querySelectorAll('tr'));
-          const $header = $etfs.shift(0);
-          const $columns = Array.from($header.querySelectorAll('td'));
+          const $etfs : any[] = Array.from($tbody[0].querySelectorAll('tr'));
+          const $header = $etfs.shift();
+          const $columns : any[] = Array.from($header.querySelectorAll('td'));
           // We're getting the title, rank and URL of each post on Hacker News.
           $etfs.forEach(($etf) => {
             const record = {};
-            const a = Array.from($etf.querySelectorAll('td'));
+            const a : any[] = Array.from($etf.querySelectorAll('td'));
             a.forEach((cell, i) => {
               record[$columns[i].innerText] = cell.innerText;
             });
@@ -138,9 +138,8 @@ export default async function echo(data : any, err : Error) {
           // const d2 = await getEtfDb(`https://etfdb.com/etf/${key}/#realtime-rating`);
           // console.log('d2 :', d2);
         }
-        if (infos.length === 0) {
-
-        }
+        // if (infos.length === 0) {
+        // }
       },
 
       // This function is called if the page processing failed more than maxRequestRetries+1 times.

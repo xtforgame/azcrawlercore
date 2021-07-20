@@ -43,7 +43,7 @@ export default async (etfInfo) => {
 
   const estimates : any[] = [];
 
-  await promiseReduce(etfInfo, async (_, { key, value }, i) => {
+  await promiseReduce<any>(etfInfo, async (_ : any, { key, value }, i) => {
     // if (i) {
     //   return true;
     // }
@@ -59,7 +59,7 @@ export default async (etfInfo) => {
         const page = await browser.newPage();
         await page.setViewport({
           width: 1920,
-          height: 1080
+          height: 1080,
         });
         // console.log('page');
         const p = new Promise((resolve, reject) => {
@@ -96,7 +96,7 @@ export default async (etfInfo) => {
         //   }
         //   return 0.0;
         // });
-        const series : any[] = await p;
+        const series : any = await p;
         // console.log('series :', series);
 
         const getAvg = (key) => {
@@ -144,7 +144,7 @@ export default async (etfInfo) => {
       return true;
     };
     await estimateRetry();
-  }, null);
+  }, <any>null);
   await browser.close();
   return estimates;
 };
