@@ -153,7 +153,7 @@ export default async () => {
     const toSetter = (r) => {
       const keys = Object.keys(r);
       return keys.map((k) => {
-        if (k != null) {
+        if (r[k] != null) {
           return `${k} = '${`${r[k]}`.replace(/\'/g, '\'\'')}'`;
         }
         return `${k} = NULL`;
