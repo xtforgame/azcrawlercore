@@ -1,5 +1,6 @@
 import mysql from 'mysql';
 import fs from 'fs';
+import { promiseReduce } from './utils';
 
 export default async () => {
   const connection = mysql.createConnection({
@@ -11,7 +12,7 @@ export default async () => {
 
   connection.connect();
 
-  const list = fs.readdirSync('../apify_storage/key_value_stores');
+  const list = fs.readdirSync('../apify_storage/key_value_stores/symbols');
   list.forEach((f) => {
     console.log('f :', f);
   });
@@ -31,6 +32,10 @@ export default async () => {
       resolve(results);
     });
   });
+
+  await promiseReduce([], (_, s) => {
+    
+  }, (<any>null));
 
   connection.end();
 };
