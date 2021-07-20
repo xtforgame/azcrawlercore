@@ -16,12 +16,6 @@ describe('Main Test Cases', () => {
       expect(mainFunc).to.be.an.instanceof(Function);
       return true;
     });
-
-    it('mainFunc should return a Promise', () => {
-      const result = mainFunc({ xxx: 'xxx' });
-      expect(result).to.be.an.instanceof(Promise);
-      return true;
-    });
   });
 
   describe('Echo Test', function () {
