@@ -6,6 +6,26 @@ VOLUME ["/usr/volumes/src", "/usr/volumes/share", "/usr/volumes/output"]
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
 
+
+# ========= for Puppeteer =========
+
+# Installs latest Chromium (76) package.
+RUN apk add --no-cache \
+      chromium \
+      nss \
+      freetype \
+      freetype-dev \
+      harfbuzz \
+      ca-certificates \
+      ttf-freefont
+
+# =================================
+
+# Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
+ENV IN_DOCKER true
+
 # ========
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
