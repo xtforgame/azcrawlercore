@@ -1,7 +1,7 @@
 import mysql from 'mysql';
 import { v4 } from 'uuid';
 import fs from 'fs';
-import { promiseReduce, toMap } from './utils';
+import { promiseReduce, toMap } from '../utils';
 
 
 export default class EtfManager {
