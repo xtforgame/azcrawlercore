@@ -1,6 +1,6 @@
 import mysql from 'mysql';
 
-export default () => {
+export default async () => {
   const connection = mysql.createConnection({
     host: '172.18.0.1',
     user: 'root',
@@ -10,9 +10,12 @@ export default () => {
 
   connection.connect();
 
-  connection.query('SELECT 1 + 1 AS solution', (error, results, fields) => {
-    if (error) throw error;
-    console.log('The solution is: ', results[0].solution);
+  await new Promise((resolve, reject) => {
+    connection.query('SELECT 1 + 1 AS solution', (error, results, fields) => {
+      if (error) reject(error);
+      console.log('The solution is: ', results[0].solution);
+      resolve(results);
+    });
   });
 
   connection.end();
