@@ -54,15 +54,19 @@ export default class EtfManager {
   });
 
   async selectAllCompanyInfo() {
+    let results : any[] = [];
     await this.execInDb(async (c) => {
-      const x = await this.sendQuery(c, 'SELECT * from company_info;');
+      const x : any = await this.sendQuery(c, 'SELECT * from company_info;');
       console.log('x :', x);
+      results = x.results;
     });
+    return results;
   }
 
   async run() {
     // return this.crawler.fetch();
-    // return this.selectAllCompanyInfo();
+    const x = await this.selectAllCompanyInfo();
+    console.log('x :', x);
     return this.update();
   }
 
