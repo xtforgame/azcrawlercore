@@ -75,13 +75,13 @@ export default class EtfManager {
     // return this.crawler.fetch();
     const companyInfos = await this.selectAllCompanyInfo();
     const companyMap = toMap(companyInfos, info => info.symbol);
-    console.log('companyMap :', companyMap);
+    // console.log('companyMap :', companyMap);
     const etfInfos = await this.selectAllEtfInfo();
 
     await this.execInDb(async (c) => {
       await promiseReduce(etfInfos, async (_, i) => {
         if (!companyMap[i.symbol]) {
-          console.log('companyMap[i.symbol] :', companyMap[i.symbol]);
+          console.log('i.symbol :', i.symbol);
         }
         // const x : any = await this.sendQuery(c, 'SELECT * from etf_info;');
       }, (<any>null));
