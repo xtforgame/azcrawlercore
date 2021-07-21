@@ -159,7 +159,7 @@ export default class EtfManager {
         category: profile?.Category?.value?.value,
         asset_class: profile?.['Asset Class']?.value?.value,
         region: profile?.['Region (General)']?.value?.value,
-        exchange: symbolJson.exchange,
+        exchange: symbolJson.exchange.name,
         // description: profile?.['Region (General)']?.value,
         price: symbolJson.Price,
         fair_price: gurufocusJson.bestMultipiler && gurufocusJson.price * gurufocusJson.bestMultipiler,
