@@ -257,7 +257,8 @@ export default class EtfManager {
       }
       r.symbol_uid = companyMap[r.symbol].symbol_uid;
       const x = toSetter(r).join(',');
-      await sendQuery(`UPDATE etf_info SET ${x} WHERE symbol = '${r.symbol}';`);
+      const xx : any = await sendQuery(`UPDATE etf_info SET ${x} WHERE symbol = '${r.symbol}';`);
+      console.log('xx.results :', xx.results);
     }, (<any>null));
     connection.end();
   }
