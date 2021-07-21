@@ -76,9 +76,14 @@ export default class EtfManager {
         symbolJson,
        } = s;
   
-      const profileData = fs.readFileSync(`../apify_storage/key_value_stores/etfDbProfile/${symbol}.json`, { encoding: 'utf-8' });
-      const profileJson = JSON.parse(profileData);
-  
+      let profileJson : any = {};
+      try {
+        const profileData = fs.readFileSync(`../apify_storage/key_value_stores/etfDbProfile/${symbol}.json`, { encoding: 'utf-8' });
+        profileJson = JSON.parse(profileData);
+      } catch (error) {
+        return;
+      }
+
       let scoreJson : any = {};
       try {
         const scoreData = fs.readFileSync(`../apify_storage/key_value_stores/etfDbScore/${symbol}.json`, { encoding: 'utf-8' });
