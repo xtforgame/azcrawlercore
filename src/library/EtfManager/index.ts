@@ -18,7 +18,7 @@ export default class EtfManager {
     const symbolList = fs.readdirSync('../apify_storage/key_value_stores/symbols');
     return symbolList.map((s) => {
       const symbol = s.replace(/\.json/g, '');
-      const symbolData = fs.readFileSync(`../apify_storage/key_value_stores/symbols/${symbol}.json`, { encoding: 'utf-8' });
+      const symbolData = fs.readFileSync(`../apify_storage/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
       const symbolJson = JSON.parse(symbolData);
       return {
         symbol,
