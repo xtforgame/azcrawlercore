@@ -80,7 +80,7 @@ export default class EtfManager {
 
     await this.execInDb(async (c) => {
       await promiseReduce(etfInfos, async (_, i) => {
-        if (companyMap[i.symbol]) {
+        if (!companyMap[i.symbol]) {
           console.log('companyMap[i.symbol] :', companyMap[i.symbol]);
         }
         // const x : any = await this.sendQuery(c, 'SELECT * from etf_info;');
