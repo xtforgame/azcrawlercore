@@ -87,10 +87,10 @@ export default class EtfManager {
       }, (<any>null));
     });
 
-    return this.update();
+    return this.update(companyMap);
   }
 
-  update = async () => {
+  update = async (companyMap) => {
     const symbolList = await this.getSymbolList();
   
     const updateRecords : any[] = [];
@@ -252,8 +252,12 @@ export default class EtfManager {
           return `${k} = NULL`;
         });
       }
+      if (!companyMap[r.symbol]) {
+        return;
+      }
+      r.symbol_uid = companyMap[r.symbol].symbol_uid;
       const x = toSetter(r).join(',');
-      await sendQuery(`UPDATE etf_info SET ${x} WHERE symbol_uid = '${r.symbol}';`);
+      await sendQuery(`UPDATE etf_info SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
     connection.end();
   }
