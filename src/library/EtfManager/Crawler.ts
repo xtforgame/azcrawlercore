@@ -106,7 +106,7 @@ export default class Crawler {
           await Promise.all(data.scrapedData.map(async (d) => {
             await symbolStore.setValue(d.Ticker, {
               ...d,
-              exchange: exchanges[this.fetchCounter].name,
+              exchange: exchanges[this.fetchCounter],
             });
           }));
           // await Apify.pushData(data);
