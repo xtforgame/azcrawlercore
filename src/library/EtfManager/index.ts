@@ -57,7 +57,6 @@ export default class EtfManager {
     let results : any[] = [];
     await this.execInDb(async (c) => {
       const x : any = await this.sendQuery(c, 'SELECT * from company_info;');
-      console.log('x :', x);
       results = x.results;
     });
     return results;
@@ -67,7 +66,6 @@ export default class EtfManager {
     let results : any[] = [];
     await this.execInDb(async (c) => {
       const x : any = await this.sendQuery(c, 'SELECT * from etf_info;');
-      console.log('x :', x);
       results = x.results;
     });
     return results;
