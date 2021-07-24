@@ -1,16 +1,17 @@
 import mysql from 'mysql';
 import { v4 } from 'uuid';
 import fs from 'fs-extra';
+import Apify, { PuppeteerHandlePage } from 'apify';
 
-import EtfManager from '../EtfManager';
-import utils, { promiseReduce, toMap } from '../utils';
+import utils, { promiseReduce, ArgumentTypes } from '../utils';
 
+export type PuppeteerHandlePageArg = ArgumentTypes<PuppeteerHandlePage>[0];
 
-process.env.APIFY_LOCAL_STORAGE_DIR = 'apify_storage_xx';
-const Apify = require('apify');
+// const Apify = require('apify');
 
 // Apify.main is a helper function, you don't need to use it.
 
+process.env.APIFY_LOCAL_STORAGE_DIR = 'apify_storage';
 const exchanges = [
   { id: 'amex', name: 'AMEX' },
   { id: 'nasd', name: 'NASDAQ' },
@@ -28,15 +29,17 @@ export default class Crawler {
     if (!exchanges[this.fetchCounter]) {
       return '';
     }
-    const url = `https://finviz.com/screener.ashx?v=111&f=exch_${exchanges[this.fetchCounter].id},ind_exchangetradedfund,sec_financial`;
+    // const url = `https://finviz.com/screener.ashx?v=111&f=exch_${exchanges[this.fetchCounter].id},ind_exchangetradedfund,sec_financial`;
+    const url = `https://finviz.com/screener.ashx?v=111&f=exch_${exchanges[this.fetchCounter].id}`;
     return url;
   }
 
-  handleListResult = async ({ request, page }, options : any) => {
+  handleListResult = async ({ request, page }: PuppeteerHandlePageArg, options : any) => {
     const {
       symbolStore,
       requestQueue,
       requestStore,
+      resultStore,
     } = options;
     // A function to be evaluated by Puppeteer within the browser context.
     const data = await page.$$eval('#screener-content tbody tr:nth-child(4) tbody', ($tbody) => {
@@ -73,6 +76,7 @@ export default class Crawler {
       const req = await requestQueue.addRequest({ url: `https://finviz.com/quote.ashx?t=${d.Ticker}` });
       await requestStore.setValue(req.requestId, {
         type: 'quote',
+        symbol: d.Ticker,
       });
     }, <any>null);
     // await Apify.pushData(data);
@@ -83,6 +87,11 @@ export default class Crawler {
       requestQueue,
       selector: '.screener_pagination a.tab-link:last-child',
     });
+    await promiseReduce<any>(infos, async (_, info) => {
+      await requestStore.setValue(info.requestId, {
+        type: 'list',
+      });
+    }, <any>null);
 
     if (data.tabLinks === 2 && this.getCurrentUrl() !== request.url) {
       this.fetchCounter++;
@@ -100,21 +109,24 @@ export default class Crawler {
     // }
   }
 
-  handleQuoteResult = async ({ request, page }, options : any) => {
+  handleQuoteResult = async ({ request, page }: PuppeteerHandlePageArg, options : any) => {
     const {
       symbolStore,
       requestQueue,
+      resultStore,
+      requestStore,
     } = options;
     const data = await page.$$eval('#news-table tr', ($trs: HTMLElement[]) => {
       const scrapedData : any[] = [];
       $trs.forEach(($tr) => {
         const $newsLink = $tr.querySelector('.news-link-left a');
-        const xsx = $tr.querySelector('.news-link-right');
+        const $newsType = $tr.querySelector('.news-link-right');
 
         if ($newsLink) {
           const record = {
             title: $newsLink!.innerText,
             link: $newsLink!.getAttribute('href'),
+            src: $newsType!.innerText,
           };
           // const a : any[] = Array.from($tr.querySelectorAll('td:nth-child(2) a'));
           // a.forEach((cell, i) => {
@@ -127,17 +139,56 @@ export default class Crawler {
         scrapedData,
       };
     });
+    const info = await requestStore.getValue(request.id);
+    await resultStore.setValue(info.symbol, data);
+
+    const link : string = data?.scrapedData?.[0]?.link || '';
+    if (link.indexOf('https://finance.yahoo.com/news') !== -1) {
+      const req = await requestQueue.addRequest({ url: link });
+      await requestStore.setValue(req.requestId, {
+        type: 'yahoo-news',
+        symbol: info.symbol,
+        index: 0,
+      });
+    }
+
     // console.log('data :', data);
   }
 
-  fetch = async () => {
+  handleYahooNewsResult = async ({ request, page }: PuppeteerHandlePageArg, options : any) => {
+    const {
+      symbolStore,
+      requestQueue,
+      resultStore,
+      requestStore,
+      newsStore,
+    } = options;
+    const data = await page.$$eval('.caas-content-wrapper', ($content) => {
+      const $thumbnail = $content[0].querySelector('img.caas-img');
+      const $body = $content[0].querySelector('.caas-body');
+      return {
+        thumbnail: $thumbnail && $thumbnail.getAttribute('src'),
+        body: $body!.innerHTML,
+      };
+    });
+    const info = await requestStore.getValue(request.id);
+    await newsStore.setValue(info.symbol, data);
+    // console.log('data :', data);
+  }
+
+  async fetch() {
     await fs.remove(`${process.env.APIFY_LOCAL_STORAGE_DIR}`);
+    const proxyConfiguration = await Apify.createProxyConfiguration({
+      proxyUrls: ['http://spe19aeb13:XEdSfouN79@gate.dc.smartproxy.com:20000'],
+    });
     await Apify.main(async () => {
       // Apify.openRequestQueue() creates a preconfigured RequestQueue instance.
       // We add our first request to it - the initial page the crawler will visit.
       const requestQueue = await Apify.openRequestQueue();
       const symbolStore = await Apify.openKeyValueStore('symbols');
       const requestStore = await Apify.openKeyValueStore('requests');
+      const newsStore = await Apify.openKeyValueStore('news');
+      const resultStore = await Apify.openKeyValueStore('results');
       const req = await requestQueue.addRequest({ url: this.getCurrentUrl() });
       await requestStore.setValue(req.requestId, {
         type: 'list',
@@ -147,22 +198,28 @@ export default class Crawler {
       // that automatically loads the URLs in headless Chrome / Puppeteer.
       const crawler = new Apify.PuppeteerCrawler({
         requestQueue,
-
+        proxyConfiguration,
         preNavigationHooks: [
           async (crawlingContext, gotoOptions) => {
             const { page } = crawlingContext;
             const info = await requestStore.getValue(crawlingContext.request.id);
-            console.log('info :', info);
-            if (info?.type === 'list') {
-            } else if (info?.type === 'quote') {
-              page.on('response', (resp) => {
-                const url = resp.url();
-                console.log('url :', url);
-                // if (!fulfill && url.includes('fundamental_data')) {
-                //   fulfill = true;
-                //   resp.json().then(resolve);
-                // }
-              });
+            page.setRequestInterception(true);
+            page.on('request', (request) => {
+              if (['image', 'stylesheet', 'font', 'script'].indexOf(request.resourceType()) !== -1) {
+                  request.abort();
+              } else {
+                  request.continue();
+              }
+            });
+            if (info?.type === 'quote') {
+              // page.on('response', (resp) => {
+              //   const url = resp.url();
+              //   console.log('url :', url);
+              //   // if (!fulfill && url.includes('fundamental_data')) {
+              //   //   fulfill = true;
+              //   //   resp.json().then(resolve);
+              //   // }
+              // });
               // setTimeout(() => {
               //   if (!fulfill) {
               //     fulfill = true;
@@ -204,15 +261,17 @@ export default class Crawler {
         handlePageFunction: async (arg) => {
           // console.log('page :', page);
           const { request } = arg;
+
           console.log(`Processing ${request.url}...`);
           console.log('request.id :', request.id);
 
           const info = await requestStore.getValue(request.id);
-          console.log('info :', info);
           if (info?.type === 'list') {
-            return this.handleListResult(arg, { requestQueue, symbolStore, requestStore });
+            return this.handleListResult(arg, { requestQueue, symbolStore, requestStore, newsStore, resultStore });
           } else if (info?.type === 'quote') {
-            return this.handleQuoteResult(arg, { requestQueue, symbolStore, requestStore });
+            return this.handleQuoteResult(arg, { requestQueue, symbolStore, requestStore, newsStore, resultStore });
+          } else if (info?.type === 'yahoo-news') {
+            return this.handleYahooNewsResult(arg, { requestQueue, symbolStore, requestStore, newsStore, resultStore });
           }
         },
 
@@ -231,54 +290,5 @@ export default class Crawler {
 
 
   onDone = async () => {
-    // const symbolStore = await Apify.openKeyValueStore('symbols');
-    // const gurufocusStore = await Apify.openKeyValueStore('gurufocus');
-    // const etfDbProfileStore = await Apify.openKeyValueStore('etfDbProfile');
-    // const etfDbScoreStore = await Apify.openKeyValueStore('etfDbScore');
-
-    // const etfInfo : any[] = [];
-    // await symbolStore.forEachKey(async (key, index, info) => {
-    //   const value = await symbolStore.getValue(key);
-    //   etfInfo.push({
-    //     key, index, info, value,
-    //   });
-    // });
-
-
-    // const sliceIntoChunks = (arr, chunkSize) => {
-    //   const res : any[] = [];
-    //   for (let i = 0; i < arr.length; i += chunkSize) {
-    //     const chunk = arr.slice(i, i + chunkSize);
-    //     res.push(chunk);
-    //   }
-    //   return res;
-    // };
-
-    // const etfInfoChunks : any[][] = sliceIntoChunks(etfInfo, 20);
-    // await promiseReduce(etfInfoChunks, async (_, etfInfoChunk) => {
-    //   const keys = etfInfoChunk.map(v => v.key);
-
-    //   const [etfDbResults, guruResults] = await Promise.all([
-    //     getEtfDb(keys),
-    //     getGuru(etfInfoChunk),
-    //   ]);
-    //   await Promise.all(etfDbResults.profiles.map(async (d) => {
-    //     // console.log('d :', d);
-    //     await etfDbProfileStore.setValue(d.key, d);
-    //   }));
-    //   await Promise.all(etfDbResults.ratings.map(async (d) => {
-    //     // console.log('d :', d);
-    //     await etfDbScoreStore.setValue(d.key, d);
-    //   }));
-
-    //   await Promise.all(guruResults.map(async (d) => {
-    //     // console.log('d :', d);
-    //     await gurufocusStore.setValue(d.key, d);
-    //   }));
-    //   console.log('guruResults :', guruResults);
-    // }, null);
-
-    // // const d2 = await getEtfDb(`https://etfdb.com/etf/${key}/#realtime-rating`);
-    // // console.log('d2 :', d2);
   }
 }
