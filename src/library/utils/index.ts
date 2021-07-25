@@ -70,6 +70,11 @@ export function promiseReduce<T>(
   return inArray.reduce((prev, curr, index, array) => prev.then(v => toPrmiseFunc(v, curr, index, array)), Promise.resolve(startValue));
 }
 
+export function promiseWait(waitMillisec) {
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, waitMillisec);
+  });
+}
 
 export function toMap<T1, T2 = T1>(
   inArray : T1[],
