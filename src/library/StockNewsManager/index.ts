@@ -177,7 +177,7 @@ export default class StockNewsManager {
   
       // console.log('symbolJson :', symbolJson);
       // console.log('profileJson :', profileJson);
-      const news = toMap<any>(newsJson.profile, d => d.key);
+      // const news = toMap<any>(newsJson.profile, d => d.key);
       // console.log('profile :', profile);
   
       // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
