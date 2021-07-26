@@ -16,10 +16,10 @@ export default class EtfManager {
   }
 
   async getSymbolList() {
-    const symbolList = fs.readdirSync('./apify_storage_z/key_value_stores/symbols');
+    const symbolList = fs.readdirSync('./apify_storage/key_value_stores/symbols');
     return symbolList.map((s) => {
       const symbol = s.replace(/\.json/g, '');
-      const symbolData = fs.readFileSync(`./apify_storage_z/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
+      const symbolData = fs.readFileSync(`./apify_storage/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
       const symbolJson = JSON.parse(symbolData);
       return {
         symbol,
@@ -72,7 +72,7 @@ export default class EtfManager {
     return results;
   }
 
-  async run() {
+  async run2() {
     return this.translate();
     // return this.crawler.fetch();
     const companyInfos = await this.selectAllCompanyInfo();
@@ -103,11 +103,11 @@ export default class EtfManager {
         symbolJson,
        } = s;
 
-       console.log('symbol :', symbol);
+       console.log('symbol2 :', symbol);
   
       let newsJson : any = {};
       try {
-        const profileData = fs.readFileSync(`./apify_storage_z/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
+        const profileData = fs.readFileSync(`./apify_storage/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
         newsJson = JSON.parse(profileData);
       } catch (error) {
         return;
@@ -126,15 +126,139 @@ export default class EtfManager {
         });
         // console.log('data :', data?.data?.translations?.[0]?.translatedText);
         newsJson.translatedBody = data?.data?.translations?.[0]?.translatedText
-        fs.writeFileSync(`./apify_storage_z/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
+        fs.writeFileSync(`./apify_storage/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
         // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
         
       } catch (error) {
-        
+        console.log('error :', error);
+        await promiseWait(60000);
       }
 
       await promiseWait(300);
     }, (<any>null));
   
+  }
+
+  async run() {
+    const companyInfos = await this.selectAllCompanyInfo();
+    const companyMap = toMap(companyInfos, info => info.symbol);
+
+    return this.update(companyMap);
+  }
+
+  async update(companyMap) {
+    const symbolList = await this.getSymbolList();
+  
+    const updateRecords : any[] = [];
+    await promiseReduce(symbolList, async (_, s) => {
+      const {
+        symbol,
+        symbolJson,
+       } = s;
+  
+      let newsListJson : any = {};
+      try {
+        const newsListData = fs.readFileSync(`../apify_storage/key_value_stores/results/${symbol}.json`, { encoding: 'utf-8' });
+        newsListJson = JSON.parse(newsListData);
+      } catch (error) {
+        return;
+      }
+
+      let newsJson : any = {};
+      try {
+        const newsData = fs.readFileSync(`../apify_storage/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
+        newsJson = JSON.parse(newsData);
+      } catch (error) {
+        
+      }
+
+      // console.log('gurufocusJson.price :', gurufocusJson.price);
+      // console.log('gurufocusJson.bestMultipiler :', gurufocusJson.bestMultipiler);
+  
+      // console.log('symbolJson :', symbolJson);
+      // console.log('profileJson :', profileJson);
+      const news = toMap<any>(newsJson.profile, d => d.key);
+      // console.log('profile :', profile);
+  
+      // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
+
+      updateRecords.push({
+        symbol,
+        newsListJson,
+        newsJson,
+      });
+    }, (<any>null));
+
+    await promiseReduce(updateRecords, async (_, r) => {
+      const toSetter = (r) => {
+        const keys = Object.keys(r);
+        return keys.map((k) => {
+          if (r[k] != null) {
+            return `${k} = '${`${r[k]}`.replace(/\'/g, '\'\'')}'`;
+          }
+          return `${k} = NULL`;
+        });
+      }
+      if (!companyMap[r.symbol]) {
+        return;
+      }
+      r.symbol_uid = companyMap[r.symbol].symbol_uid;
+
+      
+      const row = {
+        news_uid: v4(),
+        thumbnail: r.newsJson.thumbnail,
+        source: r.newsListJson.scrapedData[0].link,
+        source_name: r.newsListJson.scrapedData[0].src,
+        date: r.newsListJson.scrapedData[0].date,
+        source_title: r.newsListJson.scrapedData[0].title,
+        source_content: r.newsJson.body,
+        source_language: 'en',
+        zh_title: '',
+        zh_content: r.newsJson.translatedBody,
+      }
+      const x = toSetter(row).join(',');
+      console.log('x :', x);
+      // await sendQuery(`UPDATE etf_info SET ${x} WHERE symbol = '${r.symbol}';`);
+    }, (<any>null));
+
+    // const connection = mysql.createConnection({
+    //   host: 'localhost',
+    //   user: 'root',
+    //   password: 'mrlp2938!@#',
+    //   database: 'gugu',
+    // });
+  
+    // connection.connect();
+  
+    // const sendQuery = (q) => new Promise((resolve, reject) => {
+    //   connection.query(q, (error, results, fields) => {
+    //     if (error) return reject(error);
+    //     resolve({
+    //       results, fields,
+    //     });
+    //   });
+    // });
+  
+    // await promiseReduce(updateRecords, async (_, r) => {
+    //   const toSetter = (r) => {
+    //     const keys = Object.keys(r);
+    //     return keys.map((k) => {
+    //       if (r[k] != null) {
+    //         return `${k} = '${`${r[k]}`.replace(/\'/g, '\'\'')}'`;
+    //       }
+    //       return `${k} = NULL`;
+    //     });
+    //   }
+    //   if (!companyMap[r.symbol]) {
+    //     return;
+    //   }
+    //   r.symbol_uid = companyMap[r.symbol].symbol_uid;
+    //   const x = toSetter(r).join(',');
+    //   await sendQuery(`UPDATE etf_info SET ${x} WHERE symbol = '${r.symbol}';`);
+    // }, (<any>null));
+    // const xx : any = await sendQuery(`SELECT * FROM etf_info;`);
+    // console.log('xx.results :', xx.results);
+    // connection.end();
   }
 }

@@ -1,6 +1,7 @@
 import mysql from 'mysql';
 import { v4 } from 'uuid';
 import fs from 'fs-extra';
+import moment from 'moment';
 import Apify, { PuppeteerHandlePage } from 'apify';
 
 import utils, { promiseReduce, ArgumentTypes } from '../utils';
@@ -118,15 +119,34 @@ export default class Crawler {
     } = options;
     const data = await page.$$eval('#news-table tr', ($trs: HTMLElement[]) => {
       const scrapedData : any[] = [];
+      let datePart = '';
       $trs.forEach(($tr) => {
+        if (!$tr) {
+          return;
+        }
+        
+        const dateString = $tr.children[0].innerText || '';
+        const result = /([a-zA-Z]{3}-[0-9]{2}-[0-9]{2})*\s*([0-9]{2}):([0-9]{2})([A-Z]{2})/gm.exec(dateString.trim());
+        if (!result) {
+          return;
+        }
+        datePart = result[1] || datePart;
+        let hour = result[2];
+        const minute = result[3];
+        if (result[4] === 'PM') {
+          hour = `${parseInt(hour) + 12}`;
+        }
+
         const $newsLink = $tr.querySelector('.news-link-left a');
         const $newsType = $tr.querySelector('.news-link-right');
 
+        console.log('`${datePart} ${hour}:${minute}` :', `${datePart} ${hour}:${minute}`);
         if ($newsLink) {
           const record = {
             title: $newsLink!.innerText,
             link: $newsLink!.getAttribute('href'),
             src: $newsType!.innerText,
+            date: `${datePart} ${hour}:${minute}`,
           };
           // const a : any[] = Array.from($tr.querySelectorAll('td:nth-child(2) a'));
           // a.forEach((cell, i) => {
@@ -135,10 +155,14 @@ export default class Crawler {
           scrapedData.push(record);
         }
       });
+      'Jul-22-21 05:15PM'
       return {
         scrapedData,
       };
     });
+
+    data.scrapedData = data.scrapedData.map(d => ({ ...d, date: moment.utc(new Date(d.date)).toISOString() }))
+
     const info = await requestStore.getValue(request.id);
     await resultStore.setValue(info.symbol, data);
 
