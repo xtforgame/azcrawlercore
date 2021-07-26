@@ -8,7 +8,7 @@ import Crawler from './Crawler';
 
 export type ExecFunc = (connection : any) => Promise<any>;
 
-export default class EtfManager {
+export default class StockNewsManager {
   crawler: Crawler;
 
   constructor () {
@@ -16,10 +16,10 @@ export default class EtfManager {
   }
 
   async getSymbolList() {
-    const symbolList = fs.readdirSync('./apify_storage_z/key_value_stores/symbols');
+    const symbolList = fs.readdirSync('../apify_storage_z/key_value_stores/symbols');
     return symbolList.map((s) => {
       const symbol = s.replace(/\.json/g, '');
-      const symbolData = fs.readFileSync(`./apify_storage_z/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
+      const symbolData = fs.readFileSync(`../apify_storage_z/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
       const symbolJson = JSON.parse(symbolData);
       return {
         symbol,
@@ -107,7 +107,7 @@ export default class EtfManager {
   
       let newsJson : any = {};
       try {
-        const profileData = fs.readFileSync(`./apify_storage_z/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
+        const profileData = fs.readFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
         newsJson = JSON.parse(profileData);
       } catch (error) {
         return;
@@ -126,7 +126,7 @@ export default class EtfManager {
         });
         // console.log('data :', data?.data?.translations?.[0]?.translatedText);
         newsJson.translatedBody = data?.data?.translations?.[0]?.translatedText
-        fs.writeFileSync(`./apify_storage_z/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
+        fs.writeFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
         // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
         
       } catch (error) {
