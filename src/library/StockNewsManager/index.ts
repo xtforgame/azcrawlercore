@@ -101,45 +101,76 @@ export default class StockNewsManager {
       const {
         symbol,
         symbolJson,
-       } = s;
+      } = s;
 
-       console.log('symbol2 :', symbol);
-  
+      console.log('symbol :', symbol);
+
       let newsJson : any = {};
       try {
-        const profileData = fs.readFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
-        newsJson = JSON.parse(profileData);
+        const newsData = fs.readFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
+        newsJson = JSON.parse(newsData);
       } catch (error) {
         return;
       }
+      let newsListJson : any = {};
       try {
-        const { data } = await axios({
-          method: 'post',
-          url: 'https://translation.googleapis.com/language/translate/v2?key=AIzaSyAbw3q6GEVeK_uIQN6TPdg1JSayOObZT-s',
-          data: {
-            q: newsJson.body.replace(/\<div\s*class[^\s]*caas-readmore\s*[^\s]*\<button.*\<\/button\>.*\<\/div\>/g, ''),
-            source: 'en',
-            target: 'zh-TW',
-            format: 'html',
-            // format: 'text',
-          },
-        });
-        // console.log('data :', data?.data?.translations?.[0]?.translatedText);
-        newsJson.translatedBody = data?.data?.translations?.[0]?.translatedText
-        fs.writeFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
-        // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
-        
+        const newsListData = fs.readFileSync(`../apify_storage_z/key_value_stores/results/${symbol}.json`, { encoding: 'utf-8' });
+        newsListJson = JSON.parse(newsListData);
       } catch (error) {
-        console.log('error :', error);
-        await promiseWait(60000);
+        return;
       }
-
-      await promiseWait(300);
+      if (!newsJson.translatedTitle) {
+        try {
+          const { data } = await axios({
+            method: 'post',
+            url: 'https://translation.googleapis.com/language/translate/v2?key=AIzaSyAbw3q6GEVeK_uIQN6TPdg1JSayOObZT-s',
+            data: {
+              q: newsListJson.scrapedData[0].title,
+              source: 'en',
+              target: 'zh-TW',
+              // format: 'html',
+              format: 'text',
+            },
+          });
+          // console.log('data :', data?.data?.translations?.[0]?.translatedText);
+          newsJson.translatedTitle = data?.data?.translations?.[0]?.translatedText;
+          fs.writeFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
+          // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
+        } catch (error) {
+          console.log('error :', error);
+          await promiseWait(60000);
+        }
+        await promiseWait(100);
+      }
+      if (!newsJson.translatedBody) {
+        try {
+          const { data } = await axios({
+            method: 'post',
+            url: 'https://translation.googleapis.com/language/translate/v2?key=AIzaSyAbw3q6GEVeK_uIQN6TPdg1JSayOObZT-s',
+            data: {
+              q: newsJson.body.replace(/\<div\s*class[^\s]*caas-readmore\s*[^\s]*\<button.*\<\/button\>.*\<\/div\>/g, ''),
+              source: 'en',
+              target: 'zh-TW',
+              format: 'html',
+              // format: 'text',
+            },
+          });
+          // console.log('data :', data?.data?.translations?.[0]?.translatedText);
+          newsJson.translatedBody = data?.data?.translations?.[0]?.translatedText
+          fs.writeFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
+          // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
+          
+        } catch (error) {
+          console.log('error :', error);
+          await promiseWait(60000);
+        }
+        await promiseWait(300);
+      }
     }, (<any>null));
-  
   }
 
   async run() {
+    // return this.translate();
     const companyInfos = await this.selectAllCompanyInfo();
     const companyMap = toMap(companyInfos, info => info.symbol);
 
@@ -189,6 +220,24 @@ export default class StockNewsManager {
       });
     }, (<any>null));
 
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: 'mrlp2938!@#',
+      database: 'gugu',
+    });
+  
+    connection.connect();
+  
+    const sendQuery = (q) => new Promise((resolve, reject) => {
+      connection.query(q, (error, results, fields) => {
+        if (error) return reject(error);
+        resolve({
+          results, fields,
+        });
+      });
+    });
+
     await promiseReduce(updateRecords, async (_, r) => {
       const toSetter = (r) => {
         const keys = Object.keys(r);
@@ -204,7 +253,6 @@ export default class StockNewsManager {
       }
       r.symbol_uid = companyMap[r.symbol].symbol_uid;
 
-      
       const row = {
         news_uid: v4(),
         thumbnail: r.newsJson.thumbnail,
@@ -214,31 +262,13 @@ export default class StockNewsManager {
         source_title: r.newsListJson.scrapedData[0].title,
         source_content: r.newsJson.body,
         source_language: 'en',
-        zh_title: '',
+        zh_title: r.newsJson.translatedTitle,
         zh_content: r.newsJson.translatedBody,
       }
       const x = toSetter(row).join(',');
       console.log('x :', x);
-      // await sendQuery(`UPDATE etf_info SET ${x} WHERE symbol = '${r.symbol}';`);
+      // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
-
-    // const connection = mysql.createConnection({
-    //   host: 'localhost',
-    //   user: 'root',
-    //   password: 'mrlp2938!@#',
-    //   database: 'gugu',
-    // });
-  
-    // connection.connect();
-  
-    // const sendQuery = (q) => new Promise((resolve, reject) => {
-    //   connection.query(q, (error, results, fields) => {
-    //     if (error) return reject(error);
-    //     resolve({
-    //       results, fields,
-    //     });
-    //   });
-    // });
   
     // await promiseReduce(updateRecords, async (_, r) => {
     //   const toSetter = (r) => {
@@ -259,6 +289,8 @@ export default class StockNewsManager {
     // }, (<any>null));
     // const xx : any = await sendQuery(`SELECT * FROM etf_info;`);
     // console.log('xx.results :', xx.results);
-    // connection.end();
+
+
+    connection.end();
   }
 }
