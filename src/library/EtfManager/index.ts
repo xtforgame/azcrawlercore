@@ -259,7 +259,7 @@ export default class EtfManager {
         });
       });
     });
-  
+
     await sendQuery(`TRUNCATE TABLE etf_fair_price;`);
     await sendQuery(`ALTER TABLE etf_info MODIFY home_page VARCHAR(300);`);
     await promiseReduce(updateRecords, async (_, r) => {
@@ -324,6 +324,7 @@ export default class EtfManager {
           await sendQuery(`INSERT INTO etf_fair_price (symbol_uid) VALUES ('${r.symbol_uid}');`);
           await sendQuery(`UPDATE etf_fair_price SET ${fairPriceDataS} WHERE symbol_uid = '${r.symbol_uid}';`);
         } catch (error) {
+          console.log('error :', error);
           await sendQuery(`DELETE FROM etf_fair_price WHERE symbol_uid = '${r.symbol_uid}';`);
         }
       }
