@@ -175,7 +175,7 @@ export default class EtfManager {
       // console.log('scores :', scores);
 
       const getAvg = (key) => {
-        const array = gurufocusJson.series.map(v => parseFloat(v[key]) || 0).filter(i => i);
+        const array = (gurufocusJson.series || []).map(v => parseFloat(v[key]) || 0).filter(i => i);
         const sum = array.reduce((a, b) => a + b, 0);
         const avg = (sum / array.length) || 0;
         const last = array[array.length - 1] || 0;
