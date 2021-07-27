@@ -259,12 +259,13 @@ export default class StockNewsManager {
         return;
       }
 
+      const date = moment(r.newsListJson.scrapedData[0].date);
       const row = {
         news_uid: v4(),
         thumbnail: r.newsJson.thumbnail,
         source: r.newsListJson.scrapedData[0].link,
         source_name: r.newsListJson.scrapedData[0].src,
-        date: moment(r.newsListJson.scrapedData[0].date).format('YYYY-MM-DD'),
+        date: date.isValid() ? date.format('YYYY-MM-DD') : null,
         source_title: r.newsListJson.scrapedData[0].title,
         source_content: r.newsJson.body,
         source_language: 'en',
