@@ -1,6 +1,7 @@
 import mysql from 'mysql';
 import { v4 } from 'uuid';
 import fs from 'fs';
+import moment from 'moment';
 import { promiseReduce, toMap } from '../utils';
 import Crawler from './Crawler';
 
@@ -172,6 +173,23 @@ export default class EtfManager {
       }
       scores.score *= 10;
       // console.log('scores :', scores);
+
+      const getAvg = (key) => {
+        const array = gurufocusJson.series.map(v => parseFloat(v[key]) || 0).filter(i => i);
+        const sum = array.reduce((a, b) => a + b, 0);
+        const avg = (sum / array.length) || 0;
+        const last = array[array.length - 1] || 0;
+        const multiplier = last / avg;
+        return {
+          sum,
+          avg,
+          last,
+          multiplier,
+        };
+      };
+
+      const yield1 = getAvg('yield');
+      const bestMultipiler = Math.max(gurufocusJson.bestMultipiler, yield1.multiplier);
   
       const result = {
         issuer: profile?.Issuer?.value?.value,
@@ -187,7 +205,7 @@ export default class EtfManager {
         exchange: symbolJson.exchange.name,
         // description: profile?.['Region (General)']?.value,
         price: symbolJson.Price,
-        fair_price: gurufocusJson.bestMultipiler && gurufocusJson.price * gurufocusJson.bestMultipiler,
+        fair_price: bestMultipiler && gurufocusJson.price * bestMultipiler,
       };
       // fair_price
       // ACTIVE - No Index
@@ -242,6 +260,7 @@ export default class EtfManager {
       });
     });
   
+    await sendQuery(`TRUNCATE TABLE estimate_dividend;`);
     await sendQuery(`ALTER TABLE etf_info MODIFY home_page VARCHAR(300);`);
     await promiseReduce(updateRecords, async (_, r) => {
       const toSetter = (r) => {
@@ -259,6 +278,55 @@ export default class EtfManager {
       r.symbol_uid = companyMap[r.symbol].symbol_uid;
       const x = toSetter(r).join(',');
       await sendQuery(`UPDATE etf_info SET ${x} WHERE symbol = '${r.symbol}';`);
+
+
+      let gurufocusJson : any = {};
+      try {
+        const gurufocusData = fs.readFileSync(`../apify_storage/key_value_stores/gurufocus/${r.symbol}.json`, { encoding: 'utf-8' });
+        gurufocusJson = JSON.parse(gurufocusData);
+      } catch (error) {
+        
+      }
+
+      const getAvg = (key) => {
+        const array = gurufocusJson.series.map(v => parseFloat(v[key]) || 0).filter(i => i);
+        const sum = array.reduce((a, b) => a + b, 0);
+        const avg = (sum / array.length) || 0;
+        const last = array[array.length - 1] || 0;
+        const multiplier = last / avg;
+        return {
+          sum,
+          avg,
+          last,
+          multiplier,
+        };
+      };
+
+      const yield1 = getAvg('yield');
+
+      const bestMultipiler = Math.max(gurufocusJson.bestMultipiler, yield1.multiplier);
+
+      const date = moment();
+      const fairPriceData = {
+        symbol_uid: r.symbol_uid,
+        date: date.isValid() ? date.format('YYYY-MM-DD') : null,
+        fair_price: bestMultipiler && gurufocusJson.price * bestMultipiler,
+        estimate_pe: gurufocusJson.pe?.multipiler && gurufocusJson.price * gurufocusJson.pe?.multipiler,
+        estimate_pb: gurufocusJson.pb?.multipiler && gurufocusJson.price * gurufocusJson.pb?.multipiler,
+        estimate_dividend: yield1?.multipiler && gurufocusJson.price * yield1?.multipiler,
+      };
+      const fairPriceDataS = toSetter(fairPriceData).join(',');
+      const existsRows = await sendQuery(`SELECT symbol_uid FROM etf_fair_price WHERE symbol_uid = '${r.symbol_uid}';`);
+      if (existsRows.results.length) {
+        await sendQuery(`UPDATE etf_fair_price SET ${fairPriceDataS} WHERE symbol_uid = '${r.symbol_uid}';`);
+      } else {
+        try {
+          await sendQuery(`INSERT INTO etf_fair_price (symbol_uid) VALUES ('${r.symbol_uid}');`);
+          await sendQuery(`UPDATE etf_fair_price SET ${fairPriceDataS} WHERE symbol_uid = '${r.symbol_uid}';`);
+        } catch (error) {
+          await sendQuery(`DELETE FROM etf_fair_price WHERE symbol_uid = '${r.symbol_uid}';`);
+        }
+      }
     }, (<any>null));
     const xx : any = await sendQuery(`SELECT * FROM etf_info;`);
     console.log('xx.results :', xx.results);
