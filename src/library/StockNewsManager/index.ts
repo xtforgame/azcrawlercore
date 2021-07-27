@@ -238,6 +238,8 @@ export default class StockNewsManager {
       });
     });
 
+    await sendQuery(`TRUNCATE TABLE news;`);
+    await sendQuery(`TRUNCATE TABLE company_news;`);
     await promiseReduce(updateRecords, async (_, r) => {
       const toSetter = (r) => {
         const keys = Object.keys(r);
@@ -274,7 +276,7 @@ export default class StockNewsManager {
       if (existsRows.results.length) {
         await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
       } else {
-        await sendQuery(`INSERT INTO news (source) VALUES ('${row.source}');`);
+        await sendQuery(`INSERT INTO news (news_uid, source) VALUES ('${row.news_uid}', '${row.source}');`);
         await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
         await sendQuery(`INSERT INTO company_news (news_uid, symbol_uid) VALUES ('${row.news_uid}', '${r.symbol_uid}');`);
       }
