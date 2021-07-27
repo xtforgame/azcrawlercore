@@ -260,7 +260,7 @@ export default class EtfManager {
       });
     });
 
-    const existsRows = await sendQuery(`SELECT symbol_uid FROM etf_fair_price;`);
+    const existsRows = await sendQuery(`SELECT * FROM etf_fair_price;`);
       console.log('existsRows.results :', existsRows.results);
       return;
 
