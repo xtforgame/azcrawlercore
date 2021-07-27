@@ -310,10 +310,10 @@ export default class EtfManager {
       const fairPriceData = {
         symbol_uid: r.symbol_uid,
         date: date.isValid() ? date.format('YYYY-MM-DD') : null,
-        fair_price: bestMultipiler && gurufocusJson.price * bestMultipiler,
-        estimate_pe: gurufocusJson.pe?.multipiler && gurufocusJson.price * gurufocusJson.pe?.multipiler,
-        estimate_pb: gurufocusJson.pb?.multipiler && gurufocusJson.price * gurufocusJson.pb?.multipiler,
-        estimate_dividend: yield1?.multipiler && gurufocusJson.price * yield1?.multipiler,
+        fair_price: (bestMultipiler && gurufocusJson.price * bestMultipiler) || null,
+        estimate_pe: (gurufocusJson.pe?.multipiler && gurufocusJson.price * gurufocusJson.pe?.multipiler) || null,
+        estimate_pb: (gurufocusJson.pb?.multipiler && gurufocusJson.price * gurufocusJson.pb?.multipiler) || null,
+        estimate_dividend: (yield1?.multipiler && gurufocusJson.price * yield1?.multipiler) || null,
       };
       const fairPriceDataS = toSetter(fairPriceData).join(',');
       const existsRows = await sendQuery(`SELECT symbol_uid FROM etf_fair_price WHERE symbol_uid = '${r.symbol_uid}';`);
