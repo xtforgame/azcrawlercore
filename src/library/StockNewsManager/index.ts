@@ -242,6 +242,7 @@ export default class StockNewsManager {
     await sendQuery(`TRUNCATE TABLE news;`);
     await sendQuery(`TRUNCATE TABLE company_news;`);
     await sendQuery(`ALTER TABLE news MODIFY source_title VARCHAR(500);`);
+    await sendQuery(`ALTER TABLE news MODIFY thumbnail VARCHAR(500);`);
     await promiseReduce(updateRecords, async (_, r) => {
       const toSetter = (r) => {
         const keys = Object.keys(r);
@@ -278,7 +279,7 @@ export default class StockNewsManager {
         zh_content: r.newsJson.translatedBody,
       }
       const x = toSetter(row).join(',');
-      console.log('x :', x);
+      // console.log('x :', x);
       const existsRows = await sendQuery(`SELECT news_uid FROM news WHERE source = '${row.source}';`);
       if (existsRows.results.length) {
         await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
