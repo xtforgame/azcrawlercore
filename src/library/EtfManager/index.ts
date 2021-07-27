@@ -260,7 +260,7 @@ export default class EtfManager {
       });
     });
   
-    await sendQuery(`TRUNCATE TABLE estimate_dividend;`);
+    await sendQuery(`TRUNCATE TABLE etf_fair_price;`);
     await sendQuery(`ALTER TABLE etf_info MODIFY home_page VARCHAR(300);`);
     await promiseReduce(updateRecords, async (_, r) => {
       const toSetter = (r) => {
