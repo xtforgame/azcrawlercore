@@ -311,15 +311,10 @@ export default class EtfManager {
         symbol_uid: r.symbol_uid,
         date: date.isValid() ? date.format('YYYY-MM-DD') : null,
         fair_price: (bestMultipiler && gurufocusJson.price * bestMultipiler) || null,
-        estimate_pe: (gurufocusJson.pe.multipiler && gurufocusJson.price * gurufocusJson.pe.multipiler) || null,
-        estimate_pb: (gurufocusJson.pb.multipiler && gurufocusJson.price * gurufocusJson.pb.multipiler) || null,
-        estimate_dividend: (yield1?.multipiler && gurufocusJson.price * yield1?.multipiler) || null,
+        estimate_pe: (gurufocusJson.pe?.multiplier && gurufocusJson.price * gurufocusJson.pe?.multiplier) || null,
+        estimate_pb: (gurufocusJson.pb?.multiplier && gurufocusJson.price * gurufocusJson.pb?.multiplier) || null,
+        estimate_dividend: (yield1?.multiplier && gurufocusJson.price * yield1?.multiplier) || null,
       };
-      console.log('gurufocusJson.pe.multipiler :', gurufocusJson.pe.multipiler);
-      console.log('gurufocusJson.price * gurufocusJson.pe.multipiler :', gurufocusJson.price * gurufocusJson.pe.multipiler);
-      console.log('(gurufocusJson.pe.multipiler && gurufocusJson.price * gurufocusJson.pe.multipiler) :', (gurufocusJson.pe.multipiler && gurufocusJson.price * gurufocusJson.pe.multipiler));
-      console.log('gurufocusJson :', gurufocusJson);
-      console.log('fairPriceData :', fairPriceData);
       const fairPriceDataS = toSetter(fairPriceData).join(',');
       const existsRows = await sendQuery(`SELECT symbol_uid FROM etf_fair_price WHERE symbol_uid = '${r.symbol_uid}';`);
       if (existsRows.results.length) {
