@@ -170,6 +170,7 @@ export default class EtfManager {
       if (!scores.score) {
         scores.score = 0;
       }
+      scores.score *= 10;
       // console.log('scores :', scores);
   
       const result = {
