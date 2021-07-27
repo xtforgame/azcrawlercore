@@ -260,6 +260,10 @@ export default class EtfManager {
       });
     });
 
+    const existsRows = await sendQuery(`SELECT symbol_uid FROM etf_fair_price;`);
+      console.log('existsRows.results :', existsRows.results);
+      return;
+
     await sendQuery(`TRUNCATE TABLE etf_fair_price;`);
     await sendQuery(`ALTER TABLE etf_info MODIFY home_page VARCHAR(300);`);
     await promiseReduce(updateRecords, async (_, r) => {
@@ -315,8 +319,6 @@ export default class EtfManager {
         estimate_pb: (gurufocusJson.pb?.multiplier && gurufocusJson.price * gurufocusJson.pb?.multiplier) || null,
         estimate_dividend: (yield1?.multiplier && gurufocusJson.price * yield1?.multiplier) || null,
       };
-      console.log('gurufocusJson.pe :', gurufocusJson.pe);
-      console.log('gurufocusJson.pe?.multiplier :', gurufocusJson.pe?.multiplier);
       const fairPriceDataS = toSetter(fairPriceData).join(',');
       const existsRows = await sendQuery(`SELECT symbol_uid FROM etf_fair_price WHERE symbol_uid = '${r.symbol_uid}';`);
       if (existsRows.results.length) {
