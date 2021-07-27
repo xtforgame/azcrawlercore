@@ -315,6 +315,7 @@ export default class EtfManager {
         estimate_pb: (gurufocusJson.pb?.multipiler && gurufocusJson.price * gurufocusJson.pb?.multipiler) || null,
         estimate_dividend: (yield1?.multipiler && gurufocusJson.price * yield1?.multipiler) || null,
       };
+      console.log('fairPriceData :', fairPriceData);
       const fairPriceDataS = toSetter(fairPriceData).join(',');
       const existsRows = await sendQuery(`SELECT symbol_uid FROM etf_fair_price WHERE symbol_uid = '${r.symbol_uid}';`);
       if (existsRows.results.length) {
