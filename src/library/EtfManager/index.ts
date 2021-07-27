@@ -205,7 +205,7 @@ export default class EtfManager {
         exchange: symbolJson.exchange.name,
         // description: profile?.['Region (General)']?.value,
         price: symbolJson.Price,
-        fair_price: bestMultipiler && gurufocusJson.price * bestMultipiler,
+        fair_price: (bestMultipiler && gurufocusJson.price * bestMultipiler) || 0,
       };
       // fair_price
       // ACTIVE - No Index
