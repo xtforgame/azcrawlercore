@@ -252,6 +252,9 @@ export default class StockNewsManager {
         return;
       }
       r.symbol_uid = companyMap[r.symbol].symbol_uid;
+      if (!r.newsListJson.scrapedData[0]) {
+        return;
+      }
 
       const row = {
         news_uid: v4(),
@@ -267,6 +270,14 @@ export default class StockNewsManager {
       }
       const x = toSetter(row).join(',');
       console.log('x :', x);
+      const existsRows = await sendQuery(`SELECT news_uid FROM news WHERE symbol = '${r.symbol}';`);
+      if (existsRows.results.length) {
+        await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
+      } else {
+        await sendQuery(`INSERT INTO news (symbol_uid) VALUES ('${r.symbol}');`);
+        await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
+        await sendQuery(`UPDATE company_news SET news_uid = '${row.news_uid}', symbol_uid='${r.symbol_uid}' WHERE symbol = '${r.symbol}';`);
+      }
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
   
