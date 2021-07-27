@@ -270,13 +270,13 @@ export default class StockNewsManager {
       }
       const x = toSetter(row).join(',');
       console.log('x :', x);
-      const existsRows = await sendQuery(`SELECT news_uid FROM news WHERE symbol = '${r.symbol}';`);
+      const existsRows = await sendQuery(`SELECT news_uid FROM news WHERE source = '${row.source}';`);
       if (existsRows.results.length) {
-        await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
+        await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
       } else {
-        await sendQuery(`INSERT INTO news (symbol_uid) VALUES ('${r.symbol}');`);
-        await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
-        await sendQuery(`UPDATE company_news SET news_uid = '${row.news_uid}', symbol_uid='${r.symbol_uid}' WHERE symbol = '${r.symbol}';`);
+        await sendQuery(`INSERT INTO news (source) VALUES ('${row.source}');`);
+        await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
+        await sendQuery(`INSERT INTO company_news (news_uid, symbol_uid) VALUES ('${row.news_uid}', '${r.symbol_uid}');`);
       }
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
