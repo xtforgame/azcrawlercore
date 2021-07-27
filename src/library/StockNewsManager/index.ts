@@ -316,7 +316,6 @@ export default class StockNewsManager {
     // const xx : any = await sendQuery(`SELECT * FROM etf_info;`);
     // console.log('xx.results :', xx.results);
 
-
     connection.end();
   }
 }
