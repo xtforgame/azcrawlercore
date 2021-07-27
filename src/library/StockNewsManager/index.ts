@@ -260,6 +260,10 @@ export default class StockNewsManager {
         return;
       }
 
+      if (r.newsJson.body?.length > 65535) {
+        return;
+      }
+
       const date = moment(r.newsListJson.scrapedData[0].date);
       const row = {
         news_uid: v4(),
