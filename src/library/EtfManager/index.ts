@@ -315,6 +315,9 @@ export default class EtfManager {
         estimate_pb: (gurufocusJson.pb?.multipiler && gurufocusJson.price * gurufocusJson.pb?.multipiler) || null,
         estimate_dividend: (yield1?.multipiler && gurufocusJson.price * yield1?.multipiler) || null,
       };
+      console.log('gurufocusJson.pe?.multipiler :', gurufocusJson.pe?.multipiler);
+      console.log('gurufocusJson.price * gurufocusJson.pe?.multipiler :', gurufocusJson.price * gurufocusJson.pe?.multipiler);
+      console.log('(gurufocusJson.pe?.multipiler && gurufocusJson.price * gurufocusJson.pe?.multipiler) :', (gurufocusJson.pe?.multipiler && gurufocusJson.price * gurufocusJson.pe?.multipiler));
       console.log('gurufocusJson :', gurufocusJson);
       console.log('fairPriceData :', fairPriceData);
       const fairPriceDataS = toSetter(fairPriceData).join(',');
