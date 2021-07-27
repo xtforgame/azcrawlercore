@@ -241,7 +241,7 @@ export default class StockNewsManager {
 
     await sendQuery(`TRUNCATE TABLE news;`);
     await sendQuery(`TRUNCATE TABLE company_news;`);
-    await sendQuery(`ALTER TABLE news MODIFY source_title VARCHAR(600);`);
+    await sendQuery(`ALTER TABLE news MODIFY source_title VARCHAR(500);`);
     await promiseReduce(updateRecords, async (_, r) => {
       const toSetter = (r) => {
         const keys = Object.keys(r);
