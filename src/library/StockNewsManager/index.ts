@@ -1,5 +1,6 @@
 import mysql from 'mysql';
 import axios from 'axios';
+import moment from 'moment';
 import { v4 } from 'uuid';
 import fs from 'fs';
 import { promiseReduce, toMap, promiseWait } from '../utils';
@@ -263,7 +264,7 @@ export default class StockNewsManager {
         thumbnail: r.newsJson.thumbnail,
         source: r.newsListJson.scrapedData[0].link,
         source_name: r.newsListJson.scrapedData[0].src,
-        date: r.newsListJson.scrapedData[0].date,
+        date: moment(r.newsListJson.scrapedData[0].date).format('YYYY-MM-DD'),
         source_title: r.newsListJson.scrapedData[0].title,
         source_content: r.newsJson.body,
         source_language: 'en',
