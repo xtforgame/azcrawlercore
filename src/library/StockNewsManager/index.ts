@@ -284,9 +284,14 @@ export default class StockNewsManager {
       if (existsRows.results.length) {
         await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
       } else {
-        await sendQuery(`INSERT INTO news (news_uid, source) VALUES ('${row.news_uid}', '${row.source}');`);
-        await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
-        await sendQuery(`INSERT INTO company_news (news_uid, symbol_uid) VALUES ('${row.news_uid}', '${r.symbol_uid}');`);
+        try {
+          await sendQuery(`INSERT INTO news (news_uid, source) VALUES ('${row.news_uid}', '${row.source}');`);
+          await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
+          await sendQuery(`INSERT INTO company_news (news_uid, symbol_uid) VALUES ('${row.news_uid}', '${r.symbol_uid}');`);
+        } catch (error) {
+          await sendQuery(`DELETE FROM news WHERE news_uid='${row.news_uid}';`);
+          await sendQuery(`DELETE FROM company_news WHERE news_uid='${row.news_uid}';`);
+        }
       }
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
