@@ -74,6 +74,7 @@ export default class EtfManager {
   }
 
   async run() {
+    // return this.update({});
     // return this.crawler.fetch();
     const companyInfos = await this.selectAllCompanyInfo();
     const companyMap = toMap(companyInfos, info => info.symbol);
@@ -182,6 +183,14 @@ export default class EtfManager {
           "Alternatives": "備擇方案",
           "Currency": "貨幣",
           "Preferred Stock": "優先股"
+      },
+      "structure": {
+          "ETF": "ETF",
+          "UIT": "單位投資信託",
+          "Commodity Pool": "商品基金",
+          "ETN": "指數投資證券",
+          "Grantor Trust": "委託人信託",
+          "Currency Pool": "貨幣基金"
       }
     };
     const tFunc = async (type: string, s: string) => {
@@ -296,7 +305,7 @@ export default class EtfManager {
       const result = {
         issuer: profile?.Issuer?.value?.value,
         brand: profile?.Brand?.value?.value,
-        structure: profile?.Structure?.value?.value,
+        structure: await tFunc('structure', profile?.Structure?.value?.value),
         expense_ratio: profile?.['Expense Ratio']?.value?.value,
         home_page: profile?.['ETF Home Page']?.value?.link,
         inception: inception && moment(inception).format('YYYY/MM/DD'),
@@ -319,7 +328,7 @@ export default class EtfManager {
         ...scores,
       };
 
-      console.log('x :', x);
+      // console.log('x :', x);
   
       updateRecords.push(x);
   
