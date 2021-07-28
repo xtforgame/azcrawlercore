@@ -110,19 +110,19 @@ export default class EtfManager {
           "Hedge Fund": "對沖基金",
           "Total Bond Market": "總債券市場",
           "China Equities": "中國股票",
-          "n/a": "不適用",
+          "n/a": "n/a",
           "Leveraged Commodities": "槓桿商品",
           "Leveraged Bonds": "槓桿債券",
           "Building & Construction": "建築與施工",
           "Small Cap Blend Equities": "小盤混合股票",
-          "MLPs": "MLP",
+          "MLPs": "MLPs",
           "High Yield Bonds": "高收益債券",
           "Latin America Equities": "拉丁美洲股票",
           "Health & Biotech Equities": "健康與生物科技股票",
           "Industrials Equities": "工業股票",
           "Foreign Small & Mid Cap Equities": "外國中小盤股",
           "Small Cap Value Equities": "小盤價值股票",
-          "National Munis": "國家市政廳",
+          "National Munis": "國家政府債券",
           "Agricultural Commodities": "農產品",
           "Volatility Hedged Equity": "波動性對沖股票",
           "Commodity Producers Equities": "商品生產者股票",
@@ -148,7 +148,7 @@ export default class EtfManager {
           "Inverse Equities": "反向股票",
           "Global Real Estate": "環球房地產",
           "Mortgage Backed Securities": "抵押貸款支持證券",
-          "California Munis": "加州市政廳",
+          "California Munis": "加州政府債券",
           "Materials": "材料",
           "Metals": "金屬",
           "Energy Equities": "能源股票",
@@ -166,19 +166,19 @@ export default class EtfManager {
           "Mid Cap Value Equities": "中盤價值股票",
           "Transportation Equities": "運輸股票",
           "Money Market": "貨幣市場",
-          "New York Munis": "紐約市政廳",
+          "New York Munis": "紐約政府債券",
           "Leveraged Multi-Asset": "槓桿多資產",
           "Inverse Bonds": "反向債券",
-          "Volatility": "揮發性",
+          "Volatility": "波動性",
           "Leveraged Volatility": "槓桿波動"
       },
       "asset_class": {
           "Commodity": "商品",
-          "Equity": "公平",
+          "Equity": "股票",
           "Multi-Asset": "多資產",
-          "Bond": "鍵",
+          "Bond": "債券",
           "Real Estate": "房地產",
-          "Volatility": "揮發性",
+          "Volatility": "波動性",
           "Alternatives": "備擇方案",
           "Currency": "貨幣",
           "Preferred Stock": "優先股"
@@ -292,13 +292,14 @@ export default class EtfManager {
       const yield1 = getAvg('yield');
       const bestMultipiler = Math.max(gurufocusJson.bestMultipiler, yield1.multiplier);
   
+      const inception = profile?.Inception?.value?.value;
       const result = {
         issuer: profile?.Issuer?.value?.value,
         brand: profile?.Brand?.value?.value,
         structure: profile?.Structure?.value?.value,
         expense_ratio: profile?.['Expense Ratio']?.value?.value,
         home_page: profile?.['ETF Home Page']?.value?.link,
-        inception: profile?.Inception?.value?.value,
+        inception: inception && moment(inception).format('YYYY/MM/DD'),
         index_tracked: profile?.['Index Tracked']?.value?.value === 'ACTIVE - No Index' ? '' : profile?.['Index Tracked']?.value?.value,
         category: await tFunc('category', profile?.Category?.value?.value),
         asset_class: await tFunc('asset_class', profile?.['Asset Class']?.value?.value),
@@ -311,12 +312,16 @@ export default class EtfManager {
       // fair_price
       // ACTIVE - No Index
       // console.log('result :', result);
-  
-      updateRecords.push({
+
+      const x = {
         symbol,
         ...result,
         ...scores,
-      });
+      };
+
+      console.log('x :', x);
+  
+      updateRecords.push(x);
   
       // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
     }, (<any>null));
@@ -343,6 +348,8 @@ export default class EtfManager {
     //   const symbol = s.replace(/\.json/g, '');
     //   const x = await sendQuery(`INSERT INTO etf_info (symbol_uid) VALUES ('${symbol}')`)
     // }, (<any>null));
+
+    // return ;
 
     const connection = mysql.createConnection({
       host: 'localhost',
