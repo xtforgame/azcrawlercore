@@ -260,10 +260,6 @@ export default class EtfManager {
       });
     });
 
-    const existsRows = await sendQuery(`SELECT * FROM etf_fair_price;`);
-      console.log('existsRows.results :', existsRows.results);
-      return;
-
     await sendQuery(`TRUNCATE TABLE etf_fair_price;`);
     await sendQuery(`ALTER TABLE etf_info MODIFY home_page VARCHAR(300);`);
     await promiseReduce(updateRecords, async (_, r) => {
@@ -304,11 +300,14 @@ export default class EtfManager {
           last,
           multiplier,
         };
-      };
+      }; 
 
-      const yield1 = getAvg('yield');
+      let bestMultipiler = gurufocusJson.bestMultipiler;
 
-      const bestMultipiler = Math.max(gurufocusJson.bestMultipiler, yield1.multiplier);
+      // const yield1 = getAvg('yield');
+
+      // bestMultipiler = Math.max(gurufocusJson.bestMultipiler, yield1.multiplier);
+
 
       const date = moment();
       const fairPriceData = {
@@ -317,7 +316,8 @@ export default class EtfManager {
         fair_price: (bestMultipiler && gurufocusJson.price * bestMultipiler) || null,
         estimate_pe: (gurufocusJson.pe?.multiplier && gurufocusJson.price * gurufocusJson.pe?.multiplier) || null,
         estimate_pb: (gurufocusJson.pb?.multiplier && gurufocusJson.price * gurufocusJson.pb?.multiplier) || null,
-        estimate_dividend: (yield1?.multiplier && gurufocusJson.price * yield1?.multiplier) || null,
+        estimate_dividend: null,
+        // estimate_dividend: (yield1?.multiplier && gurufocusJson.price * yield1?.multiplier) || null,
       };
       const fairPriceDataS = toSetter(fairPriceData).join(',');
       const existsRows = await sendQuery(`SELECT symbol_uid FROM etf_fair_price WHERE symbol_uid = '${r.symbol_uid}';`);
@@ -333,8 +333,12 @@ export default class EtfManager {
         }
       }
     }, (<any>null));
-    const xx : any = await sendQuery(`SELECT * FROM etf_info;`);
-    console.log('xx.results :', xx.results);
+
+    const existsRows2 = await sendQuery(`SELECT * FROM etf_fair_price;`);
+    console.log('existsRows.results :', existsRows2.results);
+
+    // const xx : any = await sendQuery(`SELECT * FROM etf_info;`);
+    // console.log('xx.results :', xx.results);
     connection.end();
   }
 }
