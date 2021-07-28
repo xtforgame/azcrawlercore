@@ -304,7 +304,7 @@ export default class EtfManager {
 
       let bestMultipiler = gurufocusJson.bestMultipiler;
 
-      // const yield1 = getAvg('yield');
+      const yield1 = getAvg('yield');
 
       // bestMultipiler = Math.max(gurufocusJson.bestMultipiler, yield1.multiplier);
 
@@ -316,8 +316,7 @@ export default class EtfManager {
         fair_price: (bestMultipiler && gurufocusJson.price * bestMultipiler) || null,
         estimate_pe: (gurufocusJson.pe?.multiplier && gurufocusJson.price * gurufocusJson.pe?.multiplier) || null,
         estimate_pb: (gurufocusJson.pb?.multiplier && gurufocusJson.price * gurufocusJson.pb?.multiplier) || null,
-        estimate_dividend: null,
-        // estimate_dividend: (yield1?.multiplier && gurufocusJson.price * yield1?.multiplier) || null,
+        estimate_dividend: (yield1?.multiplier && gurufocusJson.price * yield1?.multiplier) || null,
       };
       const fairPriceDataS = toSetter(fairPriceData).join(',');
       const existsRows = await sendQuery(`SELECT symbol_uid FROM etf_fair_price WHERE symbol_uid = '${r.symbol_uid}';`);
