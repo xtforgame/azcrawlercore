@@ -116,7 +116,7 @@ export default class EtfManager {
           "Leveraged Bonds": "槓桿債券",
           "Building & Construction": "建築與施工",
           "Small Cap Blend Equities": "小盤混合股票",
-          "MLPs": "MLPs",
+          "MLPs": "業主有限合夥",
           "High Yield Bonds": "高收益債券",
           "Latin America Equities": "拉丁美洲股票",
           "Health & Biotech Equities": "健康與生物科技股票",
