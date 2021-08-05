@@ -308,9 +308,14 @@ export default class StockNewsManager {
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
 
-    // const existsRows = await sendQuery(`SELECT * FROM tags;`);
-    // console.log('existsRows.results :', existsRows.results);
+
+    const cmpnFilters = await sendQuery(`SELECT * FROM company_filter;`);
+    console.log('cmpnFilters.results :', cmpnFilters.results);
     
+
+    const filterOprions = await sendQuery(`SELECT * FROM filter_option;`);
+    console.log('filterOprions.results :', filterOprions.results);
+
     // const existsRows2 = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag;`);
     // console.log('existsRows2 :', existsRows);
     connection.end();
