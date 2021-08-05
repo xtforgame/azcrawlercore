@@ -284,12 +284,12 @@ export default class StockNewsManager {
       }, (<any>null));
 
       if (symbol_uid) {
-        const eRow : any = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag WHER symbol_uid = ${symbol_uid} AND tag_id = ${id};`);
+        const eRow : any = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag WHER symbol_uid = '${symbol_uid}' AND tag_id = ${id};`);
         console.log('eRow.results :', eRow.results);
         if (eRow.results[0]) {
           return;
         }
-        await sendQuery(`INSERT INTO company_tag (symbol_uid, tag_id) VALUES (${symbol_uid}, '${id}');`);
+        await sendQuery(`INSERT INTO company_tag (symbol_uid, tag_id) VALUES ('${symbol_uid}', ${id});`);
       }
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
