@@ -200,17 +200,17 @@ export default class StockNewsManager {
 
 
     const newTags = [
-      '股債64',
-      '全天候',
-      '成長股',
-      '飆股',
+      { id: 14, tag: '股債64' },
+      { id: 15, tag: '全天候' },
+      { id: 16, tag: '成長股' },
+      { id: 17, tag: '飆股' },
     ];
 
-    await promiseReduce(newTags, async (_, tag) => {
+    await promiseReduce(newTags, async (_, { id, tag }) => {
       const existsRows : any = await sendQuery(`SELECT name FROM tags WHERE name = '${tag}';`);
       if (!existsRows.results.length) {
         try {
-          await sendQuery(`INSERT INTO tags (name, enabled) VALUES ('${tag}', true);`);
+          await sendQuery(`INSERT INTO tags (id, name, enabled) VALUES (${id}, '${tag}', true);`);
         } catch (error) {
           console.log('error :', error);
           // await sendQuery(`DELETE FROM news WHERE news_uid='${row.news_uid}';`);
