@@ -285,7 +285,7 @@ export default class StockNewsManager {
 
       if (symbol_uid) {
         const eRow : any = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag WHER symbol_uid = ${symbol_uid} AND tag_id = ${id};`);
-        console.log('eRow :', eRow);
+        console.log('eRow.results :', eRow.results);
         if (eRow.results[0]) {
           return;
         }
