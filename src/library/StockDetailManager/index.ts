@@ -266,7 +266,23 @@ export default class StockNewsManager {
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
 
-    console.log('newTags :', newTags);
+    await promiseReduce(newTags, async (_, r) => {
+      const { id, tag } = r;
+      const tagRows : any = await sendQuery(`SELECT name FROM tags WHERE name = '${tag}';`);
+      if (!tagRows.results[0]) {
+        return;
+      }
+
+      await promiseReduce(r.stocks, async (_, stock) => {
+        const companyRows : any = await sendQuery(`SELECT * from company_info WHERE symbol = '${stock}';`);
+        console.log('companyRows.results :', companyRows.results);
+        if (!companyRows.results[0]) {
+          return;
+        }
+      }, (<any>null));
+
+      // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
+    }, (<any>null));
 
     // const existsRows = await sendQuery(`SELECT * FROM tags;`);
     // console.log('existsRows.results :', existsRows.results);
