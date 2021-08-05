@@ -221,7 +221,7 @@ export default class StockNewsManager {
     }, (<any>null));
 
     const existsRows = await sendQuery(`SELECT * FROM tags;`);
-    console.log('existsRows :', existsRows);
+    console.log('existsRows.results :', existsRows.results);
     
     // const existsRows2 = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag;`);
     // console.log('existsRows2 :', existsRows);
