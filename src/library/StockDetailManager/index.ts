@@ -200,13 +200,51 @@ export default class StockNewsManager {
 
 
     const newTags = [
-      { id: 14, tag: '股債64' },
-      { id: 15, tag: '全天候' },
-      { id: 16, tag: '成長股' },
-      { id: 17, tag: '飆股' },
+      {
+        id: 14,
+        tag: '股債64',
+        stocks: [],
+      },
+      {
+        id: 15,
+        tag: '全天候',
+        stocks: [],
+      },
+      {
+        id: 16,
+        tag: '成長股',
+        stocks: [],
+      },
+      {
+        id: 17,
+        tag: '飆股',
+        stocks: [
+          'VTNR',
+          'SGOC',
+          'NURO',
+          'MRIN',
+          'AMC',
+          'AEMD',
+          'AMEH',
+          'ACY',
+          'STFC',
+          'BYSI',
+          'MRNA',
+          'AEHR',
+          'ALF',
+          'BNTX',
+          'ASAN',
+          'BTU',
+          'IKNX',
+          'EAST',
+          'PRTA',
+          'JILL',
+        ],
+      },
     ];
 
-    await promiseReduce(newTags, async (_, { id, tag }) => {
+    await promiseReduce(newTags, async (_, r) => {
+      const { id, tag } = r;
       const existsRows : any = await sendQuery(`SELECT name FROM tags WHERE name = '${tag}';`);
       if (!existsRows.results.length) {
         try {
@@ -228,8 +266,10 @@ export default class StockNewsManager {
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
 
-    const existsRows = await sendQuery(`SELECT * FROM tags;`);
-    console.log('existsRows.results :', existsRows.results);
+    console.log('newTags :', newTags);
+
+    // const existsRows = await sendQuery(`SELECT * FROM tags;`);
+    // console.log('existsRows.results :', existsRows.results);
     
     // const existsRows2 = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag;`);
     // console.log('existsRows2 :', existsRows);
