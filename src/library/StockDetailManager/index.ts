@@ -273,14 +273,24 @@ export default class StockNewsManager {
         return;
       }
 
+      let symbol_uid = '';
       await promiseReduce(r.stocks, async (_, stock) => {
         const companyRows : any = await sendQuery(`SELECT * from company_info WHERE symbol = '${stock}';`);
         console.log('companyRows.results :', companyRows.results);
         if (!companyRows.results[0]) {
           return;
         }
+        symbol_uid = companyRows.results[0].symbol_uid;
       }, (<any>null));
 
+      if (symbol_uid) {
+        const eRow : any = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag WHER symbol_uid = ${symbol_uid} AND tag_id = ${id};`);
+        console.log('eRow :', eRow);
+        if (!eRow.results[0]) {
+          return;
+        }
+        await sendQuery(`INSERT INTO company_tag (symbol_uid, tag_id) VALUES (${symbol_uid}, '${id}');`);
+      }
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
 
