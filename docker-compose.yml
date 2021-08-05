@@ -10,6 +10,7 @@ version: '3'
 services:
   webserver:
     image: ${VXL_IMAGE_NS:-vxlinternal}/${VXL_IMAGE_PROJ:-default}/afswebserver
+    network_mode: "host"
     build:
       context: .
 

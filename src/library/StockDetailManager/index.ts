@@ -203,6 +203,8 @@ export default class StockNewsManager {
       {
         id: 14,
         tag: '股債64',
+        tagColumnName: 'tag_09',
+        order: 9,
         stocks: [
           'SPY',
           'VOO',
@@ -216,6 +218,8 @@ export default class StockNewsManager {
       {
         id: 15,
         tag: '全天候',
+        tagColumnName: 'tag_09',
+        order: 9,
         stocks: [
           'SPY',
           'TLT',
@@ -227,11 +231,15 @@ export default class StockNewsManager {
       {
         id: 16,
         tag: '成長股',
+        tagColumnName: 'tag_09',
+        order: 9,
         stocks: [],
       },
       {
         id: 17,
         tag: '飆股',
+        tagColumnName: 'tag_09',
+        order: 9,
         stocks: [
           'VTNR',
           'SGOC',
@@ -307,6 +315,35 @@ export default class StockNewsManager {
       }
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
+
+
+    // await promiseReduce(newTags, async (_, r) => {
+    //   const { id, tag } = r;
+    //   const tagRows : any = await sendQuery(`SELECT name FROM tags WHERE name = '${tag}';`);
+    //   if (!tagRows.results[0]) {
+    //     return;
+    //   }
+
+    //   let symbol_uid = '';
+    //   await promiseReduce(r.stocks, async (_, stock) => {
+    //     const companyRows : any = await sendQuery(`SELECT * from company_info WHERE symbol = '${stock}';`);
+    //     console.log('companyRows.results :', companyRows.results);
+    //     if (!companyRows.results[0]) {
+    //       return;
+    //     }
+    //     symbol_uid = companyRows.results[0].symbol_uid;
+    //   }, (<any>null));
+
+    //   if (symbol_uid) {
+    //     const eRow : any = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag WHERE symbol_uid = '${symbol_uid}' AND tag_id = ${id};`);
+    //     console.log('eRow.results :', eRow.results);
+    //     if (eRow.results[0]) {
+    //       return;
+    //     }
+    //     await sendQuery(`INSERT INTO company_tag (symbol_uid, tag_id) VALUES ('${symbol_uid}', ${id});`);
+    //   }
+    //   // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
+    // }, (<any>null));
 
 
     const cmpnFilters = await sendQuery(`SELECT * FROM company_filter;`);
