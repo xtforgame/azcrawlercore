@@ -210,7 +210,7 @@ export default class StockNewsManager {
       const existsRows : any = await sendQuery(`SELECT name FROM tags WHERE name = '${tag}';`);
       if (!existsRows.results.length) {
         try {
-          await sendQuery(`INSERT INTO tags (id, name, enabled) VALUES (DEFAULT, '${tag}', true);`);
+          await sendQuery(`INSERT INTO tags (name, enabled) VALUES ('${tag}', true);`);
         } catch (error) {
           console.log('error :', error);
           // await sendQuery(`DELETE FROM news WHERE news_uid='${row.news_uid}';`);
