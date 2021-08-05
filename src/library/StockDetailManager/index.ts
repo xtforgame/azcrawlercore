@@ -189,7 +189,7 @@ export default class StockNewsManager {
   
     connection.connect();
   
-    const sendQuery = (q) => new Promise((resolve, reject) => {
+    const sendQuery = (q) => new Promise<any>((resolve, reject) => {
       connection.query(q, (error, results, fields) => {
         if (error) return reject(error);
         resolve({
@@ -198,11 +198,32 @@ export default class StockNewsManager {
       });
     });
 
+
+    const newTags = [
+      '股債64',
+      '全天候',
+      '成長股',
+      '飆股',
+    ];
+
+    await promiseReduce(newTags, async (_, tag) => {
+      const existsRows : any = await sendQuery(`SELECT name FROM tags WHERE name = '${tag}';`);
+      if (!existsRows.results.length) {
+        try {
+          await sendQuery(`INSERT INTO tags (tag_uid, name, enabled) VALUES ('${v4()}', '${tag}', true);`);
+        } catch (error) {
+          // await sendQuery(`DELETE FROM news WHERE news_uid='${row.news_uid}';`);
+          // await sendQuery(`DELETE FROM company_news WHERE news_uid='${row.news_uid}';`);
+        }
+      }
+      // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
+    }, (<any>null));
+
     const existsRows = await sendQuery(`SELECT * FROM tags;`);
     console.log('existsRows :', existsRows);
     
-    const existsRows2 = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag;`);
-    console.log('existsRows2 :', existsRows);
+    // const existsRows2 = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag;`);
+    // console.log('existsRows2 :', existsRows);
     connection.end();
   }
 }
