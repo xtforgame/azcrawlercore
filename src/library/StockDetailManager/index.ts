@@ -212,6 +212,7 @@ export default class StockNewsManager {
         try {
           await sendQuery(`INSERT INTO tags (id, name, enabled) VALUES (DEFAULT, '${tag}', true);`);
         } catch (error) {
+          console.log('error :', error);
           // await sendQuery(`DELETE FROM news WHERE news_uid='${row.news_uid}';`);
           // await sendQuery(`DELETE FROM company_news WHERE news_uid='${row.news_uid}';`);
         }
