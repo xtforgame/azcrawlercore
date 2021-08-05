@@ -216,6 +216,14 @@ export default class StockNewsManager {
           // await sendQuery(`DELETE FROM news WHERE news_uid='${row.news_uid}';`);
           // await sendQuery(`DELETE FROM company_news WHERE news_uid='${row.news_uid}';`);
         }
+      } else {
+        try {
+          await sendQuery(`UPDATE tags SET tag = false WHERE name = '${tag}';`);
+        } catch (error) {
+          console.log('error :', error);
+          // await sendQuery(`DELETE FROM news WHERE news_uid='${row.news_uid}';`);
+          // await sendQuery(`DELETE FROM company_news WHERE news_uid='${row.news_uid}';`);
+        }
       }
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
