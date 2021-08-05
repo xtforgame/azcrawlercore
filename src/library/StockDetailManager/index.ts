@@ -218,7 +218,7 @@ export default class StockNewsManager {
         }
       } else {
         try {
-          await sendQuery(`UPDATE tags SET tag = false WHERE name = '${tag}';`);
+          await sendQuery(`UPDATE tags SET is_growth = false WHERE name = '${tag}';`);
         } catch (error) {
           console.log('error :', error);
           // await sendQuery(`DELETE FROM news WHERE news_uid='${row.news_uid}';`);
