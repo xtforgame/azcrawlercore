@@ -203,12 +203,26 @@ export default class StockNewsManager {
       {
         id: 14,
         tag: '股債64',
-        stocks: [],
+        stocks: [
+          'SPY',
+          'VOO',
+          'IVV',
+          'TLT',
+          'IEF',
+          'IEI',
+          'SHY',
+        ],
       },
       {
         id: 15,
         tag: '全天候',
-        stocks: [],
+        stocks: [
+          'SPY',
+          'TLT',
+          'IEF',
+          'GLD',
+          'DBC',
+        ],
       },
       {
         id: 16,
