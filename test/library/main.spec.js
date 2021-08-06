@@ -2,9 +2,9 @@
 
 import chai from 'chai';
 // import EtfManager from 'library/EtfManager';
-// import StockNewsManager from 'library/StockNewsManager';
+import StockNewsManager from 'library/StockNewsManager';
 // import StockLabelManager from 'library/StockLabelManager';
-import StockDetailManager from 'library/StockDetailManager';
+// import StockDetailManager from 'library/StockDetailManager';
 
 import {
   data01,
@@ -17,7 +17,7 @@ describe('Main Test Cases', () => {
   describe('Echo Test', function () {
     this.timeout(30000000);
     it('.then()', async () => {
-      const mgr = new StockDetailManager();
+      const mgr = new StockNewsManager();
       await mgr.run();
     });
   });

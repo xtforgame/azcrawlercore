@@ -272,7 +272,7 @@ export default class StockNewsManager {
         thumbnail: r.newsJson.thumbnail,
         source: r.newsListJson.scrapedData[0].link,
         source_name: r.newsListJson.scrapedData[0].src,
-        date: date.isValid() ? date.format('YYYY-MM-DD') : null,
+        date: date.isValid() ? date.format('YYYY-MM-DD HH:mm:ss') : null,
         source_title: r.newsListJson.scrapedData[0].title,
         source_content: r.newsJson.body,
         source_language: 'en',

@@ -155,7 +155,6 @@ export default class Crawler {
           scrapedData.push(record);
         }
       });
-      'Jul-22-21 05:15PM'
       return {
         scrapedData,
       };
