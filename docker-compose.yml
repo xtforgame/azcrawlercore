@@ -20,7 +20,7 @@ services:
       AFS_SECRETS_FOLDER: "/usr/volumes/share/secrets"
 
     volumes:
-      - "../apify_storage_z:/usr/volumes/apify_storage_z"
+      - "../apify_storage_z:/usr/src/apify_storage_z"
       - ".:/usr/volumes/src/"
       - "../secrets:/usr/volumes/share/secrets"
 
