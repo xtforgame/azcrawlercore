@@ -4,6 +4,7 @@ import fs from 'fs-extra';
 import moment from 'moment';
 import Apify, { PuppeteerHandlePage } from 'apify';
 
+import CrawlerBase, { PuppeteerHandlePageArg } from '../core/CrawlerBase';
 import utils, { promiseReduce, ArgumentTypes } from '../utils';
 
 export type PuppeteerHandlePageArg = ArgumentTypes<PuppeteerHandlePage>[0];
@@ -19,13 +20,7 @@ const exchanges = [
   { id: 'nyse', name: 'NYSE' },
 ];
 
-export default class Crawler {
-  fetchCounter : number;
-
-  constructor() {
-    this.fetchCounter = 0;
-  }
-
+export default class Crawler extends CrawlerBase {
   getCurrentUrl() {
     if (!exchanges[this.fetchCounter]) {
       return '';
@@ -225,6 +220,7 @@ export default class Crawler {
       // that automatically loads the URLs in headless Chrome / Puppeteer.
       const crawler = new Apify.PuppeteerCrawler({
         requestQueue,
+        ...await this.getPuppeteerCrawlerOptions(),
         proxyConfiguration,
         preNavigationHooks: [
           async (crawlingContext, gotoOptions) => {
