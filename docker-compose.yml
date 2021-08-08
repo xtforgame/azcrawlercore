@@ -25,7 +25,7 @@ services:
       - ".:/usr/volumes/src/"
       - "../secrets:/usr/volumes/share/secrets"
 
-    command: bash docker-cmd.sh && yarn fetch-news
+    command: bash -c "bash docker-cmd.sh && yarn fetch-news"
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
