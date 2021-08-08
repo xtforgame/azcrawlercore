@@ -171,7 +171,7 @@ export default class Crawler extends CrawlerBase {
   }
 
   async fetch() {
-    await fs.remove(`${process.env.APIFY_LOCAL_STORAGE_DIR}`);
+    // await fs.remove(`${process.env.APIFY_LOCAL_STORAGE_DIR}`);
     this.symbolStore = await Apify.openKeyValueStore('symbols');
     this.newsListStore = await Apify.openKeyValueStore('newsList');
     this.newsStore = await Apify.openKeyValueStore('news');

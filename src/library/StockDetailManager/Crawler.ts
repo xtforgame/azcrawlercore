@@ -132,7 +132,7 @@ export default class Crawler {
   }
 
   async fetch() {
-    await fs.remove(`${process.env.APIFY_LOCAL_STORAGE_DIR}`);
+    // await fs.remove(`${process.env.APIFY_LOCAL_STORAGE_DIR}`);
     const proxyConfiguration = await Apify.createProxyConfiguration({
       proxyUrls: ['http://spe19aeb13:XEdSfouN79@gate.dc.smartproxy.com:20000'],
     });
