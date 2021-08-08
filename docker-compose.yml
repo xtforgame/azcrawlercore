@@ -9,12 +9,12 @@
 version: '3'
 services:
   webserver:
-    image: ${VXL_IMAGE_NS:-vxlinternal}/${VXL_IMAGE_PROJ:-default}/afswebserver
+    image: ${VXL_IMAGE_NS:-vxlinternal}/${VXL_IMAGE_PROJ:-default}/azcrawler
     network_mode: "host"
     build:
       context: .
 
-    container_name: ${VXL_CONTAINER_NS:-vxlinternal}-${VXL_CONTAINER_PROJ:-default}-afs-webserver
+    container_name: ${VXL_CONTAINER_NS:-vxlinternal}-${VXL_CONTAINER_PROJ:-default}-azcrawler
 
     environment:
       AFS_SECRETS_FOLDER: "/usr/volumes/share/secrets"
@@ -25,7 +25,8 @@ services:
       - ".:/usr/volumes/src/"
       - "../secrets:/usr/volumes/share/secrets"
 
-    command: bash docker-cmd.sh
+    # command: bash docker-cmd.sh
+    command: yarn fetch-news
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
