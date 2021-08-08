@@ -102,6 +102,7 @@ export default class CrawlerBase {
         console.log(`Request ${request.url} failed too many times.`);
       },
     }
+    console.log('process.env.IN_DOCKER :', process.env.IN_DOCKER);
     if (process.env.IN_DOCKER) {
       options.launchPuppeteerOptions = {
         executablePath: '/usr/bin/chromium-browser',
