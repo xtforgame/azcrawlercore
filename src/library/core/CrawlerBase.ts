@@ -45,7 +45,7 @@ export default class CrawlerBase {
     const proxyConfiguration = await Apify.createProxyConfiguration({
       proxyUrls: ['http://spe19aeb13:XEdSfouN79@gate.dc.smartproxy.com:20000'],
     });
-    return {
+    const options : any = {
       proxyConfiguration,
       preNavigationHooks: [
         async (crawlingContext, gotoOptions) => {
@@ -101,7 +101,26 @@ export default class CrawlerBase {
       handleFailedRequestFunction: async ({ request }) => {
         console.log(`Request ${request.url} failed too many times.`);
       },
-    };
+    }
+    if (process.env.IN_DOCKER) {
+      options.launchPuppeteerOptions = {
+        executablePath: '/usr/bin/chromium-browser',
+        args: [
+          // Required for Docker version of Puppeteer
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          // This will write shared memory files into /tmp instead of /dev/shm,
+          // because Docker’s default for /dev/shm is 64MB
+          '--disable-dev-shm-usage',
+  
+          '--disable-gpu',
+          '--single-process',
+          '--disable-web-security',
+          '--disable-dev-profile',
+        ],
+      };
+    }
+    return options;
   }
 
   async addRequestEx(type: string, extraValues: any, ...args: AddRequestArgs) : AddRequestReturn {
