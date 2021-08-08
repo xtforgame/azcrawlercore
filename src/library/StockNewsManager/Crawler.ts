@@ -258,20 +258,6 @@ export default class Crawler extends CrawlerBase {
           }
         ],
 
-        // Here you can set options that are passed to the Apify.launchPuppeteer() function.
-        launchContext: {
-          launchOptions: {
-            headless: true,
-
-            // devtools: true,
-            // headless: false,
-            // slowMo: 250,
-
-            // Other Puppeteer options
-          },
-        },
-        handlePageTimeoutSecs: 999999,
-
         // Stop crawling after several pages
         // maxRequestsPerCrawl: 50,
 

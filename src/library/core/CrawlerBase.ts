@@ -104,7 +104,7 @@ export default class CrawlerBase {
     }
     console.log('process.env.IN_DOCKER :', process.env.IN_DOCKER);
     if (process.env.IN_DOCKER) {
-      options.launchPuppeteerOptions = {
+      options.launchOptions.launchPuppeteerOptions = {
         executablePath: '/usr/bin/chromium-browser',
         args: [
           // Required for Docker version of Puppeteer
