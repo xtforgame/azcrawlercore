@@ -17,10 +17,10 @@ export default class StockNewsManager {
   }
 
   async getSymbolList() {
-    const symbolList = fs.readdirSync('../apify_storage_z/key_value_stores/symbols');
+    const symbolList = fs.readdirSync('apify_storage/key_value_stores/symbols');
     return symbolList.map((s) => {
       const symbol = s.replace(/\.json/g, '');
-      const symbolData = fs.readFileSync(`../apify_storage_z/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
+      const symbolData = fs.readFileSync(`apify_storage/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
       const symbolJson = JSON.parse(symbolData);
       return {
         symbol,
@@ -108,14 +108,14 @@ export default class StockNewsManager {
 
       let newsJson : any = {};
       try {
-        const newsData = fs.readFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
+        const newsData = fs.readFileSync(`apify_storage/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
         newsJson = JSON.parse(newsData);
       } catch (error) {
         return;
       }
       let newsListJson : any = {};
       try {
-        const newsListData = fs.readFileSync(`../apify_storage_z/key_value_stores/results/${symbol}.json`, { encoding: 'utf-8' });
+        const newsListData = fs.readFileSync(`apify_storage/key_value_stores/results/${symbol}.json`, { encoding: 'utf-8' });
         newsListJson = JSON.parse(newsListData);
       } catch (error) {
         return;
@@ -135,7 +135,7 @@ export default class StockNewsManager {
           });
           // console.log('data :', data?.data?.translations?.[0]?.translatedText);
           newsJson.translatedTitle = data?.data?.translations?.[0]?.translatedText;
-          fs.writeFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
+          fs.writeFileSync(`apify_storage/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
           // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
         } catch (error) {
           console.log('error :', error);
@@ -158,7 +158,7 @@ export default class StockNewsManager {
           });
           // console.log('data :', data?.data?.translations?.[0]?.translatedText);
           newsJson.translatedBody = data?.data?.translations?.[0]?.translatedText
-          fs.writeFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
+          fs.writeFileSync(`apify_storage/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
           // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
           
         } catch (error) {
@@ -171,8 +171,8 @@ export default class StockNewsManager {
   }
 
   async run() {
-    return this.crawler.fetch();
-    // return this.translate();
+    // return this.crawler.fetch();
+    return this.translate();
     const companyInfos = await this.selectAllCompanyInfo();
     const companyMap = toMap(companyInfos, info => info.symbol);
 
@@ -191,7 +191,7 @@ export default class StockNewsManager {
   
       let newsListJson : any = {};
       try {
-        const newsListData = fs.readFileSync(`../apify_storage_z/key_value_stores/results/${symbol}.json`, { encoding: 'utf-8' });
+        const newsListData = fs.readFileSync(`apify_storage/key_value_stores/results/${symbol}.json`, { encoding: 'utf-8' });
         newsListJson = JSON.parse(newsListData);
       } catch (error) {
         return;
@@ -199,7 +199,7 @@ export default class StockNewsManager {
 
       let newsJson : any = {};
       try {
-        const newsData = fs.readFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
+        const newsData = fs.readFileSync(`apify_storage/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
         newsJson = JSON.parse(newsData);
       } catch (error) {
         
