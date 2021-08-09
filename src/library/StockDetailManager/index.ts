@@ -124,7 +124,7 @@ export default class StockNewsManager {
         try {
           const { data } = await axios({
             method: 'post',
-            url: 'https://translation.googleapis.com/language/translate/v2?key=AIzaSyAbw3q6GEVeK_uIQN6TPdg1JSayOObZT-s',
+            url: 'https://translation.googleapis.com/language/translate/v2?key=AIzaSyCMVo6AFlZX7maYM1gKdhgFFl9SHps3i3Y',
             data: {
               q: newsListJson.scrapedData[0].title,
               source: 'en',
@@ -147,7 +147,7 @@ export default class StockNewsManager {
         try {
           const { data } = await axios({
             method: 'post',
-            url: 'https://translation.googleapis.com/language/translate/v2?key=AIzaSyAbw3q6GEVeK_uIQN6TPdg1JSayOObZT-s',
+            url: 'https://translation.googleapis.com/language/translate/v2?key=AIzaSyCMVo6AFlZX7maYM1gKdhgFFl9SHps3i3Y',
             data: {
               q: newsJson.body.replace(/\<div\s*class[^\s]*caas-readmore\s*[^\s]*\<button.*\<\/button\>.*\<\/div\>/g, ''),
               source: 'en',
