@@ -25,7 +25,9 @@
     "test": "eslint --ext .js ./test/library && cross-env NODE_ENV=test mocha --require ./test/babel-register.js './test/library/**/*.spec.{j,t}s'",
     "test-watch": "eslint --ext .js ./test/library && cross-env NODE_ENV=test mocha --watch ./test --watch-extensions js,ts --require ./test/babel-register.js './test/library/**/*.spec.{j,t}s'",
     "fetch-news": "cross-env NODE_ENV=production node --require ./internals/babel-register.js src/library/news",
-    "fetch-news-dev": "cross-env NODE_ENV=development node --require ./internals/babel-register.js src/library/news"
+    "fetch-news-dev": "cross-env NODE_ENV=development node --require ./internals/babel-register.js src/library/news",
+    "fetch-stock-detail": "cross-env NODE_ENV=production node --require ./internals/babel-register.js src/library/stock-detail",
+    "fetch-stock-detail-dev": "cross-env NODE_ENV=development node --require ./internals/babel-register.js src/library/stock-detail"
   },
   "license": "MIT",
   "peerDependencies": {},

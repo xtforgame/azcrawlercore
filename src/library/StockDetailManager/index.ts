@@ -203,8 +203,8 @@ export default class StockNewsManager {
       {
         id: 14,
         tag: '股債64',
-        tagColumnName: 'tag_09',
-        order: 9,
+        tagColumnName: 'tag_10',
+        order: 10,
         stocks: [
           'SPY',
           'VOO',
@@ -218,8 +218,8 @@ export default class StockNewsManager {
       {
         id: 15,
         tag: '全天候',
-        tagColumnName: 'tag_09',
-        order: 9,
+        tagColumnName: 'tag_11',
+        order: 11,
         stocks: [
           'SPY',
           'TLT',
@@ -231,15 +231,15 @@ export default class StockNewsManager {
       {
         id: 16,
         tag: '成長股',
-        tagColumnName: 'tag_09',
-        order: 9,
+        tagColumnName: 'tag_12',
+        order: 12,
         stocks: [],
       },
       {
         id: 17,
         tag: '飆股',
-        tagColumnName: 'tag_09',
-        order: 9,
+        tagColumnName: 'tag_13',
+        order: 13,
         stocks: [
           'VTNR',
           'SGOC',
