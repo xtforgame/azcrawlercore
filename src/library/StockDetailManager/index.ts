@@ -302,7 +302,7 @@ export default class StockNewsManager {
       let symbol_uid = '';
       await promiseReduce(r.stocks, async (_, stock) => {
         const companyRows : any = await sendQuery(`SELECT * from company_info WHERE symbol = '${stock}';`);
-        console.log('companyRows.results :', companyRows.results);
+        // console.log('companyRows.results :', companyRows.results);
         if (!companyRows.results[0]) {
           return;
         }
@@ -311,7 +311,7 @@ export default class StockNewsManager {
 
       if (symbol_uid) {
         const eRow : any = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag WHERE symbol_uid = '${symbol_uid}' AND tag_id = ${id};`);
-        console.log('eRow.results :', eRow.results);
+        // console.log('eRow.results :', eRow.results);
         if (eRow.results[0]) {
           return;
         }
