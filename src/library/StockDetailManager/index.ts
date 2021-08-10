@@ -393,7 +393,7 @@ export default class StockNewsManager {
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
     
-    const existsRows2 = await sendQuery(`SELECT symbol_uid, year, quarter, score FROM company_factor_score WHERE factor_type = 'D01' AND score >= 7.5 AND year = 2021 AND quarter = 1;`);
+    const existsRows2 = await sendQuery(`SELECT symbol_uid, year, quarter, score FROM company_factor_score WHERE factor_type = 'D01' AND score >= 9 AND year = 2021 AND quarter = 1;`);
     console.log('existsRows2 :', existsRows2);
 
     // const existsRows2 = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag;`);
