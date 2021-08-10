@@ -372,22 +372,23 @@ export default class StockNewsManager {
         await sendQuery(q);
       }
 
-      let symbol_uid = '';
       await promiseReduce(r.stocks, async (_, stock) => {
         const companyRows : any = await sendQuery(`SELECT * from company_info WHERE symbol = '${stock}';`);
+        let symbol_uid = '';
         if (!companyRows.results[0]) {
           return;
         }
         symbol_uid = companyRows.results[0].symbol_uid;
-      }, (<any>null));
-      if (symbol_uid) {
-        const cmpnFilters = await sendQuery(`SELECT * FROM company_filter WHERE symbol_uid = '${symbol_uid}';`);
-        if (!cmpnFilters.results[0]) {
-          await sendQuery(`INSERT INTO company_filter (symbol_uid, ${tagColumnName}) VALUES ('${symbol_uid}', 1);`);
-        } else {
-          await sendQuery(`UPDATE company_filter SET ${tagColumnName} = 1 WHERE symbol_uid = '${symbol_uid}';`);
+
+        if (symbol_uid) {
+          const cmpnFilters = await sendQuery(`SELECT * FROM company_filter WHERE symbol_uid = '${symbol_uid}';`);
+          if (!cmpnFilters.results[0]) {
+            await sendQuery(`INSERT INTO company_filter (symbol_uid, ${tagColumnName}) VALUES ('${symbol_uid}', 1);`);
+          } else {
+            await sendQuery(`UPDATE company_filter SET ${tagColumnName} = 1 WHERE symbol_uid = '${symbol_uid}';`);
+          }
         }
-      }
+      }, (<any>null));
       // console.log('symbol_uid :', symbol_uid);
 
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
