@@ -375,7 +375,6 @@ export default class StockNewsManager {
       let symbol_uid = '';
       await promiseReduce(r.stocks, async (_, stock) => {
         const companyRows : any = await sendQuery(`SELECT * from company_info WHERE symbol = '${stock}';`);
-        console.log('companyRows.results :', companyRows.results);
         if (!companyRows.results[0]) {
           return;
         }
@@ -383,7 +382,11 @@ export default class StockNewsManager {
       }, (<any>null));
       if (symbol_uid) {
         const cmpnFilters = await sendQuery(`SELECT * FROM company_filter WHERE symbol_uid = '${symbol_uid}';`);
-        console.log('cmpnFilters.results :', cmpnFilters.results);
+        if (!cmpnFilters.results[0]) {
+          await sendQuery(`INSERT INTO company_filter (symbol_uid, ${tagColumnName}) VALUES ('${symbol_uid}', 1);`);
+        } else {
+          await sendQuery(`UPDATE company_filter SET ${tagColumnName} = 1 WHERE symbol_uid = '${symbol_uid}';`);
+        }
       }
       // console.log('symbol_uid :', symbol_uid);
 
