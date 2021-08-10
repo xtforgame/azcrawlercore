@@ -358,6 +358,11 @@ export default class StockNewsManager {
 
     await promiseReduce(newTags, async (_, r) => {
       const { filter_option_id, tag, tagColumnName, order } = r;
+      try {
+        await sendQuery(`ALTER TABLE company_filter ADD ${tagColumnName} tinyint;`);
+      } catch (error) {
+        
+      }
       const filters : any = await sendQuery(`SELECT id FROM filter_option WHERE id = ${filter_option_id};`);
       if (!filters.results[0]) {
         const q = `INSERT INTO filter_option (id, category, name, value, sort_order, enabled) VALUES (${filter_option_id}, 'LABEL_CATEGORY', '${tag}', '${tagColumnName}', ${order}, 1);`;
