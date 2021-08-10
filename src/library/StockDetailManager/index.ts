@@ -371,6 +371,19 @@ export default class StockNewsManager {
         await sendQuery(q);
       }
 
+      if (r.tag === '成長股') {
+        const economicMoatRows : any = await sendQuery(`SELECT symbol_uid, year, quarter, score FROM company_factor_score WHERE factor_type = 'D01' AND score >= 9 AND year = 2021 AND quarter = 1;`);
+        console.log('economicMoatRows :', economicMoatRows);
+        await promiseReduce(economicMoatRows.results, async (_, r) => {
+          const cmpnFilters = await sendQuery(`SELECT * FROM company_filter WHERE symbol_uid = '${r.symbol_uid}';`);
+          if (!cmpnFilters.results[0]) {
+            await sendQuery(`INSERT INTO company_filter (symbol_uid, ${tagColumnName}) VALUES ('${r.symbol_uid}', 1);`);
+          } else {
+            await sendQuery(`UPDATE company_filter SET ${tagColumnName} = 1 WHERE symbol_uid = '${r.symbol_uid}';`);
+          }
+        }, (<any>null));
+      }
+
       await promiseReduce(r.stocks, async (_, stock) => {
         const companyRows : any = await sendQuery(`SELECT * from company_info WHERE symbol = '${stock}';`);
         let symbol_uid = '';
@@ -392,9 +405,6 @@ export default class StockNewsManager {
 
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
-    
-    const existsRows2 = await sendQuery(`SELECT symbol_uid, year, quarter, score FROM company_factor_score WHERE factor_type = 'D01' AND score >= 9 AND year = 2021 AND quarter = 1;`);
-    console.log('existsRows2 :', existsRows2);
 
     // const existsRows2 = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag;`);
     // console.log('existsRows2 :', existsRows);
