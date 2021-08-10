@@ -363,6 +363,8 @@ export default class StockNewsManager {
       } catch (error) {
         
       }
+      await sendQuery(`ALTER TABLE company_filter ALTER COLUMN ${tagColumnName} SET DEFAULT 0;`);
+      await sendQuery(`UPDATE company_filter SET ${tagColumnName} = 0 WHERE ${tagColumnName} IS NULL;`);
       const filters : any = await sendQuery(`SELECT id FROM filter_option WHERE id = ${filter_option_id};`);
       if (!filters.results[0]) {
         const q = `INSERT INTO filter_option (id, category, name, value, sort_order, enabled) VALUES (${filter_option_id}, 'LABEL_CATEGORY', '${tag}', '${tagColumnName}', ${order}, 1);`;
