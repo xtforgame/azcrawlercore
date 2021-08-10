@@ -351,10 +351,10 @@ export default class StockNewsManager {
 
 
     const cmpnFilters = await sendQuery(`SELECT * FROM company_filter;`);
-    console.log('cmpnFilters.results :', cmpnFilters.results);
+    // console.log('cmpnFilters.results :', cmpnFilters.results);
 
     const filterOprions = await sendQuery(`SELECT * FROM filter_option;`);
-    console.log('filterOprions.results :', filterOprions.results);
+    // console.log('filterOprions.results :', filterOprions.results);
 
     await promiseReduce(newTags, async (_, r) => {
       const { filter_option_id, tag, tagColumnName, order } = r;
@@ -368,7 +368,6 @@ export default class StockNewsManager {
       const filters : any = await sendQuery(`SELECT id FROM filter_option WHERE id = ${filter_option_id};`);
       if (!filters.results[0]) {
         const q = `INSERT INTO filter_option (id, category, name, value, sort_order, enabled) VALUES (${filter_option_id}, 'LABEL_CATEGORY', '${tag}', '${tagColumnName}', ${order}, 1);`;
-        console.log('q :', q);
         await sendQuery(q);
       }
 
