@@ -351,7 +351,7 @@ export default class StockNewsManager {
 
 
     const cmpnFilters = await sendQuery(`SELECT * FROM company_filter;`);
-    // console.log('cmpnFilters.results :', cmpnFilters.results);
+    console.log('cmpnFilters.results :', cmpnFilters.results);
     await promiseReduce(newTags, async (_, r) => {
       const { id, tag } = r;
       const filters : any = await sendQuery(`SELECT id FROM company_filter WHERE id = ${r.id};`);
