@@ -352,20 +352,21 @@ export default class StockNewsManager {
 
     const cmpnFilters = await sendQuery(`SELECT * FROM company_filter;`);
     console.log('cmpnFilters.results :', cmpnFilters.results);
+
+    const filterOprions = await sendQuery(`SELECT * FROM filter_option;`);
+    console.log('filterOprions.results :', filterOprions.results);
+
     await promiseReduce(newTags, async (_, r) => {
       const { id, tag } = r;
-      const filters : any = await sendQuery(`SELECT id FROM company_filter WHERE id = ${r.id};`);
+      const filters : any = await sendQuery(`SELECT id FROM filter_option WHERE id = ${r.id};`);
       if (!filters.results[0]) {
-        const q = `INSERT INTO company_tag (id, category, name, value, sort_order, enabled) VALUES (${r.id}, 'LABEL_CATEGORY', '${r.tag}', '${r.tagColumnName}', ${r.order}, 1);`;
+        const q = `INSERT INTO filter_option (id, category, name, value, sort_order, enabled) VALUES (${r.id}, 'LABEL_CATEGORY', '${r.tag}', '${r.tagColumnName}', ${r.order}, 1);`;
         console.log('q :', q);
-        // await sendQuery(`INSERT INTO company_tag (id, category, name, value, sort_order, enabled) VALUES (${r.id}, 'LABEL_CATEGORY', '${r.tag}', '${r.tagColumnName}', ${r.order}, 1);`);
+        // await sendQuery(`INSERT INTO filter_option (id, category, name, value, sort_order, enabled) VALUES (${r.id}, 'LABEL_CATEGORY', '${r.tag}', '${r.tagColumnName}', ${r.order}, 1);`);
       }
 
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
-
-    const filterOprions = await sendQuery(`SELECT * FROM filter_option;`);
-    console.log('filterOprions.results :', filterOprions.results);
 
     // const existsRows2 = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag;`);
     // console.log('existsRows2 :', existsRows);
