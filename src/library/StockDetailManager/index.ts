@@ -372,6 +372,17 @@ export default class StockNewsManager {
         await sendQuery(q);
       }
 
+      let symbol_uid = '';
+      await promiseReduce(r.stocks, async (_, stock) => {
+        const companyRows : any = await sendQuery(`SELECT * from company_info WHERE symbol = '${stock}';`);
+        console.log('companyRows.results :', companyRows.results);
+        if (!companyRows.results[0]) {
+          return;
+        }
+        symbol_uid = companyRows.results[0].symbol_uid;
+      }, (<any>null));
+      console.log('symbol_uid :', symbol_uid);
+
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
 
