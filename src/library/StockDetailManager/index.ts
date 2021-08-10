@@ -203,7 +203,7 @@ export default class StockNewsManager {
       {
         id: 14,
         tag: '股債64',
-        company_filter_id: 25,
+        filter_option_id: 25,
         tagColumnName: 'tag_10',
         order: 10,
         stocks: [
@@ -219,7 +219,7 @@ export default class StockNewsManager {
       {
         id: 15,
         tag: '全天候',
-        company_filter_id: 26,
+        filter_option_id: 26,
         tagColumnName: 'tag_11',
         order: 11,
         stocks: [
@@ -233,7 +233,7 @@ export default class StockNewsManager {
       {
         id: 16,
         tag: '成長股',
-        company_filter_id: 27,
+        filter_option_id: 27,
         tagColumnName: 'tag_12',
         order: 12,
         stocks: [],
@@ -241,7 +241,7 @@ export default class StockNewsManager {
       {
         id: 17,
         tag: '飆股',
-        company_filter_id: 28,
+        filter_option_id: 28,
         tagColumnName: 'tag_13',
         order: 13,
         stocks: [
@@ -357,10 +357,10 @@ export default class StockNewsManager {
     console.log('filterOprions.results :', filterOprions.results);
 
     await promiseReduce(newTags, async (_, r) => {
-      const { id, tag, tagColumnName, order } = r;
-      const filters : any = await sendQuery(`SELECT id FROM filter_option WHERE id = ${id};`);
+      const { filter_option_id, tag, tagColumnName, order } = r;
+      const filters : any = await sendQuery(`SELECT id FROM filter_option WHERE id = ${filter_option_id};`);
       if (!filters.results[0]) {
-        const q = `INSERT INTO filter_option (id, category, name, value, sort_order, enabled) VALUES (${id}, 'LABEL_CATEGORY', '${tag}', '${tagColumnName}', ${order}, 1);`;
+        const q = `INSERT INTO filter_option (id, category, name, value, sort_order, enabled) VALUES (${filter_option_id}, 'LABEL_CATEGORY', '${tag}', '${tagColumnName}', ${order}, 1);`;
         console.log('q :', q);
         // await sendQuery(`INSERT INTO filter_option (id, category, name, value, sort_order, enabled) VALUES (${r.id}, 'LABEL_CATEGORY', '${r.tag}', '${r.tagColumnName}', ${r.order}, 1);`);
       }
