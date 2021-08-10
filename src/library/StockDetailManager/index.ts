@@ -203,6 +203,7 @@ export default class StockNewsManager {
       {
         id: 14,
         tag: '股債64',
+        company_filter_id: 25,
         tagColumnName: 'tag_10',
         order: 10,
         stocks: [
@@ -218,6 +219,7 @@ export default class StockNewsManager {
       {
         id: 15,
         tag: '全天候',
+        company_filter_id: 26,
         tagColumnName: 'tag_11',
         order: 11,
         stocks: [
@@ -231,6 +233,7 @@ export default class StockNewsManager {
       {
         id: 16,
         tag: '成長股',
+        company_filter_id: 27,
         tagColumnName: 'tag_12',
         order: 12,
         stocks: [],
@@ -238,6 +241,7 @@ export default class StockNewsManager {
       {
         id: 17,
         tag: '飆股',
+        company_filter_id: 28,
         tagColumnName: 'tag_13',
         order: 13,
         stocks: [
@@ -347,8 +351,18 @@ export default class StockNewsManager {
 
 
     const cmpnFilters = await sendQuery(`SELECT * FROM company_filter;`);
-    console.log('cmpnFilters.results :', cmpnFilters.results);
-    
+    // console.log('cmpnFilters.results :', cmpnFilters.results);
+    await promiseReduce(newTags, async (_, r) => {
+      const { id, tag } = r;
+      const filters : any = await sendQuery(`SELECT id FROM company_filter WHERE id = ${r.id};`);
+      if (!filters.results[0]) {
+        const q = `INSERT INTO company_tag (id, category, name, value, sort_order, enabled) VALUES (${r.id}, 'LABEL_CATEGORY', '${r.tag}', '${r.tagColumnName}', ${r.order}, 1);`;
+        console.log('q :', q);
+        // await sendQuery(`INSERT INTO company_tag (id, category, name, value, sort_order, enabled) VALUES (${r.id}, 'LABEL_CATEGORY', '${r.tag}', '${r.tagColumnName}', ${r.order}, 1);`);
+      }
+
+      // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
+    }, (<any>null));
 
     const filterOprions = await sendQuery(`SELECT * FROM filter_option;`);
     console.log('filterOprions.results :', filterOprions.results);
