@@ -362,7 +362,7 @@ export default class StockNewsManager {
       if (!filters.results[0]) {
         const q = `INSERT INTO filter_option (id, category, name, value, sort_order, enabled) VALUES (${filter_option_id}, 'LABEL_CATEGORY', '${tag}', '${tagColumnName}', ${order}, 1);`;
         console.log('q :', q);
-        // await sendQuery(`INSERT INTO filter_option (id, category, name, value, sort_order, enabled) VALUES (${r.id}, 'LABEL_CATEGORY', '${r.tag}', '${r.tagColumnName}', ${r.order}, 1);`);
+        await sendQuery(q);
       }
 
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
