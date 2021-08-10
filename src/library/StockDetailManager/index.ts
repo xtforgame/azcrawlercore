@@ -393,7 +393,7 @@ export default class StockNewsManager {
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
 
-    const existsRows2 = await sendQuery(`SELECT score FROM company_factor_score WHERE factor_type = D01;`);
+    const existsRows2 = await sendQuery(`SELECT score FROM company_factor_score WHERE factor_type = 'D01';`);
     console.log('existsRows2 :', existsRows2);
 
     // const existsRows2 = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag;`);
