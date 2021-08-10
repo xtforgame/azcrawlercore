@@ -381,7 +381,11 @@ export default class StockNewsManager {
         }
         symbol_uid = companyRows.results[0].symbol_uid;
       }, (<any>null));
-      console.log('symbol_uid :', symbol_uid);
+      if (symbol_uid) {
+        const cmpnFilters = await sendQuery(`SELECT * FROM company_filter WHERE symbol_uid = '${symbol_uid}';`);
+        console.log('cmpnFilters.results :', cmpnFilters.results);
+      }
+      // console.log('symbol_uid :', symbol_uid);
 
       // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
     }, (<any>null));
