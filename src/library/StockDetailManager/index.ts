@@ -371,6 +371,8 @@ export default class StockNewsManager {
         await sendQuery(q);
       }
 
+      const rr = r;
+
       if (r.tag === '成長股') {
         const economicMoatRows : any = await sendQuery(`SELECT symbol_uid, year, quarter, score FROM company_factor_score WHERE factor_type = 'D01' AND score >= 9 AND year = 2021 AND quarter = 1;`);
         console.log('economicMoatRows :', economicMoatRows);
@@ -384,7 +386,7 @@ export default class StockNewsManager {
 
           if (r.symbol_uid) {
             console.log('r :', r);
-            const eRow : any = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag WHERE symbol_uid = '${r.symbol_uid}' AND tag_id = ${r.id};`);
+            const eRow : any = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag WHERE symbol_uid = '${r.symbol_uid}' AND tag_id = ${rr.id};`);
             // console.log('eRow.results :', eRow.results);
             if (eRow.results[0]) {
               return;
