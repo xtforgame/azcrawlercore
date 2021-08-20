@@ -131,7 +131,7 @@ export default class Crawler extends CrawlerBase {
     const proxyConfiguration = await Apify.createProxyConfiguration({
       proxyUrls: ['http://spe19aeb13:XEdSfouN79@gate.dc.smartproxy.com:20000'],
     });
-    await Apify.main(async () => {
+    // await Apify.main(async () => {
       // Apify.openRequestQueue() creates a preconfigured RequestQueue instance.
       // We add our first request to it - the initial page the crawler will visit.
       const requestQueue = await Apify.openRequestQueue();
@@ -216,7 +216,7 @@ export default class Crawler extends CrawlerBase {
       await crawler.run();
 
       console.log('Crawler finished.');
-    });
+    // });
   };
 
 
