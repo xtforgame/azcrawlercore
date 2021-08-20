@@ -4,9 +4,8 @@ import fs from 'fs-extra';
 import moment from 'moment';
 import Apify, { PuppeteerHandlePage } from 'apify';
 
+import CrawlerBase, { PuppeteerHandlePageArg } from '../core/CrawlerBase';
 import utils, { promiseReduce, ArgumentTypes } from '../utils';
-
-export type PuppeteerHandlePageArg = ArgumentTypes<PuppeteerHandlePage>[0];
 
 // const Apify = require('apify');
 
@@ -19,13 +18,7 @@ const exchanges = [
   { id: 'nyse', name: 'NYSE' },
 ];
 
-export default class Crawler {
-  fetchCounter : number;
-
-  constructor() {
-    this.fetchCounter = 0;
-  }
-
+export default class Crawler extends CrawlerBase {
   getCurrentUrl() {
     if (!exchanges[this.fetchCounter]) {
       return '';
@@ -153,6 +146,7 @@ export default class Crawler {
       // that automatically loads the URLs in headless Chrome / Puppeteer.
       const crawler = new Apify.PuppeteerCrawler({
         requestQueue,
+        ...await this.getPuppeteerCrawlerOptions(),
         proxyConfiguration,
         preNavigationHooks: [
           async (crawlingContext, gotoOptions) => {
@@ -189,24 +183,6 @@ export default class Crawler {
             // await page.evaluate((attr) => { window.foo = attr; }, 'bar');
           }
         ],
-
-        // Here you can set options that are passed to the Apify.launchPuppeteer() function.
-        launchContext: {
-          launchOptions: {
-            headless: true,
-
-            // devtools: true,
-            // headless: false,
-            // slowMo: 250,
-
-            // Other Puppeteer options
-          },
-        },
-        handlePageTimeoutSecs: 999999,
-
-        // Stop crawling after several pages
-        // maxRequestsPerCrawl: 50,
-
         // This function will be called for each URL to crawl.
         // Here you can write the Puppeteer scripts you are familiar with,
         // with the exception that browsers and pages are automatically managed by the Apify SDK.
