@@ -17,10 +17,10 @@ export default class StockNewsManager {
   }
 
   async getSymbolList() {
-    const symbolList = fs.readdirSync('../apify_storage_z/key_value_stores/symbols');
+    const symbolList = fs.readdirSync('apify_storage/key_value_stores/symbols');
     return symbolList.map((s) => {
       const symbol = s.replace(/\.json/g, '');
-      const symbolData = fs.readFileSync(`../apify_storage_z/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
+      const symbolData = fs.readFileSync(`apify_storage/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
       const symbolJson = JSON.parse(symbolData);
       return {
         symbol,
@@ -108,14 +108,14 @@ export default class StockNewsManager {
 
       let newsJson : any = {};
       try {
-        const newsData = fs.readFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
+        const newsData = fs.readFileSync(`apify_storage/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
         newsJson = JSON.parse(newsData);
       } catch (error) {
         return;
       }
       let newsListJson : any = {};
       try {
-        const newsListData = fs.readFileSync(`../apify_storage_z/key_value_stores/results/${symbol}.json`, { encoding: 'utf-8' });
+        const newsListData = fs.readFileSync(`apify_storage/key_value_stores/results/${symbol}.json`, { encoding: 'utf-8' });
         newsListJson = JSON.parse(newsListData);
       } catch (error) {
         return;
@@ -135,7 +135,7 @@ export default class StockNewsManager {
           });
           // console.log('data :', data?.data?.translations?.[0]?.translatedText);
           newsJson.translatedTitle = data?.data?.translations?.[0]?.translatedText;
-          fs.writeFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
+          fs.writeFileSync(`apify_storage/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
           // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
         } catch (error) {
           console.log('error :', error);
@@ -158,7 +158,7 @@ export default class StockNewsManager {
           });
           // console.log('data :', data?.data?.translations?.[0]?.translatedText);
           newsJson.translatedBody = data?.data?.translations?.[0]?.translatedText
-          fs.writeFileSync(`../apify_storage_z/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
+          fs.writeFileSync(`apify_storage/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
           // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
           
         } catch (error) {
@@ -171,7 +171,7 @@ export default class StockNewsManager {
   }
 
   async run() {
-    // return this.crawler.fetch();
+    return this.crawler.fetch();
     // return this.translate();
     const companyInfos = await this.selectAllCompanyInfo();
     const companyMap = toMap(companyInfos, info => info.symbol);
@@ -380,6 +380,15 @@ export default class StockNewsManager {
             await sendQuery(`INSERT INTO company_filter (symbol_uid, ${tagColumnName}) VALUES ('${r.symbol_uid}', 1);`);
           } else {
             await sendQuery(`UPDATE company_filter SET ${tagColumnName} = 1 WHERE symbol_uid = '${r.symbol_uid}';`);
+          }
+
+          if (r.symbol_uid) {
+            const eRow : any = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag WHERE symbol_uid = '${r.symbol_uid}' AND tag_id = ${r.id};`);
+            // console.log('eRow.results :', eRow.results);
+            if (eRow.results[0]) {
+              return;
+            }
+            await sendQuery(`INSERT INTO company_tag (symbol_uid, tag_id) VALUES ('${r.symbol_uid}', ${r.id});`);
           }
         }, (<any>null));
       }
