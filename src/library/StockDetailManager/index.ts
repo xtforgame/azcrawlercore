@@ -171,7 +171,7 @@ export default class StockNewsManager {
   }
 
   async run() {
-    await this.crawler.fetch();
+    // await this.crawler.fetch();
     // return this.translate();
     const companyInfos = await this.selectAllCompanyInfo();
     const companyMap = toMap(companyInfos, info => info.symbol);
@@ -383,6 +383,7 @@ export default class StockNewsManager {
           }
 
           if (r.symbol_uid) {
+            console.log('r :', r);
             const eRow : any = await sendQuery(`SELECT symbol_uid, tag_id FROM company_tag WHERE symbol_uid = '${r.symbol_uid}' AND tag_id = ${r.id};`);
             // console.log('eRow.results :', eRow.results);
             if (eRow.results[0]) {
