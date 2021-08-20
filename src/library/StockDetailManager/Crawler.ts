@@ -113,10 +113,12 @@ export default class Crawler extends CrawlerBase {
     const data = await page.$$eval('.fullview-profile', ($profile: HTMLElement[]) => {
 
       return {
-        url: request.url,
+        // url: request.url,
         scrapedData: $profile?.[0]?.innerText || '',
       };
     });
+
+    data.url = request.url;
 
     const info = await requestStore.getValue(request.id);
     await resultStore.setValue(info.symbol, data);
