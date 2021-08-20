@@ -391,7 +391,7 @@ export default class StockNewsManager {
             if (eRow.results[0]) {
               return;
             }
-            await sendQuery(`INSERT INTO company_tag (symbol_uid, tag_id) VALUES ('${r.symbol_uid}', ${r.id});`);
+            await sendQuery(`INSERT INTO company_tag (symbol_uid, tag_id) VALUES ('${r.symbol_uid}', ${rr.id});`);
           }
         }, (<any>null));
       }
