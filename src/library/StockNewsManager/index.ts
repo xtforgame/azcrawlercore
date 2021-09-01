@@ -347,7 +347,7 @@ export default class StockNewsManager {
     // const existsRows = await sendQuery(`SELECT news_uid, source_name FROM news WHERE source_name LIKE 'Motley Fool%' OR source_name LIKE 'MarketWatch%';`);
     // console.log('existsRows :', existsRows);
 
-    await sendQuery(`DELETE FROM news WHERE source_name LIKE 'Motley Fool%' OR source_name LIKE 'MarketWatch%';`);
+    await sendQuery(`DELETE FROM news WHERE source_name LIKE 'Motley Fool%' OR source_name LIKE 'MarketWatch%' OR source_name LIKE 'Barrons.com%';`);
 
     // try {
     //   await sendQuery(`INSERT INTO news (news_uid, source) VALUES ('${row.news_uid}', '${row.source}');`);
