@@ -73,25 +73,25 @@ export default class StockNewsManager {
     return results;
   }
 
-  async run2() {
-    return this.translate();
-    // return this.crawler.fetch();
-    const companyInfos = await this.selectAllCompanyInfo();
-    const companyMap = toMap(companyInfos, info => info.symbol);
-    // console.log('companyMap :', companyMap);
-    const etfInfos = await this.selectAllEtfInfo();
+  // async run2() {
+  //   return this.translate();
+  //   // return this.crawler.fetch();
+  //   const companyInfos = await this.selectAllCompanyInfo();
+  //   const companyMap = toMap(companyInfos, info => info.symbol);
+  //   // console.log('companyMap :', companyMap);
+  //   const etfInfos = await this.selectAllEtfInfo();
 
-    await this.execInDb(async (c) => {
-      await promiseReduce(etfInfos, async (_, i) => {
-        if (!companyMap[i.symbol]) {
-          console.log('i.symbol :', i.symbol);
-        }
-        // const x : any = await this.sendQuery(c, 'SELECT * from etf_info;');
-      }, (<any>null));
-    });
+  //   await this.execInDb(async (c) => {
+  //     await promiseReduce(etfInfos, async (_, i) => {
+  //       if (!companyMap[i.symbol]) {
+  //         console.log('i.symbol :', i.symbol);
+  //       }
+  //       // const x : any = await this.sendQuery(c, 'SELECT * from etf_info;');
+  //     }, (<any>null));
+  //   });
 
-    return this.update(companyMap);
-  }
+  //   return this.update(companyMap);
+  // }
 
   async translate() {
     let symbolList = await this.getSymbolList();
@@ -316,6 +316,44 @@ export default class StockNewsManager {
     // }, (<any>null));
     // const xx : any = await sendQuery(`SELECT * FROM etf_info;`);
     // console.log('xx.results :', xx.results);
+
+    connection.end();
+  }
+
+  async run2() {
+    return this.filterNews();
+  }
+
+  async filterNews() {
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: 'mrlp2938!@#',
+      database: 'gugu',
+    });
+  
+    connection.connect();
+  
+    const sendQuery = (q) => new Promise((resolve, reject) => {
+      connection.query(q, (error, results, fields) => {
+        if (error) return reject(error);
+        resolve({
+          results, fields,
+        });
+      });
+    });
+    
+
+    const existsRows = await sendQuery(`SELECT news_uid, source_name FROM news;`);
+    console.log('existsRows :', existsRows);
+    // try {
+    //   await sendQuery(`INSERT INTO news (news_uid, source) VALUES ('${row.news_uid}', '${row.source}');`);
+    //   await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
+    //   await sendQuery(`INSERT INTO company_news (news_uid, symbol_uid) VALUES ('${row.news_uid}', '${r.symbol_uid}');`);
+    // } catch (error) {
+    //   await sendQuery(`DELETE FROM news WHERE news_uid='${row.news_uid}';`);
+    //   await sendQuery(`DELETE FROM company_news WHERE news_uid='${row.news_uid}';`);
+    // }
 
     connection.end();
   }
