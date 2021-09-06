@@ -176,7 +176,8 @@ export default class StockNewsManager {
     const companyInfos = await this.selectAllCompanyInfo();
     const companyMap = toMap(companyInfos, info => info.symbol);
 
-    return this.update(companyMap);
+    await this.update(companyMap);
+    return this.filterNews();
   }
 
   async update(companyMap) {
