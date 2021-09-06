@@ -10,8 +10,8 @@ import StockNewsManager from './StockNewsManager';
 const mgr = new StockNewsManager();
 const run = async () => {
   try {
-    // await mgr.run();
-    await mgr.run2();
+    await mgr.run();
+    // await mgr.run2();
   } catch (error) {
     console.log('error :', error);
   }
