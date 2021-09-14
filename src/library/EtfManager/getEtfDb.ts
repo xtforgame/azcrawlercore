@@ -1,7 +1,7 @@
 // ========================================
 import axios from 'axios';
 import puppeteer from 'puppeteer';
-import { promiseReduce } from './utils';
+import { promiseReduce } from '../utils';
 // ========================================
 
 // const ratingUrl = 'https://www.gurufocus.com/etf/QQQ';
