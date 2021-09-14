@@ -17,10 +17,10 @@ export default class EtfManager {
   }
 
   async getSymbolList() {
-    const symbolList = fs.readdirSync('../apify_storage/key_value_stores/symbols');
+    const symbolList = fs.readdirSync('apify_storage/key_value_stores/symbols');
     return symbolList.map((s) => {
       const symbol = s.replace(/\.json/g, '');
-      const symbolData = fs.readFileSync(`../apify_storage/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
+      const symbolData = fs.readFileSync(`apify_storage/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
       const symbolJson = JSON.parse(symbolData);
       return {
         symbol,
@@ -75,7 +75,7 @@ export default class EtfManager {
 
   async run() {
     // return this.update({});
-    // return this.crawler.fetch();
+    await this.crawler.fetch();
     const companyInfos = await this.selectAllCompanyInfo();
     const companyMap = toMap(companyInfos, info => info.symbol);
     // console.log('companyMap :', companyMap);
@@ -213,7 +213,7 @@ export default class EtfManager {
   
       let profileJson : any = {};
       try {
-        const profileData = fs.readFileSync(`../apify_storage/key_value_stores/etfDbProfile/${symbol}.json`, { encoding: 'utf-8' });
+        const profileData = fs.readFileSync(`apify_storage/key_value_stores/etfDbProfile/${symbol}.json`, { encoding: 'utf-8' });
         profileJson = JSON.parse(profileData);
       } catch (error) {
         return;
@@ -221,7 +221,7 @@ export default class EtfManager {
 
       let scoreJson : any = {};
       try {
-        const scoreData = fs.readFileSync(`../apify_storage/key_value_stores/etfDbScore/${symbol}.json`, { encoding: 'utf-8' });
+        const scoreData = fs.readFileSync(`apify_storage/key_value_stores/etfDbScore/${symbol}.json`, { encoding: 'utf-8' });
         scoreJson = JSON.parse(scoreData);
       } catch (error) {
         
@@ -229,7 +229,7 @@ export default class EtfManager {
   
       let gurufocusJson : any = {};
       try {
-        const gurufocusData = fs.readFileSync(`../apify_storage/key_value_stores/gurufocus/${symbol}.json`, { encoding: 'utf-8' });
+        const gurufocusData = fs.readFileSync(`apify_storage/key_value_stores/gurufocus/${symbol}.json`, { encoding: 'utf-8' });
         gurufocusJson = JSON.parse(gurufocusData);
       } catch (error) {
         
@@ -400,7 +400,7 @@ export default class EtfManager {
 
       let gurufocusJson : any = {};
       try {
-        const gurufocusData = fs.readFileSync(`../apify_storage/key_value_stores/gurufocus/${r.symbol}.json`, { encoding: 'utf-8' });
+        const gurufocusData = fs.readFileSync(`apify_storage/key_value_stores/gurufocus/${r.symbol}.json`, { encoding: 'utf-8' });
         gurufocusJson = JSON.parse(gurufocusData);
       } catch (error) {
         
