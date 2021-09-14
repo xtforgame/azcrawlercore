@@ -2,8 +2,8 @@ import mysql from 'mysql';
 import { v4 } from 'uuid';
 import fs from 'fs-extra';
 import CrawlerBase, { PuppeteerHandlePageArg } from '../core/CrawlerBase';
-import getGuru from '../getGuru';
-import getEtfDb from '../getEtfDb';
+import getGuru from './getGuru';
+import getEtfDb from './getEtfDb';
 import EtfManager from '../EtfManager';
 import utils, { promiseReduce, toMap } from '../utils';
 
