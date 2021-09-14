@@ -29,6 +29,10 @@ export default class Crawler extends CrawlerBase {
   }
 
   fetch = async () => {
+    try {
+      await fs.remove(`${process.env.APIFY_LOCAL_STORAGE_DIR}`);
+    } catch (error) {
+    }
     // Apify.openRequestQueue() creates a preconfigured RequestQueue instance.
     // We add our first request to it - the initial page the crawler will visit.
     const requestQueue = await Apify.openRequestQueue();
