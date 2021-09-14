@@ -37,13 +37,52 @@ export default class Crawler extends CrawlerBase {
     // We add our first request to it - the initial page the crawler will visit.
     const requestQueue = await Apify.openRequestQueue();
     const symbolStore = await Apify.openKeyValueStore('symbols');
-    await requestQueue.addRequest({ url: this.getCurrentUrl() });
+    const requestStore = await Apify.openKeyValueStore('requests');
+    const req = await requestQueue.addRequest({ url: this.getCurrentUrl() });
+    await requestStore.setValue(req.requestId, {
+      type: 'list',
+    });
 
     // Create an instance of the PuppeteerCrawler class - a crawler
     // that automatically loads the URLs in headless Chrome / Puppeteer.
     const crawler = new Apify.PuppeteerCrawler({
       requestQueue,
       ...await this.getPuppeteerCrawlerOptions(),
+      preNavigationHooks: [
+        async (crawlingContext, gotoOptions) => {
+          const { page } = crawlingContext;
+          const info = await requestStore.getValue(crawlingContext.request.id);
+          page.setRequestInterception(true);
+          page.on('request', (request) => {
+            if (['image', 'stylesheet', 'font', 'script'].indexOf(request.resourceType()) !== -1) {
+              request.abort();
+            } else {
+              request.continue();
+            }
+          });
+          if (info?.type === 'quote') {
+            // page.on('response', (resp) => {
+            //   const url = resp.url();
+            //   console.log('url :', url);
+            //   // if (!fulfill && url.includes('fundamental_data')) {
+            //   //   fulfill = true;
+            //   //   resp.json().then(resolve);
+            //   // }
+            // });
+            // setTimeout(() => {
+            //   if (!fulfill) {
+            //     fulfill = true;
+            //     reject(new Error('Expired'));
+            //   }
+            // }, 15000);
+          }
+
+
+          // const { page } = crawlingContext;
+          // // console.log('page :', page);
+          // await page.evaluate((attr) => { window.foo = attr; }, 'bar');
+        },
+      ],
       handlePageFunction: async ({ request, page }) => {
         // console.log('page :', page);
         console.log(`Processing ${request.url}...`);
