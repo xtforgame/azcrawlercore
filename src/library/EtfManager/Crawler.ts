@@ -157,54 +157,54 @@ export default class Crawler extends CrawlerBase {
 
 
   onDone = async () => {
-    // const symbolStore = await Apify.openKeyValueStore('symbols');
-    // const gurufocusStore = await Apify.openKeyValueStore('gurufocus');
-    // const etfDbProfileStore = await Apify.openKeyValueStore('etfDbProfile');
-    // const etfDbScoreStore = await Apify.openKeyValueStore('etfDbScore');
+    const symbolStore = await Apify.openKeyValueStore('symbols');
+    const gurufocusStore = await Apify.openKeyValueStore('gurufocus');
+    const etfDbProfileStore = await Apify.openKeyValueStore('etfDbProfile');
+    const etfDbScoreStore = await Apify.openKeyValueStore('etfDbScore');
 
-    // const etfInfo : any[] = [];
-    // await symbolStore.forEachKey(async (key, index, info) => {
-    //   const value = await symbolStore.getValue(key);
-    //   etfInfo.push({
-    //     key, index, info, value,
-    //   });
-    // });
+    const etfInfo : any[] = [];
+    await symbolStore.forEachKey(async (key, index, info) => {
+      const value = await symbolStore.getValue(key);
+      etfInfo.push({
+        key, index, info, value,
+      });
+    });
 
 
-    // const sliceIntoChunks = (arr, chunkSize) => {
-    //   const res : any[] = [];
-    //   for (let i = 0; i < arr.length; i += chunkSize) {
-    //     const chunk = arr.slice(i, i + chunkSize);
-    //     res.push(chunk);
-    //   }
-    //   return res;
-    // };
+    const sliceIntoChunks = (arr, chunkSize) => {
+      const res : any[] = [];
+      for (let i = 0; i < arr.length; i += chunkSize) {
+        const chunk = arr.slice(i, i + chunkSize);
+        res.push(chunk);
+      }
+      return res;
+    };
 
-    // const etfInfoChunks : any[][] = sliceIntoChunks(etfInfo, 20);
-    // await promiseReduce(etfInfoChunks, async (_, etfInfoChunk) => {
-    //   const keys = etfInfoChunk.map(v => v.key);
+    const etfInfoChunks : any[][] = sliceIntoChunks(etfInfo, 20);
+    await promiseReduce(etfInfoChunks, async (_, etfInfoChunk) => {
+      const keys = etfInfoChunk.map(v => v.key);
 
-    //   const [etfDbResults, guruResults] = await Promise.all([
-    //     getEtfDb(keys),
-    //     getGuru(etfInfoChunk),
-    //   ]);
-    //   await Promise.all(etfDbResults.profiles.map(async (d) => {
-    //     // console.log('d :', d);
-    //     await etfDbProfileStore.setValue(d.key, d);
-    //   }));
-    //   await Promise.all(etfDbResults.ratings.map(async (d) => {
-    //     // console.log('d :', d);
-    //     await etfDbScoreStore.setValue(d.key, d);
-    //   }));
+      const [etfDbResults, guruResults] = await Promise.all([
+        getEtfDb(keys),
+        getGuru(etfInfoChunk),
+      ]);
+      await Promise.all(etfDbResults.profiles.map(async (d) => {
+        // console.log('d :', d);
+        await etfDbProfileStore.setValue(d.key, d);
+      }));
+      await Promise.all(etfDbResults.ratings.map(async (d) => {
+        // console.log('d :', d);
+        await etfDbScoreStore.setValue(d.key, d);
+      }));
 
-    //   await Promise.all(guruResults.map(async (d) => {
-    //     // console.log('d :', d);
-    //     await gurufocusStore.setValue(d.key, d);
-    //   }));
-    //   console.log('guruResults :', guruResults);
-    // }, null);
+      await Promise.all(guruResults.map(async (d) => {
+        // console.log('d :', d);
+        await gurufocusStore.setValue(d.key, d);
+      }));
+      console.log('guruResults :', guruResults);
+    }, null);
 
-    // // const d2 = await getEtfDb(`https://etfdb.com/etf/${key}/#realtime-rating`);
-    // // console.log('d2 :', d2);
+    // const d2 = await getEtfDb(`https://etfdb.com/etf/${key}/#realtime-rating`);
+    // console.log('d2 :', d2);
   }
 }
