@@ -1,7 +1,7 @@
 import mysql from 'mysql';
 import { v4 } from 'uuid';
 import fs from 'fs-extra';
-
+import CrawlerBase, { PuppeteerHandlePageArg } from '../core/CrawlerBase';
 import getGuru from '../getGuru';
 import getEtfDb from '../getEtfDb';
 import EtfManager from '../EtfManager';
@@ -19,13 +19,7 @@ const exchanges = [
   { id: 'nyse', name: 'NYSE' },
 ];
 
-export default class Crawler {
-  fetchCounter : number;
-
-  constructor() {
-    this.fetchCounter = 0;
-  }
-
+export default class Crawler extends CrawlerBase {
   getCurrentUrl() {
     if (!exchanges[this.fetchCounter]) {
       return '';
@@ -45,30 +39,7 @@ export default class Crawler {
     // that automatically loads the URLs in headless Chrome / Puppeteer.
     const crawler = new Apify.PuppeteerCrawler({
       requestQueue,
-
-      // Here you can set options that are passed to the Apify.launchPuppeteer() function.
-      launchContext: {
-        launchOptions: {
-          headless: true,
-
-          // devtools: true,
-          // headless: false,
-          // slowMo: 250,
-
-          // Other Puppeteer options
-        },
-      },
-      handlePageTimeoutSecs: 999999,
-
-      // Stop crawling after several pages
-      // maxRequestsPerCrawl: 50,
-
-      // This function will be called for each URL to crawl.
-      // Here you can write the Puppeteer scripts you are familiar with,
-      // with the exception that browsers and pages are automatically managed by the Apify SDK.
-      // The function accepts a single parameter, which is an object with the following fields:
-      // - request: an instance of the Request class with information such as URL and HTTP method
-      // - page: Puppeteer's Page object (see https://pptr.dev/#show=api-class-page)
+      ...await this.getPuppeteerCrawlerOptions(),
       handlePageFunction: async ({ request, page }) => {
         // console.log('page :', page);
         console.log(`Processing ${request.url}...`);
