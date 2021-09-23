@@ -26,8 +26,8 @@ services:
       - "../secrets:/usr/volumes/share/secrets"
 
     # command: bash -c "bash docker-cmd.sh && yarn fetch-etf"
-    command: bash -c "bash docker-cmd.sh && yarn fetch-news"
-    # command: bash -c "bash docker-cmd.sh && yarn fetch-stock-detail"
+    # command: bash -c "bash docker-cmd.sh && yarn fetch-news"
+    command: bash -c "bash docker-cmd.sh && yarn fetch-stock-detail"
     # command: bash -c "bash docker-cmd.sh && yarn fetch-full"
     extra_hosts:
       - "host.docker.internal:host-gateway"
