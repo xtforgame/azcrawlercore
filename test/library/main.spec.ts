@@ -8,7 +8,12 @@ import {
   err01,
 } from '../test-data';
 
-const { expect } = chai;
+declare const describe;
+declare const beforeEach;
+declare const afterEach;
+declare const it;
+
+const { expect } = <any>chai;
 
 describe('Main Test Cases', () => {
   describe('Basic', () => {
@@ -35,7 +40,7 @@ describe('Main Test Cases', () => {
       let then = false;
       return mainFunc(null, err01)
         .then(() => {
-          then = 1;
+          then = true;
           throw Error();
         })
         .catch((result) => {

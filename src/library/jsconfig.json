@@ -4,7 +4,6 @@
     "paths": {
       "*": ["./node_modules/*"],
       "~/*": ["./src/library/*"],
-      "config": ["./src/library/configs/development"]
     }
   }
 }
