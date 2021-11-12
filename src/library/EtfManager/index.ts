@@ -3,7 +3,6 @@ import { v4 } from 'uuid';
 import fs from 'fs';
 import moment from 'moment';
 import { promiseReduce, toMap } from '../utils';
-import { translate } from '../core/translate';
 import Crawler from './Crawler';
 
 
@@ -199,7 +198,6 @@ export default class EtfManager {
       if (result != null) {
         return result;
       }
-      result = await translate(s, 'text', subMap);
       if (result) {
         subMap[s] = result;
       }

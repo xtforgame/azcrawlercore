@@ -73,106 +73,8 @@ export default class StockNewsManager {
     return results;
   }
 
-  // async run2() {
-  //   return this.translate();
-  //   // return this.crawler.fetch();
-  //   const companyInfos = await this.selectAllCompanyInfo();
-  //   const companyMap = toMap(companyInfos, info => info.symbol);
-  //   // console.log('companyMap :', companyMap);
-  //   const etfInfos = await this.selectAllEtfInfo();
-
-  //   await this.execInDb(async (c) => {
-  //     await promiseReduce(etfInfos, async (_, i) => {
-  //       if (!companyMap[i.symbol]) {
-  //         console.log('i.symbol :', i.symbol);
-  //       }
-  //       // const x : any = await this.sendQuery(c, 'SELECT * from etf_info;');
-  //     }, (<any>null));
-  //   });
-
-  //   return this.update(companyMap);
-  // }
-
-  async translate() {
-    let symbolList = await this.getSymbolList();
-  
-    const updateRecords : any[] = [];
-    // symbolList = symbolList.slice(4, 9);
-    await promiseReduce(symbolList, async (_, s) => {
-      const {
-        symbol,
-        symbolJson,
-      } = s;
-
-      console.log('symbol :', symbol);
-
-      let newsJson : any = {};
-      try {
-        const newsData = fs.readFileSync(`apify_storage/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
-        newsJson = JSON.parse(newsData);
-      } catch (error) {
-        return;
-      }
-      let newsListJson : any = {};
-      try {
-        const newsListData = fs.readFileSync(`apify_storage/key_value_stores/results/${symbol}.json`, { encoding: 'utf-8' });
-        newsListJson = JSON.parse(newsListData);
-      } catch (error) {
-        return;
-      }
-      if (!newsJson.translatedTitle) {
-        try {
-          const { data } = await axios({
-            method: 'post',
-            url: 'https://translation.googleapis.com/language/translate/v2?key=AIzaSyCMVo6AFlZX7maYM1gKdhgFFl9SHps3i3Y',
-            data: {
-              q: newsListJson.scrapedData[0].title,
-              source: 'en',
-              target: 'zh-TW',
-              // format: 'html',
-              format: 'text',
-            },
-          });
-          // console.log('data :', data?.data?.translations?.[0]?.translatedText);
-          newsJson.translatedTitle = data?.data?.translations?.[0]?.translatedText;
-          fs.writeFileSync(`apify_storage/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
-          // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
-        } catch (error) {
-          console.log('error :', error);
-          await promiseWait(60000);
-        }
-        await promiseWait(100);
-      }
-      if (!newsJson.translatedBody) {
-        try {
-          const { data } = await axios({
-            method: 'post',
-            url: 'https://translation.googleapis.com/language/translate/v2?key=AIzaSyCMVo6AFlZX7maYM1gKdhgFFl9SHps3i3Y',
-            data: {
-              q: newsJson.body.replace(/\<div\s*class[^\s]*caas-readmore\s*[^\s]*\<button.*\<\/button\>.*\<\/div\>/g, ''),
-              source: 'en',
-              target: 'zh-TW',
-              format: 'html',
-              // format: 'text',
-            },
-          });
-          // console.log('data :', data?.data?.translations?.[0]?.translatedText);
-          newsJson.translatedBody = data?.data?.translations?.[0]?.translatedText
-          fs.writeFileSync(`apify_storage/key_value_stores/news/${symbol}.json`, JSON.stringify(newsJson), { encoding: 'utf-8' });
-          // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
-          
-        } catch (error) {
-          console.log('error :', error);
-          await promiseWait(60000);
-        }
-        await promiseWait(300);
-      }
-    }, (<any>null));
-  }
-
   async run() {
     await this.crawler.fetch();
-    await this.translate();
     const companyInfos = await this.selectAllCompanyInfo();
     const companyMap = toMap(companyInfos, info => info.symbol);
 
@@ -277,8 +179,8 @@ export default class StockNewsManager {
         source_title: r.newsListJson.scrapedData[0].title,
         source_content: r.newsJson.body,
         source_language: 'en',
-        zh_title: r.newsJson.translatedTitle,
-        zh_content: r.newsJson.translatedBody,
+        zh_title: r.newsListJson.scrapedData[0].title, // r.newsJson.translatedTitle,
+        zh_content: r.newsJson.body, // r.newsJson.translatedBody,
       }
       const x = toSetter(row).join(',');
       // console.log('x :', x);
