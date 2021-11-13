@@ -74,7 +74,7 @@ export default class StockNewsManager {
   }
 
   async run() {
-    // await this.crawler.fetch();
+    await this.crawler.fetch();
     const companyInfos = await this.selectAllCompanyInfo();
     const companyMap = toMap(companyInfos, info => info.symbol);
 
