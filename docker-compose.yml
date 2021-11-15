@@ -20,14 +20,14 @@ services:
       AFS_SECRETS_FOLDER: "/usr/volumes/share/secrets"
 
     volumes:
-      - "../apify_storage:/usr/src/app/apify_storage"
+      # - "../apify_storage:/usr/src/app/apify_storage"
       # - "../apify_storage_z:/usr/src/apify_storage_z"
       - ".:/usr/volumes/src/"
       - "../secrets:/usr/volumes/share/secrets"
 
     # command: bash -c "bash docker-cmd.sh && yarn fetch-etf"
-    command: bash -c "bash docker-cmd.sh && yarn fetch-news"
-    # command: bash -c "bash docker-cmd.sh && yarn fetch-stock-detail"
+    # command: bash -c "bash docker-cmd.sh && yarn fetch-news"
+    command: bash -c "bash docker-cmd.sh && yarn fetch-stock-detail"
     # command: bash -c "bash docker-cmd.sh && yarn fetch-full"
     extra_hosts:
       - "host.docker.internal:host-gateway"
