@@ -1,5 +1,5 @@
 {
-  "name": "az-dev-base",
+  "name": "azcrawlercore",
   "version": "1.0.0",
   "description": "A general purpose seed project base",
   "main": "dist/library/index.js",
@@ -23,11 +23,19 @@
     "build": "cross-env NODE_ENV=production gulp library:build",
     "start": "cross-env NODE_ENV=development gulp library:watch:dev",
     "test": "eslint --ext .js ./test/library && cross-env NODE_ENV=test mocha --require ./test/babel-register.js './test/library/**/*.spec.{j,t}s'",
-    "test-watch": "eslint --ext .js ./test/library && cross-env NODE_ENV=test mocha --watch ./test --watch-extensions js,ts --require ./test/babel-register.js './test/library/**/*.spec.{j,t}s'"
+    "test-watch": "eslint --ext .js ./test/library && cross-env NODE_ENV=test mocha --watch ./test --watch-extensions js,ts --require ./test/babel-register.js './test/library/**/*.spec.{j,t}s'",
+    "fetch-full": "cross-env NODE_ENV=production node --require ./internals/babel-register.js src/library/full",
+    "fetch-full-dev": "cross-env NODE_ENV=development node --require ./internals/babel-register.js src/library/full"
   },
   "license": "MIT",
   "peerDependencies": {},
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.21.1",
+    "fs-extra": "^10.0.0",
+    "moment": "^2.29.1",
+    "puppeteer": "^10.1.0",
+    "uuid": "^8.3.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/plugin-proposal-class-properties": "^7.4.0",

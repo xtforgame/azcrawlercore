@@ -1,10 +1,6 @@
-import utils from './utils';
+import CrawlerBase from './core/CrawlerBase';
 
-export default function echo<T=any>(data : T, err: any = undefined) {
-  return new Promise((resolve : (value: T) => void, reject) => {
-    if (err) {
-      return reject(err);
-    }
-    return resolve(utils(data));
-  });
+export default async function echo<T=any>(data : T, err: any = undefined) {
+  const cb = new CrawlerBase();
+  return cb.run();
 }
