@@ -1,0 +1,42 @@
+# EnvironmentVariableList:
+#   Global:
+#     VXL_IMAGE_NS: vxlinternal
+#     VXL_IMAGE_PROJ: default
+#     VXL_CONTAINER_NS: vxlinternal
+#     VXL_CONTAINER_PROJ: default
+#   Project:
+
+version: '3'
+services:
+  webserver:
+    image: ${VXL_IMAGE_NS:-vxlinternal}/${VXL_IMAGE_PROJ:-default}/azcrawler
+    network_mode: "host"
+    build:
+      context: .
+
+    container_name: ${VXL_CONTAINER_NS:-vxlinternal}-${VXL_CONTAINER_PROJ:-default}-azcrawler
+
+    environment:
+      AFS_SECRETS_FOLDER: "/usr/volumes/share/secrets"
+
+    volumes:
+      # - "../apify_storage:/usr/src/app/apify_storage"
+      # - "../apify_storage_z:/usr/src/apify_storage_z"
+      - ".:/usr/volumes/src/"
+      - "../secrets:/usr/volumes/share/secrets"
+
+    # command: bash -c "bash docker-cmd.sh && yarn fetch-etf"
+    command: bash -c "bash docker-cmd.sh && yarn fetch-news"
+    # command: bash -c "bash docker-cmd.sh && yarn fetch-stock-detail"
+    # command: bash -c "bash docker-cmd.sh && yarn fetch-full"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    # ports:
+    #   # - "22006:443"
+    #   - "80:80"
+
+# networks:
+#   default:
+#     external:
+#       name: mainginx_net

@@ -1,0 +1,266 @@
+import mysql from 'mysql';
+import axios from 'axios';
+import moment from 'moment';
+import { v4 } from 'uuid';
+import fs from 'fs';
+import { promiseReduce, toMap, promiseWait } from '../utils';
+import Crawler from './Crawler';
+
+
+export type ExecFunc = (connection : any) => Promise<any>;
+
+export default class StockNewsManager {
+  crawler: Crawler;
+
+  constructor () {
+    this.crawler = new Crawler();
+  }
+
+  async getSymbolList() {
+    const symbolList = fs.readdirSync('apify_storage/key_value_stores/symbols');
+    return symbolList.map((s) => {
+      const symbol = s.replace(/\.json/g, '');
+      const symbolData = fs.readFileSync(`apify_storage/key_value_stores/symbols/${s}`, { encoding: 'utf-8' });
+      const symbolJson = JSON.parse(symbolData);
+      return {
+        symbol,
+        symbolJson,
+      }
+    });
+  }
+
+  async execInDb(run : ExecFunc) {
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: 'mrlp2938!@#',
+      database: 'gugu',
+    });
+    connection.connect();
+
+    try {
+      await run(connection);
+    } catch (error) {
+      
+    }
+    connection.end();
+  }
+
+  sendQuery = async (connection, q) => new Promise((resolve, reject) => {
+    connection.query(q, (error, results, fields) => {
+      if (error) return reject(error);
+      resolve({
+        results, fields,
+      });
+    });
+  });
+
+  async selectAllCompanyInfo() {
+    let results : any[] = [];
+    await this.execInDb(async (c) => {
+      const x : any = await this.sendQuery(c, 'SELECT * from company_info;');
+      results = x.results;
+    });
+    return results;
+  }
+
+  async selectAllEtfInfo() {
+    let results : any[] = [];
+    await this.execInDb(async (c) => {
+      const x : any = await this.sendQuery(c, 'SELECT * from etf_info;');
+      results = x.results;
+    });
+    return results;
+  }
+
+  async run() {
+    await this.crawler.fetch();
+    const companyInfos = await this.selectAllCompanyInfo();
+    const companyMap = toMap(companyInfos, info => info.symbol);
+
+    await this.update(companyMap);
+    return this.filterNews();
+  }
+
+  async update(companyMap) {
+    const symbolList = await this.getSymbolList();
+  
+    const updateRecords : any[] = [];
+    await promiseReduce(symbolList, async (_, s) => {
+      const {
+        symbol,
+        symbolJson,
+       } = s;
+  
+      let newsListJson : any = {};
+      try {
+        const newsListData = fs.readFileSync(`apify_storage/key_value_stores/results/${symbol}.json`, { encoding: 'utf-8' });
+        newsListJson = JSON.parse(newsListData);
+      } catch (error) {
+        return;
+      }
+
+      let newsJson : any = {};
+      try {
+        const newsData = fs.readFileSync(`apify_storage/key_value_stores/news/${symbol}.json`, { encoding: 'utf-8' });
+        newsJson = JSON.parse(newsData);
+      } catch (error) {
+        
+      }
+
+      // console.log('gurufocusJson.price :', gurufocusJson.price);
+      // console.log('gurufocusJson.bestMultipiler :', gurufocusJson.bestMultipiler);
+  
+      // console.log('symbolJson :', symbolJson);
+      // console.log('profileJson :', profileJson);
+      // const news = toMap<any>(newsJson.profile, d => d.key);
+      // console.log('profile :', profile);
+  
+      // const x = await sendQuery(`UPDATE etf_info SET symbol = '${symbol}', issuer = '${}' WHERE symbol_uid = '${symbol}'`)
+
+      updateRecords.push({
+        symbol,
+        newsListJson,
+        newsJson,
+      });
+    }, (<any>null));
+
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: 'mrlp2938!@#',
+      database: 'gugu',
+    });
+  
+    connection.connect();
+  
+    const sendQuery = (q) => new Promise((resolve, reject) => {
+      connection.query(q, (error, results, fields) => {
+        if (error) return reject(error);
+        resolve({
+          results, fields,
+        });
+      });
+    });
+
+    // await sendQuery(`TRUNCATE TABLE news;`);
+    // await sendQuery(`TRUNCATE TABLE company_news;`);
+    await sendQuery(`ALTER TABLE news MODIFY source_title VARCHAR(500);`);
+    await sendQuery(`ALTER TABLE news MODIFY thumbnail VARCHAR(500);`);
+    await promiseReduce(updateRecords, async (_, r) => {
+      const toSetter = (r) => {
+        const keys = Object.keys(r);
+        return keys.map((k) => {
+          if (r[k] != null) {
+            return `${k} = '${`${r[k]}`.replace(/\'/g, '\'\'')}'`;
+          }
+          return `${k} = NULL`;
+        });
+      }
+      if (!companyMap[r.symbol]) {
+        return;
+      }
+      r.symbol_uid = companyMap[r.symbol].symbol_uid;
+      if (!r.newsListJson.scrapedData[0]) {
+        return;
+      }
+
+      if (r.newsJson.body?.length > 65535) {
+        return;
+      }
+
+      const date = moment(r.newsListJson.scrapedData[0].date);
+      const row = {
+        news_uid: v4(),
+        thumbnail: r.newsJson.thumbnail,
+        source: r.newsListJson.scrapedData[0].link,
+        source_name: r.newsListJson.scrapedData[0].src,
+        date: date.isValid() ? date.format('YYYY-MM-DD HH:mm:ss') : null,
+        source_title: r.newsListJson.scrapedData[0].title,
+        source_content: r.newsJson.body,
+        source_language: 'en',
+        zh_title: r.newsListJson.scrapedData[0].title, // r.newsJson.translatedTitle,
+        zh_content: r.newsJson.body, // r.newsJson.translatedBody,
+      }
+      const x = toSetter(row).join(',');
+      // console.log('x :', x);
+      const existsRows = await sendQuery(`SELECT news_uid FROM news WHERE source = '${row.source}';`);
+      if (existsRows.results.length) {
+        await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
+      } else {
+        try {
+          await sendQuery(`INSERT INTO news (news_uid, source) VALUES ('${row.news_uid}', '${row.source}');`);
+          await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
+          await sendQuery(`INSERT INTO company_news (news_uid, symbol_uid) VALUES ('${row.news_uid}', '${r.symbol_uid}');`);
+        } catch (error) {
+          await sendQuery(`DELETE FROM news WHERE news_uid='${row.news_uid}';`);
+          await sendQuery(`DELETE FROM company_news WHERE news_uid='${row.news_uid}';`);
+        }
+      }
+      // await sendQuery(`UPDATE news SET ${x} WHERE symbol = '${r.symbol}';`);
+    }, (<any>null));
+  
+    // await promiseReduce(updateRecords, async (_, r) => {
+    //   const toSetter = (r) => {
+    //     const keys = Object.keys(r);
+    //     return keys.map((k) => {
+    //       if (r[k] != null) {
+    //         return `${k} = '${`${r[k]}`.replace(/\'/g, '\'\'')}'`;
+    //       }
+    //       return `${k} = NULL`;
+    //     });
+    //   }
+    //   if (!companyMap[r.symbol]) {
+    //     return;
+    //   }
+    //   r.symbol_uid = companyMap[r.symbol].symbol_uid;
+    //   const x = toSetter(r).join(',');
+    //   await sendQuery(`UPDATE etf_info SET ${x} WHERE symbol = '${r.symbol}';`);
+    // }, (<any>null));
+    // const xx : any = await sendQuery(`SELECT * FROM etf_info;`);
+    // console.log('xx.results :', xx.results);
+
+    connection.end();
+  }
+
+  async run2() {
+    return this.filterNews();
+  }
+
+  async filterNews() {
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: 'mrlp2938!@#',
+      database: 'gugu',
+    });
+  
+    connection.connect();
+  
+    const sendQuery = (q) => new Promise((resolve, reject) => {
+      connection.query(q, (error, results, fields) => {
+        if (error) return reject(error);
+        resolve({
+          results, fields,
+        });
+      });
+    });
+    
+
+    // const existsRows = await sendQuery(`SELECT news_uid, source_name FROM news WHERE source_name LIKE 'Motley Fool%' OR source_name LIKE 'MarketWatch%';`);
+    // console.log('existsRows :', existsRows);
+
+    await sendQuery(`DELETE FROM news WHERE source_name LIKE 'Motley Fool%' OR source_name LIKE 'MarketWatch%' OR source_name LIKE 'Barrons.com%';`);
+
+    // try {
+    //   await sendQuery(`INSERT INTO news (news_uid, source) VALUES ('${row.news_uid}', '${row.source}');`);
+    //   await sendQuery(`UPDATE news SET ${x} WHERE source = '${row.source}';`);
+    //   await sendQuery(`INSERT INTO company_news (news_uid, symbol_uid) VALUES ('${row.news_uid}', '${r.symbol_uid}');`);
+    // } catch (error) {
+    //   await sendQuery(`DELETE FROM news WHERE news_uid='${row.news_uid}';`);
+    //   await sendQuery(`DELETE FROM company_news WHERE news_uid='${row.news_uid}';`);
+    // }
+
+    connection.end();
+  }
+}
