@@ -1,7 +1,10 @@
 /* eslint-disable no-unused-vars, no-undef */
 
 import chai from 'chai';
-import mainFunc from 'library';
+// import EtfManager from 'library/EtfManager';
+import StockNewsManager from 'library/StockNewsManager';
+// import StockLabelManager from 'library/StockLabelManager';
+// import StockDetailManager from 'library/StockDetailManager';
 
 import {
   data01,
@@ -16,40 +19,18 @@ declare const it;
 const { expect } = <any>chai;
 
 describe('Main Test Cases', () => {
-  describe('Basic', () => {
-    it('mainFunc should be a function', () => {
-      expect(mainFunc).to.be.an.instanceof(Function);
-      return true;
-    });
-
-    it('mainFunc should return a Promise', () => {
-      const result = mainFunc({ xxx: 'xxx' });
-      expect(result).to.be.an.instanceof(Promise);
-      return true;
+  describe('Echo Test', function () {
+    this.timeout(30000000);
+    it('.then()', async () => {
+      const mgr = new StockNewsManager();
+      await mgr.run();
     });
   });
-
-  describe('Echo Test', () => {
-    it('.then()', () => mainFunc(data01)
-        .then((result) => {
-          expect(result).to.exists;
-          expect(result.val01).to.equal(1);
-        }));
-
-    it('.catch()', () => {
-      let then = false;
-      return mainFunc(null, err01)
-        .then(() => {
-          then = true;
-          throw Error();
-        })
-        .catch((result) => {
-          if (then) {
-            throw Error();
-          }
-          expect(result).to.exists;
-          expect(result.message).to.equal('Error');
-        });
-    });
-  });
+  // describe('Echo Test', function () {
+  //   this.timeout(30000000);
+  //   it('.then()', async () => {
+  //     const etfManager = new EtfManager();
+  //     await etfManager.run();
+  //   });
+  // });
 });

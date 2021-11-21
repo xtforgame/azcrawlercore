@@ -1,18 +1,13 @@
 {
   "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": { 
-          "node": "10"
-        },
-        "forceAllTransforms": true
+    ["@babel/preset-env", {
+      "targets": { 
+        "node": "10"
       }
-    ],
-    "@babel/typescript",
+    }],
+    "@babel/typescript"
   ],
   "plugins": [
-    ["@babel/proposal-decorators", { "decoratorsBeforeExport": true }],
     "@babel/proposal-class-properties",
     "@babel/proposal-object-rest-spread"
   ],
