@@ -1,22 +1,26 @@
-import puppeteer, { launch } from 'puppeteer';
-import { promiseWait } from '~/utils';
+import fs from 'fs';
+import path from 'path';
+import moment from 'moment';
+import puppeteer, { launch, Browser } from 'puppeteer';
+import useProxy from 'puppeteer-page-proxy';
+import { promiseWait, promiseWaitFor } from '~/utils';
 
 export type PuppeteerLaunchOptions = Parameters<typeof launch>[0];
 
 export default class CrawlerBase {
-  fetchCounter: number;
-
-  constructor() {
-    this.fetchCounter = 0;
-  }
 
   getPuppeteerLaunchOptions(debug : boolean = false) : PuppeteerLaunchOptions {
+    const args = [
+      `--window-size=1920,1080`,
+    ];
     const options : PuppeteerLaunchOptions = debug ? {
       devtools: true,
       headless: false,
       slowMo: 250,
+      args,
     } : {
-      headless: false,
+      headless: true,
+      args,
     };
     if (process.env.IN_DOCKER) {
       return {
@@ -34,19 +38,30 @@ export default class CrawlerBase {
           '--single-process',
           '--disable-web-security',
           '--disable-dev-profile',
+          ...(options.args || []),
         ],
       };
     }
     return options;
   }
 
-  async run() {
-    const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(true));
+  async newPage(browser: Browser, url: string = '') {
     const page = await browser.newPage();
     await page.setViewport({
       width: 1920,
       height: 1080,
     });
+    if (url) {
+      await page.goto(url, {
+        waitUntil: 'networkidle2',
+      });
+    }
+    return page;
+  }
+
+  async run() {
+    const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(true));
+    const page = await this.newPage(browser);
     // console.log('page');
     const p = new Promise((resolve, reject) => {
       let fulfill = false;

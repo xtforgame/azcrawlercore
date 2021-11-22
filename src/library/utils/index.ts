@@ -76,6 +76,25 @@ export function promiseWait(waitMillisec) {
   });
 }
 
+export function promiseWaitFor(intervalMillisec, func : () => any) {
+  let genPromise : any;
+  genPromise = () => Promise.resolve()
+  .then(() => {
+    return Promise.resolve(func())
+    .then((result) => {
+      if (result) {
+        return result;
+      }
+      
+      return promiseWait(intervalMillisec).then(genPromise)
+    })
+    .catch((result) => {
+      return promiseWait(intervalMillisec).then(genPromise)
+    })
+  });
+  return genPromise();
+}
+
 export function toMap<T1, T2 = T1>(
   inArray : T1[],
   getId : (t: T1, i: number, array: T1[]) => any,
