@@ -37,13 +37,17 @@ WORKDIR /usr/src/app
 # ONBUILD COPY . /usr/src/app
 ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
-COPY package.json /usr/src/app/
+COPY package.json yar[n].lock package-loc[k].json /usr/src/app/
 # RUN npm install && npm cache clean --force
 # RUN apk add --no-cache --virtual .build-deps alpine-sdk python \
 #  && npm install --production --silent \
 #  && apk del .build-deps
+
+# RUN apk add --no-cache --virtual .build-deps alpine-sdk python \
+#  && npm install && npm cache clean --force \
+#  && apk del .build-deps
 RUN apk add --no-cache --virtual .build-deps alpine-sdk python \
- && npm install && npm cache clean --force \
+ && yarn install && yarn cache clean \
  && apk del .build-deps
 COPY . /usr/src/app
 # ========
