@@ -200,8 +200,10 @@ export default class CrawlerBase {
     //   { title: '會員編號', get: (row, i) => 'XXX' },
     // ];
     const transform = (row, i) => header.reduce((m, h) => ({ ...m, [h.title]: h.get(row, i) }), {});
+    const transform2 = (h, i) => [h.title, ...rowsToDownload.map((row) => h.get(row, i))];
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(rowsToDownload.map(transform), { header: header.map(h => h.title) });
+    const ws = XLSX.utils.aoa_to_sheet(header.map(transform2));
+    // const ws = XLSX.utils.json_to_sheet(rowsToDownload.map(transform), { header: header.map(h => h.title) });
     const wscols = header.map(h => ({ wch: 20 }));
     ws['!cols'] = wscols;
 
