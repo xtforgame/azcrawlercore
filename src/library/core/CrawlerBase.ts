@@ -120,7 +120,7 @@ export default class CrawlerBase {
   }
 
   getStream(json) {
-    const rowsToDownload = json;
+    const rowsToDownload = json.filter(r => r['付款狀態'] === '已付款');
     console.log('rowsToDownload :', rowsToDownload);
     const h = [
       '訂單號碼',
@@ -173,9 +173,27 @@ export default class CrawlerBase {
       '會員註冊來源',
       '兌換贈品點數',
     ];
-    const header = h.map(hh => (
-      { title: hh, get: (row, i) => row[hh] }
-    ));
+    // const header = h.map(hh => (
+    //   { title: hh, get: (row, i) => row[hh] }
+    // ));
+
+    const header = [
+      { title: '客戶代號', get: (row, i) => '' },
+      { title: '專案代號', get: (row, i) => '' },
+      { title: '會員編號', get: (row, i) => row['顧客 ID'] },
+      { title: '會員姓名', get: (row, i) => row['顧客'] },
+      { title: '品號', get: (row, i) => row['商品貨號']  }, // 商品名稱
+      { title: '訂單數量', get: (row, i) => row['數量'] },
+      { title: '單價', get: (row, i) => row['結帳價類型'] === '原價' ? row['商品原價'] : row['商品結帳價'] },
+      { title: '發票號碼', get: (row, i) => row['發票號碼'] },
+      { title: '訂單編號', get: (row, i) => row['訂單號碼'] },
+      { title: '備註', get: (row, i) => row['出貨備註'] },
+      { title: '收件人', get: (row, i) => row['收件人'] },
+      { title: '聯絡電話(一)', get: (row, i) => row['電話號碼'] },
+      { title: '聯絡電話(二)', get: (row, i) => row['收件人電話號碼'] },
+      { title: '送貨地址(一)', get: (row, i) => row['完整地址'] }, // `${row['國家／地區']} ${row['地區/州/省份']} ${row['城市']} ${row['郵政編號（如適用)']} ${row['地址 1']}` },
+      { title: '送貨地址(二)', get: (row, i) => '' }, // row['地址 2'] },
+    ];
     // [
     //   { title: '訂單編號', get: (row, i) => i },
     //   { title: '專案代號', get: (row, i) => 'XXX' },
@@ -261,7 +279,7 @@ export default class CrawlerBase {
       await page.$eval('#staff_password', ($input) => $input.value = 'qqwqqwqqw');
       await page.click('#new_staff button[name=button]');
       await promiseWait(3000);
-      await page.goto('https://admin.shoplineapp.com/admin/info1291/orders?createdBy=admin', {
+      await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin', {
         waitUntil: 'networkidle2',
       });
       await page.click('.btn.btn-primary.ng-binding.dropdown-toggle');
@@ -276,7 +294,7 @@ export default class CrawlerBase {
       await page.click('input[name=duringDates]');
 
       await promiseWait(1000);
-      await page.type('input[name=duringDates] ~ div div:nth-child(1) div.date-picker-container.date-picker-v2.date input', '2021/04/12', {
+      await page.type('input[name=duringDates] ~ div div:nth-child(1) div.date-picker-container.date-picker-v2.date input', '2021/12/02', {
         delay: 200,
       });
       // await page.type('input[name=duringDates] ~ div div:nth-child(2) div.date-picker-container.date-picker-v2.date input', '2021/04/12');
@@ -314,7 +332,7 @@ export default class CrawlerBase {
       });
 
       await promiseWait(3000);
-      await page.goto('https://admin.shoplineapp.com/admin/info1291/jobs', {
+      await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/jobs', {
         waitUntil: 'networkidle2',
       });
       await page._client.send('Page.setDownloadBehavior', {
