@@ -21,6 +21,8 @@ function bufferToStream(buffer) {
   return stream;
 }
 
+const today = moment('2021-12-03');
+
 export default class CrawlerBase {
   goa2c?: GoogleOAuth2Client;
 
@@ -178,32 +180,40 @@ export default class CrawlerBase {
     // ));
 
     const header = [
-      { title: '客戶代號', get: (row, i) => '' },
-      { title: '專案代號', get: (row, i) => '' },
+      { title: '客戶代號', get: (row, i) => 'FG0003' },
+      { title: '專案代號', get: (row, i) => 'I' },
       { title: '會員編號', get: (row, i) => row['顧客 ID'] },
       { title: '會員姓名', get: (row, i) => row['顧客'] },
       { title: '品號', get: (row, i) => row['商品貨號']  }, // 商品名稱
       { title: '訂單數量', get: (row, i) => row['數量'] },
       { title: '單價', get: (row, i) => row['結帳價類型'] === '原價' ? row['商品原價'] : row['商品結帳價'] },
       { title: '發票號碼', get: (row, i) => row['發票號碼'] },
-      { title: '訂單編號', get: (row, i) => row['訂單號碼'] },
+      { title: '訂單編號', get: (row, i) => (row['訂單號碼'] || '').replace('#', '') },
       { title: '備註', get: (row, i) => row['出貨備註'] },
       { title: '收件人', get: (row, i) => row['收件人'] },
       { title: '聯絡電話(一)', get: (row, i) => row['電話號碼'] },
       { title: '聯絡電話(二)', get: (row, i) => row['收件人電話號碼'] },
       { title: '送貨地址(一)', get: (row, i) => row['完整地址'] }, // `${row['國家／地區']} ${row['地區/州/省份']} ${row['城市']} ${row['郵政編號（如適用)']} ${row['地址 1']}` },
       { title: '送貨地址(二)', get: (row, i) => '' }, // row['地址 2'] },
+      { title: '註冊email', get: (row, i) => row['電郵'] },
+      { title: '註冊電話', get: (row, i) => row['電話號碼'] },
     ];
     // [
     //   { title: '訂單編號', get: (row, i) => i },
     //   { title: '專案代號', get: (row, i) => 'XXX' },
     //   { title: '會員編號', get: (row, i) => 'XXX' },
     // ];
+    // const transform = (row, i) => header.reduce((m, h) => ({ ...m, [h.title]: h.get(row, i) }), {});
+    // const transform2 = (h, i) => [h.title, ...rowsToDownload.map((row) => h.get(row, i))];
+    // const wb = XLSX.utils.book_new();
+    // const ws = XLSX.utils.aoa_to_sheet(header.map(transform2));
+    // // const ws = XLSX.utils.json_to_sheet(rowsToDownload.map(transform), { header: header.map(h => h.title) });
+    // const wscols = header.map(h => ({ wch: 20 }));
+    // ws['!cols'] = wscols;
+
     const transform = (row, i) => header.reduce((m, h) => ({ ...m, [h.title]: h.get(row, i) }), {});
-    const transform2 = (h, i) => [h.title, ...rowsToDownload.map((row) => h.get(row, i))];
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet(header.map(transform2));
-    // const ws = XLSX.utils.json_to_sheet(rowsToDownload.map(transform), { header: header.map(h => h.title) });
+    const ws = XLSX.utils.json_to_sheet(rowsToDownload.map(transform), { header: header.map(h => h.title) });
     const wscols = header.map(h => ({ wch: 20 }));
     ws['!cols'] = wscols;
 
@@ -237,7 +247,7 @@ export default class CrawlerBase {
     const fileName = 'package.json';
     const fileSize = fs.statSync(fileName).size;
     const fileMetadata = {
-      name: `${moment().format('YYYY-MM-DD')}-${new Date().getTime()}.xlsx`,
+      name: `${today.format('YYYY-MM-DD')}-${new Date().getTime()}.xlsx`,
       originalFilename: fileName,
       parents: [folderId],
       mimeType: 'application/vnd.google-apps.spreadsheet',
@@ -296,7 +306,7 @@ export default class CrawlerBase {
       await page.click('input[name=duringDates]');
 
       await promiseWait(1000);
-      await page.type('input[name=duringDates] ~ div div:nth-child(1) div.date-picker-container.date-picker-v2.date input', '2021/12/02', {
+      await page.type('input[name=duringDates] ~ div div:nth-child(1) div.date-picker-container.date-picker-v2.date input', today.format('YYYY/MM/DD'), {
         delay: 200,
       });
       // await page.type('input[name=duringDates] ~ div div:nth-child(2) div.date-picker-container.date-picker-v2.date input', '2021/04/12');
