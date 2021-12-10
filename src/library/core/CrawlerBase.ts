@@ -21,7 +21,7 @@ function bufferToStream(buffer) {
   return stream;
 }
 
-const today = moment('2021-12-03');
+const today = moment('2021-12-07');
 
 export default class CrawlerBase {
   goa2c?: GoogleOAuth2Client;
@@ -122,8 +122,32 @@ export default class CrawlerBase {
   }
 
   getStream(json) {
-    const rowsToDownload = json.filter(r => r['付款狀態'] === '已付款');
-    console.log('rowsToDownload :', rowsToDownload);
+    const rowsToDownload0 = json.filter(r => r['付款狀態'] === '已付款');
+    console.log('rowsToDownload0 :', rowsToDownload0);
+    const rowsToDownload: any[] = [];
+    let pendingRow = null;
+    rowsToDownload0.forEach((r) => {
+      if (pendingRow && pendingRow['訂單號碼'] !== r['訂單號碼']) {
+        rowsToDownload.push(pendingRow);
+        pendingRow = null;
+      }
+      const shippingFee = parseInt(r['運費']);
+      if (shippingFee > 0) {
+        pendingRow = {
+          ...r,
+          '數量': 1,
+          '商品名稱': '運費',
+          '商品貨號': 'ADD-L',
+          '商品原價': shippingFee,
+          '商品結帳價': shippingFee,
+        };
+      }
+      rowsToDownload.push(r);
+    });
+    if (pendingRow) {
+      rowsToDownload.push(pendingRow);
+      pendingRow = null;
+    }
     const h = [
       '訂單號碼',
       '送貨方式',
