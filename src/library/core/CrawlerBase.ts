@@ -274,7 +274,7 @@ export default class CrawlerBase {
       name: `${today.format('YYYY-MM-DD')}-${new Date().getTime()}.xlsx`,
       originalFilename: fileName,
       parents: [folderId],
-      mimeType: 'application/vnd.google-apps.spreadsheet',
+      // mimeType: 'application/vnd.google-apps.spreadsheet',
     };
     const res = await this.driveApi!.files.create(
       {
