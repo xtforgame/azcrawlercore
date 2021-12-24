@@ -62,6 +62,7 @@ export default class CrawlerBase {
   async run() {
     const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(true));
     const page = await this.newPage(browser);
+    // await useProxy(page, 'http://127.0.0.1:80');
     // console.log('page');
     const p = new Promise((resolve, reject) => {
       let fulfill = false;
