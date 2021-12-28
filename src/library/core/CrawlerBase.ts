@@ -7,7 +7,7 @@ import useProxy from 'puppeteer-page-proxy';
 import readline from 'readline';
 import XLSX from 'xlsx';
 import { Readable } from 'stream';
-import { promiseWait, promiseWaitFor } from '~/utils';
+import { promiseReduce, promiseWait, promiseWaitFor } from '~/utils';
 import GoogleOAuth2Client from '~/utils/GoogleOAuth2Client';
 import GoogleDriveManager from '~/utils/GoogleDriveManager';
 
@@ -21,14 +21,12 @@ function bufferToStream(buffer) {
   return stream;
 }
 
-const today = moment('2021-12-07');
-
 export default class CrawlerBase {
-  goa2c?: GoogleOAuth2Client;
+  driveApis: drive_v3.Drive[];
 
-  gdm?: GoogleDriveManager;
-
-  driveApi?: drive_v3.Drive;
+  constructor() {
+    this.driveApis = [];
+  }
 
   async loadJsonFile(filepath) {
     return new Promise((resolve, reject) => {
@@ -45,9 +43,9 @@ export default class CrawlerBase {
     });
   }
 
-  async init() {
+  async createDriveApi(tokenName: string) {
     const clientSecrets : any = await this.loadJsonFile(path.join('secrets', 'googleapp_client_secrets.json'));
-    this.goa2c = new GoogleOAuth2Client(
+    const goa2c = new GoogleOAuth2Client(
       'calendarManager',
       {
         scopes: [
@@ -61,14 +59,17 @@ export default class CrawlerBase {
         clientSecrets: clientSecrets.web,
       }
     );
-    try {
-      const tokens = await this.loadJsonFile(path.join('secrets', 'googleapp_tokens.json'));
-      this.goa2c.authorize(tokens);
-    } catch (error) {
-      console.log('error :', error);
-    }
-    this.gdm = new GoogleDriveManager(this.goa2c);
-    this.driveApi = google.drive({ version: 'v3', auth: this.goa2c.oAuth2Client });
+    const tokens = await this.loadJsonFile(path.join('secrets', tokenName));
+    goa2c.authorize(tokens);
+    return google.drive({ version: 'v3', auth: goa2c.oAuth2Client });
+  }
+
+  async init() {
+    this.driveApis = await Promise.all([
+      await this.createDriveApi('googleapp_tokens-r.json'),
+      // await this.createDriveApi('googleapp_tokens-c1.json'),
+      // await this.createDriveApi('googleapp_tokens-c2.json'),
+    ]);
   }
 
   getPuppeteerLaunchOptions(debug : boolean = false) : PuppeteerLaunchOptions {
@@ -126,10 +127,31 @@ export default class CrawlerBase {
     console.log('rowsToDownload0 :', rowsToDownload0);
     const rowsToDownload: any[] = [];
     let pendingRow = null;
-    rowsToDownload0.forEach((r) => {
+    let discountBaseRow = null;
+    rowsToDownload0.forEach((r, i, arr) => {
       if (pendingRow && pendingRow['訂單號碼'] !== r['訂單號碼']) {
         rowsToDownload.push(pendingRow);
         pendingRow = null;
+      }
+      if (discountBaseRow && discountBaseRow['訂單號碼'] !== r['訂單號碼']) {
+        discountBaseRow = null;
+      }
+      const total = parseInt(r['付款總金額']);
+      if (total > 0) {
+        discountBaseRow = {
+          ...r,
+          '總折抵': parseInt(r['優惠折扣']) + parseInt(r['自訂折扣合計']) + parseInt(r['折抵購物金']) + parseInt(r['點數折現']) + parseInt(r['折現用點數']),
+        };
+        let index = i
+        for (; index < arr.length; index++) {
+          const element = arr[index];
+          if (discountBaseRow!['訂單號碼'] !== element['訂單號碼']) {
+            break;
+          }
+        }
+        console.log('total :', discountBaseRow['總折抵']);
+        const divider = index - i;
+        console.log('divider :', divider);
       }
       const shippingFee = parseInt(r['運費']);
       if (shippingFee > 0) {
@@ -246,8 +268,8 @@ export default class CrawlerBase {
     return bufferToStream(resp);
   }
 
-  async debugPrint(json) {
-    const { data: { files } } = await this.driveApi!.files.list({
+  async cleanFolder(driveApi: drive_v3.Drive) {
+    const { data: { files } } = await driveApi.files.list({
       pageSize: 20,
       fields: 'nextPageToken, files(id, name)',
     });
@@ -259,7 +281,39 @@ export default class CrawlerBase {
           name: 'ShoplineReports',
           mimeType: 'application/vnd.google-apps.folder',
         };
-        const res = await this.driveApi!.files.create({
+        const res = await driveApi.files.create({
+          requestBody: fileMetadata,
+          fields: 'id',
+        });
+        folderId = res.data.id;
+      } catch (error) {
+      }
+    }
+    if (files) {
+      await promiseReduce(files, async (_, f) => {
+        if (f.id === folderId) {
+          return;
+        }
+        let res = await driveApi.files.delete({ 'fileId': f.id });
+        console.log('res :', res);
+      }, null)
+    }
+  }
+
+  async debugPrint(driveApi: drive_v3.Drive, json, date) {
+    const { data: { files } } = await driveApi.files.list({
+      pageSize: 20,
+      fields: 'nextPageToken, files(id, name)',
+    });
+    const folder = files?.find(f => f.name === 'ShoplineReports');
+    let folderId = folder?.id;
+    if (!folderId) {
+      try {
+        const fileMetadata = {
+          name: 'ShoplineReports',
+          mimeType: 'application/vnd.google-apps.folder',
+        };
+        const res = await driveApi.files.create({
           requestBody: fileMetadata,
           fields: 'id',
         });
@@ -271,12 +325,12 @@ export default class CrawlerBase {
     const fileName = 'package.json';
     const fileSize = fs.statSync(fileName).size;
     const fileMetadata = {
-      name: `${today.format('YYYY-MM-DD')}-${new Date().getTime()}.xlsx`,
+      name: `${date.format('YYYY-MM-DD')}.xlsx`,
       originalFilename: fileName,
       parents: [folderId],
       // mimeType: 'application/vnd.google-apps.spreadsheet',
     };
-    const res = await this.driveApi!.files.create(
+    const res = await driveApi.files.create(
       {
         requestBody: fileMetadata,
         media: {
@@ -300,99 +354,101 @@ export default class CrawlerBase {
     return files;
   }
 
-  async run() {
-    await this.init();
-    const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(true));
+  async runX(date) {
+    const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(false));
     try {
-      const page = await this.newPage(browser);
-      await page.goto('https://sso.shoplineapp.com/users/sign_in', {
-        waitUntil: 'networkidle2',
-      });
-      const session = await page.target().createCDPSession();
-      await session.send('Page.enable');
-      // await page.screenshot({ path: 'example.png' });
-      await page.$eval('#staff_email', ($input) => $input.value = 'xtforgame@gmail.com');
-      await page.$eval('#staff_password', ($input) => $input.value = 'qqwqqwqqw');
-      await page.click('#new_staff button[name=button]');
-      await promiseWait(3000);
-      await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin', {
-        waitUntil: 'networkidle2',
-      });
-      await page.click('.btn.btn-primary.ng-binding.dropdown-toggle');
-      await page.$$eval('li.export-item a.ng-binding', ($as) => {
-        Array.from($as).forEach(($a) => {
-          if ($a.innerHTML.includes('匯出訂單報表')) {
-            $a.click();
-          }
+      if (1 == 1) {
+        const page = await this.newPage(browser);
+        await page.goto('https://sso.shoplineapp.com/users/sign_in', {
+          waitUntil: 'networkidle2',
         });
-      });
-      await promiseWait(3000);
-      await page.click('input[name=duringDates]');
-
-      await promiseWait(1000);
-      await page.type('input[name=duringDates] ~ div div:nth-child(1) div.date-picker-container.date-picker-v2.date input', today.format('YYYY/MM/DD'), {
-        delay: 200,
-      });
-      // await page.type('input[name=duringDates] ~ div div:nth-child(2) div.date-picker-container.date-picker-v2.date input', '2021/04/12');
-      // await page.$$eval('div.date-picker-container.date-picker-v2.date input', ($inputs) => {
-      //   console.log('$inputs :', $inputs);
-      //   Array.from($inputs).forEach(($input) => {
-      //     $input.value = '2021/04/12';
-      //   });
-      // });
-
-      const p = new Promise((resolve, reject) => {
-        page.on('response', (resp) => {
-          const url = resp.url();
-          if (url.includes('export_sales')) {
-            if (resp.status() === 200) {
-              resolve(resp.status());
-            } else {
-              reject(resp.status());
+        const session = await page.target().createCDPSession();
+        await session.send('Page.enable');
+        // await page.screenshot({ path: 'example.png' });
+        await page.$eval('#staff_email', ($input) => $input.value = 'xtforgame@gmail.com');
+        await page.$eval('#staff_password', ($input) => $input.value = 'qqwqqwqqw');
+        await page.click('#new_staff button[name=button]');
+        await promiseWait(3000);
+        await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin', {
+          waitUntil: 'networkidle2',
+        });
+        await page.click('.btn.btn-primary.ng-binding.dropdown-toggle');
+        await page.$$eval('li.export-item a.ng-binding', ($as) => {
+          Array.from($as).forEach(($a) => {
+            if ($a.innerHTML.includes('匯出訂單報表')) {
+              $a.click();
             }
+          });
+        });
+        await promiseWait(3000);
+        await page.click('input[name=duringDates]');
+
+        await promiseWait(1000);
+        await page.type('input[name=duringDates] ~ div div:nth-child(1) div.date-picker-container.date-picker-v2.date input', date.format('YYYY/MM/DD'), {
+          delay: 200,
+        });
+        // await page.type('input[name=duringDates] ~ div div:nth-child(2) div.date-picker-container.date-picker-v2.date input', '2021/04/12');
+        // await page.$$eval('div.date-picker-container.date-picker-v2.date input', ($inputs) => {
+        //   console.log('$inputs :', $inputs);
+        //   Array.from($inputs).forEach(($input) => {
+        //     $input.value = '2021/04/12';
+        //   });
+        // });
+
+        const p = new Promise((resolve, reject) => {
+          page.on('response', (resp) => {
+            const url = resp.url();
+            if (url.includes('export_sales')) {
+              if (resp.status() === 200) {
+                resolve(resp.status());
+              } else {
+                reject(resp.status());
+              }
+            }
+          });
+        });
+        await page.click('.modal-footer.clearfix button.btn.btn-primary.ng-binding');
+        await p;
+
+        let xlsUrl = '';
+        let xlsFilname = '';
+        browser.on('targetcreated', async function (target) {
+          console.log(target.url());
+          const url = target.url();
+          if (url.includes('.xls')) {
+            xlsUrl = url;
+            xlsFilname = /[^\/]*\.xls/g.exec(xlsUrl)?.[0]!;
           }
         });
-      });
-      await page.click('.modal-footer.clearfix button.btn.btn-primary.ng-binding');
-      await p;
 
-      let xlsUrl = '';
-      let xlsFilname = '';
-      browser.on('targetcreated', async function (target) {
-        console.log(target.url());
-        const url = target.url();
-        if (url.includes('.xls')) {
-          xlsUrl = url;
-          xlsFilname = /[^\/]*\.xls/g.exec(xlsUrl)?.[0]!;
-        }
-      });
-
-      await promiseWait(3000);
-      await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/jobs', {
-        waitUntil: 'networkidle2',
-      });
-      await page._client.send('Page.setDownloadBehavior', {
-        behavior: 'allow',
-        downloadPath: __dirname,
-      });
-      await page.click('table.table.table-hover.ng-scope td div.btn.btn-default.ng-scope');
-      const wait = () => {
-        if (!xlsFilname) {
+        await promiseWait(5000);
+        await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/jobs', {
+          waitUntil: 'networkidle2',
+        });
+        await page._client.send('Page.setDownloadBehavior', {
+          behavior: 'allow',
+          downloadPath: __dirname,
+        });
+        await page.click('table.table.table-hover.ng-scope td div.btn.btn-default.ng-scope');
+        const wait = () => {
+          if (!xlsFilname) {
+            return false;
+          }
+          try {
+            if (fs.existsSync(path.resolve(__dirname, xlsFilname))) {
+              const workbook = XLSX.readFile(path.resolve(__dirname, xlsFilname));
+              const j = XLSX.utils.sheet_to_json(workbook.Sheets['Sales']);
+              console.log('j :', j);
+              return true;
+            }
+          } catch(err) {
+            // console.error(err)
+          }
           return false;
         }
-        try {
-          if (fs.existsSync(path.resolve(__dirname, xlsFilname))) {
-            const workbook = XLSX.readFile(path.resolve(__dirname, xlsFilname));
-            const j = XLSX.utils.sheet_to_json(workbook.Sheets['Sales']);
-            console.log('j :', j);
-            return true;
-          }
-        } catch(err) {
-          // console.error(err)
-        }
-        return false;
       }
       let json = {};
+      let filename = '';
       const waitV2 = () => {
         const files = fs.readdirSync(__dirname);
         for (let i = 0; i < files.length; i++) {
@@ -402,13 +458,18 @@ export default class CrawlerBase {
             const j = XLSX.utils.sheet_to_json(workbook.Sheets['Sales']);
             console.log('j :', j);
             json = j;
+            filename = file;
             return true;
           }
         }
         return false;
       };
       await promiseWaitFor(100, waitV2);
-      await this.debugPrint(json);
+      await promiseReduce(this.driveApis, async (_, driveApi) => {
+        await this.debugPrint(driveApi, json, date);
+      }, null)
+      console.log('path.resolve(__dirname, filename) :', path.resolve(__dirname, filename));
+      fs.unlinkSync(path.resolve(__dirname, filename))
       console.log('done');
     } catch (error) {
       console.log('error :', error);
@@ -416,6 +477,43 @@ export default class CrawlerBase {
 
     // await promiseWait(9999999);
     await browser.close();
+  }
+
+  async run() {
+    await this.init();
+    await promiseReduce(this.driveApis, async (_, driveApi) => {
+      await this.cleanFolder(driveApi);
+    }, null)
+    await promiseReduce([
+      // // moment('2021-12-02'),
+      // moment('2021-12-03'),
+      // // moment('2021-12-04'),
+      // // moment('2021-12-05'),
+      // // moment('2021-12-06'),
+      // moment('2021-12-07'),
+      // // moment('2021-12-08'),
+      // // moment('2021-12-09'),
+      // // moment('2021-12-10'),
+      // // moment('2021-12-11'),
+      // // moment('2021-12-12'),
+      // // moment('2021-12-13'),
+      // // moment('2021-12-14'),
+      // // moment('2021-12-15'),
+      // // moment('2021-12-16'),
+      // // moment('2021-12-17'),
+      // // moment('2021-12-18'),
+      // // moment('2021-12-19'),
+      // // moment('2021-12-20'),
+      // // moment('2021-12-21'),
+      moment('2021-12-22'),
+      // moment('2021-12-23'),
+      // // moment('2021-12-24'),
+      // // moment('2021-12-25'),
+      // // moment('2021-12-26'),
+      // // moment('2021-12-27'),
+    ], async (_, date) => {
+      await this.runX(date);
+    }, null)
     return 1;
   }
 }
