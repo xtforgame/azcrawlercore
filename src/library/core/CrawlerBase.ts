@@ -122,7 +122,7 @@ export default class CrawlerBase {
     return page;
   }
 
-  getStream(json) {
+  getWb(json) {
     const rowsToDownload0 = json.filter(r => r['付款狀態'] === '已付款');
     console.log('rowsToDownload0 :', rowsToDownload0);
     const rowsToDownload: any[] = [];
@@ -294,8 +294,7 @@ export default class CrawlerBase {
     ws['!cols'] = wscols;
 
     XLSX.utils.book_append_sheet(wb, ws, '訂單');
-    const resp = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' });
-    return bufferToStream(resp);
+    return wb;
   }
 
   async cleanFolder(driveApi: drive_v3.Drive) {
@@ -320,16 +319,16 @@ export default class CrawlerBase {
       }
     }
     if (files) {
-      try {
-        await promiseReduce(files, async (_, f) => {
-          if (f.id === folderId) {
-            return;
-          }
+      await promiseReduce(files, async (_, f) => {
+        if (f.id === folderId) {
+          return;
+        }
+        try {
           let res = await driveApi.files.delete({ 'fileId': f.id });
           console.log('res :', res);
-        }, null)
-      } catch (error) {
-      }
+        } catch (error) {
+        }
+      }, null)
     }
   }
 
@@ -486,7 +485,7 @@ export default class CrawlerBase {
         const files = fs.readdirSync(__dirname);
         for (let i = 0; i < files.length; i++) {
           const file = files[i];
-          if (file.includes('orders_') && file.includes('.xls')) {
+          if (file.includes('orders_') && file.includes('.xls') && !file.includes('.crdownload')) {
             const workbook = XLSX.readFile(path.resolve(__dirname, file));
             const j = XLSX.utils.sheet_to_json(workbook.Sheets['Sales']);
             console.log('j :', j);
@@ -498,8 +497,10 @@ export default class CrawlerBase {
         return false;
       };
       await promiseWaitFor(100, waitV2);
-      const stream = this.getStream(json);
+      const wb = this.getWb(json);
       await promiseReduce(this.driveApis, async (_, driveApi) => {
+        const resp = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' });
+        const stream = bufferToStream(resp);
         await this.debugPrint(driveApi, stream, date);
       }, null)
       console.log('path.resolve(__dirname, filename) :', path.resolve(__dirname, filename));
