@@ -67,8 +67,8 @@ export default class CrawlerBase {
   async init() {
     this.driveApis = await Promise.all([
       await this.createDriveApi('googleapp_tokens-r.json'),
-      // await this.createDriveApi('googleapp_tokens-c1.json'),
-      // await this.createDriveApi('googleapp_tokens-c2.json'),
+      await this.createDriveApi('googleapp_tokens-c1.json'),
+      await this.createDriveApi('googleapp_tokens-c2.json'),
     ]);
   }
 
@@ -142,16 +142,31 @@ export default class CrawlerBase {
           ...r,
           '總折抵': parseInt(r['優惠折扣']) + parseInt(r['自訂折扣合計']) + parseInt(r['折抵購物金']) + parseInt(r['點數折現']) + parseInt(r['折現用點數']),
         };
-        let index = i
-        for (; index < arr.length; index++) {
-          const element = arr[index];
-          if (discountBaseRow!['訂單號碼'] !== element['訂單號碼']) {
-            break;
+        if (discountBaseRow['總折抵'] <= 0) {
+          discountBaseRow = null;
+        } else {
+          let index = i
+          let invalidCounter = 0;
+          let lastIndex = 0;
+          for (; index < arr.length; index++) {
+            const element = arr[index];
+            if (discountBaseRow!['訂單號碼'] !== element['訂單號碼']) {
+              break;
+            }
+            if (parseInt(element['商品原價']) > 0) {
+              lastIndex = index;
+            } else {
+              invalidCounter++;
+            }
           }
+          console.log('total :', discountBaseRow['總折抵']);
+          const divider = index - i - invalidCounter;
+          discountBaseRow.divider = divider;
+          discountBaseRow.lastIndex = lastIndex;
+          console.log('divider :', divider);
+          console.log('lastIndex :', lastIndex);
+          discountBaseRow['平均折抵'] = Math.floor(discountBaseRow['總折抵']/divider);
         }
-        console.log('total :', discountBaseRow['總折抵']);
-        const divider = index - i;
-        console.log('divider :', divider);
       }
       const shippingFee = parseInt(r['運費']);
       if (shippingFee > 0) {
@@ -163,6 +178,21 @@ export default class CrawlerBase {
           '商品原價': shippingFee,
           '商品結帳價': shippingFee,
         };
+      }
+      if (
+        discountBaseRow
+        && discountBaseRow['訂單號碼'] === r['訂單號碼']
+        && parseInt(r['商品原價']) > 0
+      ) {
+        if (i !== discountBaseRow.lastIndex) {
+          r['商品原價'] = parseInt(r['商品原價']) - discountBaseRow['平均折抵'];
+          r['商品結帳價'] = parseInt(r['商品結帳價']) - discountBaseRow['平均折抵'];
+          discountBaseRow['總折抵'] -= discountBaseRow['平均折抵']
+        } else {
+          r['商品原價'] = parseInt(r['商品原價']) - discountBaseRow['總折抵'];
+          r['商品結帳價'] = parseInt(r['商品結帳價']) - discountBaseRow['總折抵'];
+          discountBaseRow['總折抵'] = 0;
+        }
       }
       rowsToDownload.push(r);
     });
@@ -290,17 +320,20 @@ export default class CrawlerBase {
       }
     }
     if (files) {
-      await promiseReduce(files, async (_, f) => {
-        if (f.id === folderId) {
-          return;
-        }
-        let res = await driveApi.files.delete({ 'fileId': f.id });
-        console.log('res :', res);
-      }, null)
+      try {
+        await promiseReduce(files, async (_, f) => {
+          if (f.id === folderId) {
+            return;
+          }
+          let res = await driveApi.files.delete({ 'fileId': f.id });
+          console.log('res :', res);
+        }, null)
+      } catch (error) {
+      }
     }
   }
 
-  async debugPrint(driveApi: drive_v3.Drive, json, date) {
+  async debugPrint(driveApi: drive_v3.Drive, stream, date) {
     const { data: { files } } = await driveApi.files.list({
       pageSize: 20,
       fields: 'nextPageToken, files(id, name)',
@@ -335,7 +368,7 @@ export default class CrawlerBase {
         requestBody: fileMetadata,
         media: {
           mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // Modified
-          body: this.getStream(json),
+          body: stream,
           // body: fs.createReadStream(fileName),
         },
       },
@@ -465,8 +498,9 @@ export default class CrawlerBase {
         return false;
       };
       await promiseWaitFor(100, waitV2);
+      const stream = this.getStream(json);
       await promiseReduce(this.driveApis, async (_, driveApi) => {
-        await this.debugPrint(driveApi, json, date);
+        await this.debugPrint(driveApi, stream, date);
       }, null)
       console.log('path.resolve(__dirname, filename) :', path.resolve(__dirname, filename));
       fs.unlinkSync(path.resolve(__dirname, filename))
@@ -485,32 +519,32 @@ export default class CrawlerBase {
       await this.cleanFolder(driveApi);
     }, null)
     await promiseReduce([
-      // // moment('2021-12-02'),
-      // moment('2021-12-03'),
-      // // moment('2021-12-04'),
-      // // moment('2021-12-05'),
-      // // moment('2021-12-06'),
-      // moment('2021-12-07'),
-      // // moment('2021-12-08'),
-      // // moment('2021-12-09'),
-      // // moment('2021-12-10'),
-      // // moment('2021-12-11'),
-      // // moment('2021-12-12'),
-      // // moment('2021-12-13'),
-      // // moment('2021-12-14'),
-      // // moment('2021-12-15'),
-      // // moment('2021-12-16'),
-      // // moment('2021-12-17'),
-      // // moment('2021-12-18'),
-      // // moment('2021-12-19'),
-      // // moment('2021-12-20'),
-      // // moment('2021-12-21'),
+      // moment('2021-12-02'),
+      moment('2021-12-03'),
+      // moment('2021-12-04'),
+      // moment('2021-12-05'),
+      // moment('2021-12-06'),
+      moment('2021-12-07'),
+      // moment('2021-12-08'),
+      // moment('2021-12-09'),
+      // moment('2021-12-10'),
+      // moment('2021-12-11'),
+      // moment('2021-12-12'),
+      // moment('2021-12-13'),
+      // moment('2021-12-14'),
+      // moment('2021-12-15'),
+      // moment('2021-12-16'),
+      // moment('2021-12-17'),
+      // moment('2021-12-18'),
+      // moment('2021-12-19'),
+      // moment('2021-12-20'),
+      // moment('2021-12-21'),
       moment('2021-12-22'),
-      // moment('2021-12-23'),
-      // // moment('2021-12-24'),
-      // // moment('2021-12-25'),
-      // // moment('2021-12-26'),
-      // // moment('2021-12-27'),
+      moment('2021-12-23'),
+      // moment('2021-12-24'),
+      // moment('2021-12-25'),
+      // moment('2021-12-26'),
+      // moment('2021-12-27'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
