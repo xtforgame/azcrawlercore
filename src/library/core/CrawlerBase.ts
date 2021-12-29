@@ -546,7 +546,8 @@ export default class CrawlerBase {
       // moment('2021-12-25'),
       // moment('2021-12-26'),
       // moment('2021-12-27'),
-      moment('2021-12-28'),
+      // moment('2021-12-28'),
+      moment('2021-12-29'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
