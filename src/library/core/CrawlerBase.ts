@@ -299,45 +299,38 @@ export default class CrawlerBase {
 
   async cleanFolder(driveApi: drive_v3.Drive) {
     const { data: { files } } = await driveApi.files.list({
-      pageSize: 20,
-      fields: 'nextPageToken, files(id, name)',
+      pageSize: 1000,
+      fields: 'nextPageToken, files(id, name, createdTime)',
+      orderBy: 'createdTime'
     });
     const folder = files?.find(f => f.name === 'ShoplineReports');
-    let folderId = folder?.id;
-    if (!folderId) {
-      try {
-        const fileMetadata = {
-          name: 'ShoplineReports',
-          mimeType: 'application/vnd.google-apps.folder',
-        };
-        const res = await driveApi.files.create({
-          requestBody: fileMetadata,
-          fields: 'id',
-        });
-        folderId = res.data.id;
-      } catch (error) {
-      }
-    }
     if (files) {
       await promiseReduce(files, async (_, f) => {
-        if (f.id === folderId) {
+        if (f.id === folder?.id) {
           return;
         }
         try {
           let res = await driveApi.files.delete({ 'fileId': f.id });
           console.log('res :', res);
         } catch (error) {
+          console.log('error :', error);
         }
       }, null)
     }
   }
 
-  async debugPrint(driveApi: drive_v3.Drive, stream, date) {
+  async findFolder(driveApi: drive_v3.Drive) {
     const { data: { files } } = await driveApi.files.list({
-      pageSize: 20,
-      fields: 'nextPageToken, files(id, name)',
+      pageSize: 1000,
+      fields: 'nextPageToken, files(id, name, createdTime)',
+      orderBy: 'createdTime'
     });
-    const folder = files?.find(f => f.name === 'ShoplineReports');
+    console.log('files :', files);
+    return files?.find(f => f.name === 'ShoplineReports');
+  }
+
+  async debugPrint(driveApi: drive_v3.Drive, stream, date) {
+    const folder = await this.findFolder(driveApi);
     let folderId = folder?.id;
     if (!folderId) {
       try {
@@ -383,10 +376,14 @@ export default class CrawlerBase {
       }
     );
     console.log(res.data);
-    return files;
+    // return files;
   }
 
   async runX(date) {
+    // await promiseReduce(this.driveApis, async (_, driveApi) => {
+    //   await this.findFolder(driveApi);
+    // }, null)
+    // return ;
     const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(false));
     try {
       if (1 == 1) {
@@ -547,7 +544,23 @@ export default class CrawlerBase {
       // moment('2021-12-26'),
       // moment('2021-12-27'),
       // moment('2021-12-28'),
-      moment('2021-12-29'),
+      // moment('2021-12-29'),
+      // moment('2021-12-30'),
+      // moment('2021-12-31'),
+      // moment('2022-01-01'),
+      // moment('2022-01-02'),
+      // moment('2022-01-03'),
+      // moment('2022-01-04'),
+      // moment('2022-01-05'),
+      // moment('2022-01-06'),
+      // moment('2022-01-07'),
+      // moment('2022-01-08'),
+      // moment('2022-01-09'),
+      // moment('2022-01-10'),
+      // moment('2022-01-11'),
+      // moment('2022-01-12'),
+      // moment('2022-01-13'),
+      moment('2022-01-14'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
