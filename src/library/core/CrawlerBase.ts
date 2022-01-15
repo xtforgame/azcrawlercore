@@ -125,10 +125,55 @@ export default class CrawlerBase {
   getWb(json) {
     const rowsToDownload0 = json.filter(r => r['付款狀態'] === '已付款');
     console.log('rowsToDownload0 :', rowsToDownload0);
+    const rowsToDownloadX: any[] = [];
+    rowsToDownload0.forEach((r, i, arr) => {
+      if (r['商品貨號'].indexOf('\n') >= 0) {
+        const ids = r['商品貨號'].split('\n');
+        let totalOriginalPrice = parseInt(r['商品原價']);
+        let totalFinalPrice = parseInt(r['商品結帳價']);
+        
+        const eachOriginalPrice = Math.floor(totalOriginalPrice / ids.length);
+        const eachFinalPrice = Math.floor(totalFinalPrice / ids.length);
+        
+        ids.forEach((id, i) => {
+          const originalPrice = i !== ids.length -1 ? eachOriginalPrice : totalOriginalPrice;
+          const finalPrice = i !== ids.length -1 ? eachFinalPrice : totalFinalPrice;
+          if (i) {
+            rowsToDownloadX.push({
+              ...r,
+              '商品貨號': id,
+              '商品原價': originalPrice,
+              '商品結帳價': finalPrice,
+              '付款總金額': '',
+              '訂單小計': '',
+              '訂單合計': '',
+              '運費': '',
+              '附加費': '',
+              '優惠折扣': '',
+              '自訂折扣合計': '',
+              '折抵購物金': '',
+              '兌換贈品點數': '',
+            });
+          } else {
+            rowsToDownloadX.push({
+              ...r,
+              '商品貨號': id,
+              '商品原價': originalPrice,
+              '商品結帳價': finalPrice,
+            });
+          }
+          totalOriginalPrice -= originalPrice;
+          totalFinalPrice -= finalPrice;
+        });
+      } else {
+        rowsToDownloadX.push(r);
+      }
+    });
+
     const rowsToDownload: any[] = [];
     let pendingRow = null;
     let discountBaseRow = null;
-    rowsToDownload0.forEach((r, i, arr) => {
+    rowsToDownloadX.forEach((r, i, arr) => {
       if (pendingRow && pendingRow['訂單號碼'] !== r['訂單號碼']) {
         rowsToDownload.push(pendingRow);
         pendingRow = null;
@@ -499,7 +544,9 @@ export default class CrawlerBase {
         const resp = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' });
         const stream = bufferToStream(resp);
         await this.debugPrint(driveApi, stream, date);
-      }, null)
+      }, null);
+      const resp = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' });
+      fs.writeFileSync('xxx.xlsx', resp);
       console.log('path.resolve(__dirname, filename) :', path.resolve(__dirname, filename));
       fs.unlinkSync(path.resolve(__dirname, filename))
       console.log('done');
@@ -513,9 +560,9 @@ export default class CrawlerBase {
 
   async run() {
     await this.init();
-    // await promiseReduce(this.driveApis, async (_, driveApi) => {
-    //   await this.cleanFolder(driveApi);
-    // }, null)
+    await promiseReduce(this.driveApis, async (_, driveApi) => {
+      await this.cleanFolder(driveApi);
+    }, null)
     await promiseReduce([
       // moment('2021-12-02'),
       // moment('2021-12-03'),
