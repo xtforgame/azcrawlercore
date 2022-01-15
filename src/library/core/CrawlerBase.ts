@@ -560,9 +560,9 @@ export default class CrawlerBase {
 
   async run() {
     await this.init();
-    await promiseReduce(this.driveApis, async (_, driveApi) => {
-      await this.cleanFolder(driveApi);
-    }, null)
+    // await promiseReduce(this.driveApis, async (_, driveApi) => {
+    //   await this.cleanFolder(driveApi);
+    // }, null)
     await promiseReduce([
       // moment('2021-12-02'),
       // moment('2021-12-03'),
@@ -607,7 +607,8 @@ export default class CrawlerBase {
       // moment('2022-01-11'),
       // moment('2022-01-12'),
       // moment('2022-01-13'),
-      moment('2022-01-14'),
+      // moment('2022-01-14'),
+      moment('2022-01-15'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
