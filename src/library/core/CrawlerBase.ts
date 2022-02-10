@@ -230,12 +230,12 @@ export default class CrawlerBase {
         && parseInt(r['商品原價']) > 0
       ) {
         if (i !== discountBaseRow.lastIndex) {
-          r['商品原價'] = parseInt(r['商品原價']) - discountBaseRow['平均折抵'];
-          r['商品結帳價'] = parseInt(r['商品結帳價']) - discountBaseRow['平均折抵'];
+          r['商品原價'] = parseInt(r['商品原價']) - (discountBaseRow['平均折抵'] / parseInt(r['數量']));
+          r['商品結帳價'] = parseInt(r['商品結帳價']) - (discountBaseRow['平均折抵'] / parseInt(r['數量']));
           discountBaseRow['總折抵'] -= discountBaseRow['平均折抵']
         } else {
-          r['商品原價'] = parseInt(r['商品原價']) - discountBaseRow['總折抵'];
-          r['商品結帳價'] = parseInt(r['商品結帳價']) - discountBaseRow['總折抵'];
+          r['商品原價'] = parseInt(r['商品原價']) - (discountBaseRow['總折抵'] / parseInt(r['數量']));
+          r['商品結帳價'] = parseInt(r['商品結帳價']) - (discountBaseRow['總折抵'] / parseInt(r['數量']));
           discountBaseRow['總折抵'] = 0;
         }
       }
@@ -608,7 +608,33 @@ export default class CrawlerBase {
       // moment('2022-01-12'),
       // moment('2022-01-13'),
       // moment('2022-01-14'),
-      moment('2022-01-15'),
+      // moment('2022-01-15'),
+      // moment('2022-01-16'),
+      // moment('2022-01-17'),
+      // moment('2022-01-18'),
+      // moment('2022-01-19'),
+      // moment('2022-01-20'),
+      // moment('2022-01-21'),
+      // moment('2022-01-22'),
+      // moment('2022-01-23'),
+      // moment('2022-01-24'),
+      // moment('2022-01-25'),
+      // moment('2022-01-26'),
+      // moment('2022-01-27'),
+      // moment('2022-01-28'),
+      // moment('2022-01-29'),
+      // moment('2022-01-30'),
+      // moment('2022-01-31'),
+      // moment('2022-02-01'),
+      // moment('2022-02-02'),
+      // moment('2022-02-03'),
+      // moment('2022-02-04'),
+      // moment('2022-02-05'),
+      // moment('2022-02-06'),
+      // moment('2022-02-07'),
+      // moment('2022-02-08'),
+      // moment('2022-02-09'),
+      moment('2022-02-10'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
