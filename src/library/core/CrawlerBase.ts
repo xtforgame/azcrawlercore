@@ -495,7 +495,7 @@ export default class CrawlerBase {
           }
         });
 
-        await promiseWait(5000);
+        await promiseWait(10000);
         await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/jobs', {
           waitUntil: 'networkidle2',
         });
@@ -647,7 +647,13 @@ export default class CrawlerBase {
       // moment('2022-02-20'),
       // moment('2022-02-21'),
       // moment('2022-02-22'),
-      moment('2022-02-23'),
+      // moment('2022-02-23'),
+      // moment('2022-02-24'),
+      // moment('2022-02-25'),
+      // moment('2022-02-26'),
+      // moment('2022-02-27'),
+      // moment('2022-02-28'),
+      moment('2022-03-01'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
