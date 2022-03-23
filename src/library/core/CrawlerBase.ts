@@ -310,6 +310,7 @@ export default class CrawlerBase {
       { title: '單價', get: (row, i) => row['結帳價類型'] === '原價' ? row['商品原價'] : row['商品結帳價'] },
       { title: '發票號碼', get: (row, i) => row['發票號碼'] },
       { title: '訂單編號', get: (row, i) => (row['訂單號碼'] || '').replace('#', '') },
+      { title: '送貨編號', get: (row, i) => row['送貨編號'] },
       { title: '備註', get: (row, i) => row['出貨備註'] },
       { title: '收件人', get: (row, i) => row['收件人'] },
       { title: '聯絡電話(一)', get: (row, i) => row['電話號碼'] },
@@ -429,7 +430,7 @@ export default class CrawlerBase {
     //   await this.findFolder(driveApi);
     // }, null)
     // return ;
-    const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(false));
+    const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(true));
     try {
       if (1 == 1) {
         const page = await this.newPage(browser);
@@ -442,7 +443,7 @@ export default class CrawlerBase {
         await page.$eval('#staff_email', ($input) => $input.value = 'xtforgame@gmail.com');
         await page.$eval('#staff_password', ($input) => $input.value = 'qqwqqwqqw');
         await page.click('#new_staff button[name=button]');
-        await promiseWait(3000);
+        await promiseWait(60000);
         await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin', {
           waitUntil: 'networkidle2',
         });
@@ -653,7 +654,29 @@ export default class CrawlerBase {
       // moment('2022-02-26'),
       // moment('2022-02-27'),
       // moment('2022-02-28'),
-      moment('2022-03-01'),
+      // moment('2022-03-01'),
+      // moment('2022-03-02'),
+      // moment('2022-03-03'),
+      // moment('2022-03-04'),
+      // moment('2022-03-05'),
+      // moment('2022-03-06'),
+      // moment('2022-03-07'),
+      // moment('2022-03-08'),
+      // moment('2022-03-09'),
+      // moment('2022-03-10'),
+      // moment('2022-03-11'),
+      // moment('2022-03-12'),
+      // moment('2022-03-13'),
+      // moment('2022-03-14'),
+      // moment('2022-03-15'),
+      // moment('2022-03-16'),
+      // moment('2022-03-17'),
+      // moment('2022-03-18'),
+      // moment('2022-03-19'),
+      // moment('2022-03-20'),
+      // moment('2022-03-21'),
+      // moment('2022-03-22'),
+      moment('2022-03-23'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
