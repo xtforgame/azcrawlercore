@@ -310,7 +310,6 @@ export default class CrawlerBase {
       { title: '單價', get: (row, i) => row['結帳價類型'] === '原價' ? row['商品原價'] : row['商品結帳價'] },
       { title: '發票號碼', get: (row, i) => row['發票號碼'] },
       { title: '訂單編號', get: (row, i) => (row['訂單號碼'] || '').replace('#', '') },
-      { title: '送貨編號', get: (row, i) => row['送貨編號'] },
       { title: '備註', get: (row, i) => row['出貨備註'] },
       { title: '收件人', get: (row, i) => row['收件人'] },
       { title: '聯絡電話(一)', get: (row, i) => row['電話號碼'] },
@@ -319,6 +318,7 @@ export default class CrawlerBase {
       { title: '送貨地址(二)', get: (row, i) => '' }, // row['地址 2'] },
       { title: '註冊email', get: (row, i) => row['電郵'] },
       { title: '註冊電話', get: (row, i) => row['電話號碼'] },
+      { title: '送貨編號', get: (row, i) => row['送貨編號'] },
     ];
     // [
     //   { title: '訂單編號', get: (row, i) => i },
