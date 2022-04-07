@@ -430,7 +430,7 @@ export default class CrawlerBase {
     //   await this.findFolder(driveApi);
     // }, null)
     // return ;
-    const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(true));
+    const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(false));
     try {
       if (1 == 1) {
         const page = await this.newPage(browser);
@@ -440,10 +440,11 @@ export default class CrawlerBase {
         const session = await page.target().createCDPSession();
         await session.send('Page.enable');
         // await page.screenshot({ path: 'example.png' });
-        await page.$eval('#staff_email', ($input) => $input.value = 'xtforgame@gmail.com');
-        await page.$eval('#staff_password', ($input) => $input.value = 'qqwqqwqqw');
+        await page.$eval('#staff_email', ($input) => $input.value = 'bigsoftdog@gmail.com');
+        await page.$eval('#staff_password', ($input) => $input.value = 'qqppaall');
         await page.click('#new_staff button[name=button]');
-        await promiseWait(60000);
+        // await promiseWait(60000);
+        await promiseWait(5000);
         await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin', {
           waitUntil: 'networkidle2',
         });
@@ -676,7 +677,22 @@ export default class CrawlerBase {
       // moment('2022-03-20'),
       // moment('2022-03-21'),
       // moment('2022-03-22'),
-      moment('2022-03-23'),
+      // moment('2022-03-23'),
+      // moment('2022-03-24'),
+      // moment('2022-03-25'),
+      // moment('2022-03-26'),
+      // moment('2022-03-27'),
+      // moment('2022-03-28'),
+      // moment('2022-03-29'),
+      // moment('2022-03-30'),
+      // moment('2022-03-31'),
+      // moment('2022-04-01'),
+      // moment('2022-04-02'),
+      // moment('2022-04-03'),
+      // moment('2022-04-04'),
+      // moment('2022-04-05'),
+      // moment('2022-04-06'),
+      moment('2022-04-07'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
