@@ -430,7 +430,7 @@ export default class CrawlerBase {
     //   await this.findFolder(driveApi);
     // }, null)
     // return ;
-    const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(false));
+    const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(true));
     try {
       if (1 == 1) {
         const page = await this.newPage(browser);
@@ -443,7 +443,7 @@ export default class CrawlerBase {
         await page.$eval('#staff_email', ($input) => $input.value = 'bigsoftdog@gmail.com');
         await page.$eval('#staff_password', ($input) => $input.value = 'qqppaall');
         await page.click('#new_staff button[name=button]');
-        // await promiseWait(60000);
+        await promiseWait(60000);
         await promiseWait(5000);
         await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin', {
           waitUntil: 'networkidle2',
@@ -692,7 +692,20 @@ export default class CrawlerBase {
       // moment('2022-04-04'),
       // moment('2022-04-05'),
       // moment('2022-04-06'),
-      moment('2022-04-07'),
+      // moment('2022-04-07'),
+      // moment('2022-04-08'),
+      // moment('2022-04-09'),
+      // moment('2022-04-10'),
+      // moment('2022-04-11'),
+      // moment('2022-04-12'),
+      // moment('2022-04-13'),
+      // moment('2022-04-14'),
+      // moment('2022-04-15'),
+      // moment('2022-04-16'),
+      // moment('2022-04-17'),
+      // moment('2022-04-18'),
+      // moment('2022-04-19'),
+      moment('2022-04-20'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
