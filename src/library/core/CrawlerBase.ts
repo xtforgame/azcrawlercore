@@ -127,6 +127,9 @@ export default class CrawlerBase {
     console.log('rowsToDownload0 :', rowsToDownload0);
     const rowsToDownloadX: any[] = [];
     rowsToDownload0.forEach((r, i, arr) => {
+      if (!r['商品貨號']) {
+        return;
+      }
       if (r['商品貨號'].indexOf('\n') >= 0) {
         const ids = r['商品貨號'].split('\n');
         let totalOriginalPrice = parseInt(r['商品原價']);
@@ -448,6 +451,16 @@ export default class CrawlerBase {
         await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin', {
           waitUntil: 'networkidle2',
         });
+
+        await promiseWait(2000);
+
+        try {
+          await page.click('.intercom-post-close');
+          await promiseWait(2000);
+        } catch (error) {
+        }
+        await promiseWait(1000);
+
         await page.click('.btn.btn-primary.ng-binding.dropdown-toggle');
         await page.$$eval('li.export-item a.ng-binding', ($as) => {
           Array.from($as).forEach(($a) => {
@@ -532,7 +545,7 @@ export default class CrawlerBase {
           if (file.includes('orders_') && file.includes('.xls') && !file.includes('.crdownload')) {
             const workbook = XLSX.readFile(path.resolve(__dirname, file));
             const j = XLSX.utils.sheet_to_json(workbook.Sheets['Sales']);
-            console.log('j :', j);
+            // console.log('j :', j);
             json = j;
             filename = file;
             return true;
@@ -814,7 +827,30 @@ export default class CrawlerBase {
       // moment('2022-08-04'),
       // moment('2022-08-05'),
       // moment('2022-08-06'),
-      moment('2022-08-07'),
+      // moment('2022-08-07'),
+      // moment('2022-08-08'),
+      // moment('2022-08-09'),
+      // moment('2022-08-10'),
+      // moment('2022-08-11'),
+      // moment('2022-08-12'),
+      // moment('2022-08-13'),
+      // moment('2022-08-14'),
+      // moment('2022-08-15'),
+      // moment('2022-08-16'),
+      // moment('2022-08-17'),
+      // moment('2022-08-18'),
+      // moment('2022-08-19'),
+      // moment('2022-08-20'),
+      // moment('2022-08-21'),
+      // moment('2022-08-22'),
+      // moment('2022-08-23'),
+      // moment('2022-08-24'),
+      // moment('2022-08-25'),
+      // moment('2022-08-26'),
+      // moment('2022-08-27'),
+      // moment('2022-08-28'),
+      // moment('2022-08-29'),
+      moment('2022-08-30'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
