@@ -461,6 +461,10 @@ export default class CrawlerBase {
         }
         await promiseWait(1000);
 
+        // await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+        await page.reload({ waitUntil: 'networkidle2' });
+        await promiseWait(1000);
+
         await page.click('.btn.btn-primary.ng-binding.dropdown-toggle');
         await page.$$eval('li.export-item a.ng-binding', ($as) => {
           Array.from($as).forEach(($a) => {
@@ -518,7 +522,7 @@ export default class CrawlerBase {
           behavior: 'allow',
           downloadPath: __dirname,
         });
-        await page.click('table.table.table-hover.ng-scope td div.btn.btn-default.ng-scope');
+        await page.click('table.table.table-hover.ng-scope tr:nth-child(1) td div.btn.btn-default.ng-scope');
         const wait = () => {
           if (!xlsFilname) {
             return false;
@@ -850,7 +854,35 @@ export default class CrawlerBase {
       // moment('2022-08-27'),
       // moment('2022-08-28'),
       // moment('2022-08-29'),
-      moment('2022-08-30'),
+      // moment('2022-08-30'),
+      // moment('2022-08-31'),
+      // moment('2022-09-01'),
+      // moment('2022-09-02'),
+      // moment('2022-09-03'),
+      // moment('2022-09-04'),
+      // moment('2022-09-05'),
+      // moment('2022-09-06'),
+      // moment('2022-09-07'),
+      // moment('2022-09-08'),
+      // moment('2022-09-09'),
+      // moment('2022-09-10'),
+      // moment('2022-09-11'),
+      // moment('2022-09-12'),
+      // moment('2022-09-13'),
+      // moment('2022-09-14'),
+      // moment('2022-09-15'),
+      // moment('2022-09-16'),
+      // moment('2022-09-17'),
+      // moment('2022-09-18'),
+      // moment('2022-09-19'),
+      // moment('2022-09-20'),
+      // moment('2022-09-21'),
+      // moment('2022-09-22'),
+      // moment('2022-09-23'),
+      // moment('2022-09-24'),
+      // moment('2022-09-25'),
+      // moment('2022-09-26'),
+      moment('2022-09-27'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
