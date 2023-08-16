@@ -1144,17 +1144,7 @@ export default class CrawlerBase {
       // moment('2023-08-03'),
       // moment('2023-08-04'),
       // moment('2023-08-05'),
-      // moment('2023-08-06'),
-      // moment('2023-08-07'),
-      // moment('2023-08-08'),
-      // moment('2023-08-09'),
-      // moment('2023-08-10'),
-      // moment('2023-08-11'),
-      // moment('2023-08-12'),
-      // moment('2023-08-13'),
-      // moment('2023-08-14'),
-      // moment('2023-08-15'),
-      moment('2023-08-16'),
+      moment('2023-08-06'),
     ], async (_, date) => {
       await this.runX(date);
     }, null)
