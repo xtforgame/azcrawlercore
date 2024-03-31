@@ -443,8 +443,8 @@ export default class CrawlerBase {
         const session = await page.target().createCDPSession();
         await session.send('Page.enable');
         // await page.screenshot({ path: 'example.png' });
-        await page.$eval('#staff_email', ($input) => $input.value = 'bigsoftdog@gmail.com');
-        await page.$eval('#staff_password', ($input) => $input.value = 'qqppaall');
+        await page.$eval('#staff_email', ($input) => $input.value = 'xtforgame@gmail.com');
+        await page.$eval('#staff_password', ($input) => $input.value = 'qqwqqwqqw');
         await page.click('#new_staff button[name=button]');
 
         await promiseWait(2000);
@@ -454,132 +454,52 @@ export default class CrawlerBase {
         });
 
         await promiseWait(5000);
-        await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin', {
+        await page.goto('https://admin.shoplineapp.com/admin/kanebo/themes/layouts', {
           waitUntil: 'networkidle2',
         });
 
         await promiseWait(2000);
 
-        try {
-          await page.click('.intercom-post-close');
-          await promiseWait(2000);
-        } catch (error) {
-        }
-        await promiseWait(1000);
-
         // await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
         await page.reload({ waitUntil: 'networkidle2' });
         await promiseWait(1000);
 
-        await page.click('.btn.btn-primary.ng-binding.dropdown-toggle');
-        await page.$$eval('li.export-item a.ng-binding', ($as) => {
-          Array.from($as).forEach(($a) => {
-            if ($a.innerHTML.includes('匯出訂單報表')) {
-              $a.click();
+        let callback: any;
+        let resP: Promise<any> = Promise.resolve();
+        page.on('response', async (resp) => {
+          const url = resp.url();
+          console.log('url :', url);
+          if (url.includes('layout_components')) {
+            const data = await resp.json();
+            if (callback) {
+              callback(data);
             }
-          });
+          }
         });
-        await promiseWait(3000);
-        await page.click('input[name=duringDates]');
-
-        await promiseWait(1000);
-        await page.type('input[name=duringDates] ~ div div:nth-child(1) div.date-picker-container.date-picker-v2.date input', date.format('YYYY/MM/DD'), {
-          delay: 200,
-        });
-        // await page.type('input[name=duringDates] ~ div div:nth-child(2) div.date-picker-container.date-picker-v2.date input', '2021/04/12');
-        // await page.$$eval('div.date-picker-container.date-picker-v2.date input', ($inputs) => {
-        //   console.log('$inputs :', $inputs);
-        //   Array.from($inputs).forEach(($input) => {
-        //     $input.value = '2021/04/12';
-        //   });
+        // const x = await page.$$eval('.document-file', ($lis) => {
+        //   return Array.from($lis).length;
         // });
 
-        const p = new Promise((resolve, reject) => {
-          page.on('response', (resp) => {
-            const url = resp.url();
-            if (url.includes('export_sales')) {
-              if (resp.status() === 200) {
-                resolve(resp.status());
-              } else {
-                reject(resp.status());
+        const $lis = await page.$$('.document-file');
+
+        await promiseReduce(Array.from($lis), async (_, $li) => {
+          await $li.click();
+          const data = await new Promise((res) => {
+            const i = setTimeout(() => {
+              if (callback) {
+                callback = null;
+                res(null);
               }
+            }, 2000);
+            callback = (d) => {
+              res(d);
+              callback = null;
+              clearTimeout(i);
             }
           });
-        });
-        await page.click('.modal-footer.clearfix button.btn.btn-primary.ng-binding');
-        await p;
-
-        let xlsUrl = '';
-        let xlsFilname = '';
-        browser.on('targetcreated', async function (target) {
-          console.log(target.url());
-          const url = target.url();
-          if (url.includes('.xls')) {
-            xlsUrl = url;
-            xlsFilname = /[^\/]*\.xls/g.exec(xlsUrl)?.[0]!;
-          }
-        });
-
-        console.log('await promiseWaitFor(2000');
-        await promiseWaitFor(2000, async () => {
-          console.log('await page.goto(');
-          await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/jobs', {
-            waitUntil: 'networkidle2',
-          });
-          await page._client.send('Page.setDownloadBehavior', {
-            behavior: 'allow',
-            downloadPath: __dirname,
-          });
-          await page.click('table.table.table-hover.ng-scope tr:nth-child(1) td div.btn.btn-default.ng-scope');
-          return true;
-        });
-        console.log('const wait = () => {');
-        
-        const wait = () => {
-          if (!xlsFilname) {
-            return false;
-          }
-          try {
-            if (fs.existsSync(path.resolve(__dirname, xlsFilname))) {
-              const workbook = XLSX.readFile(path.resolve(__dirname, xlsFilname));
-              const j = XLSX.utils.sheet_to_json(workbook.Sheets['Sales']);
-              console.log('j :', j);
-              return true;
-            }
-          } catch(err) {
-            // console.error(err)
-          }
-          return false;
-        }
+          console.log('data :', data);
+        }, null);
       }
-      let json = {};
-      let filename = '';
-      const waitV2 = () => {
-        const files = fs.readdirSync(__dirname);
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          if (file.includes('orders_') && file.includes('.xls') && !file.includes('.crdownload')) {
-            const workbook = XLSX.readFile(path.resolve(__dirname, file));
-            const j = XLSX.utils.sheet_to_json(workbook.Sheets['Sales']);
-            // console.log('j :', j);
-            json = j;
-            filename = file;
-            return true;
-          }
-        }
-        return false;
-      };
-      await promiseWaitFor(100, waitV2);
-      const wb = this.getWb(json);
-      await promiseReduce(this.driveApis, async (_, driveApi) => {
-        const resp = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' });
-        const stream = bufferToStream(resp);
-        await this.debugPrint(driveApi, stream, date);
-      }, null);
-      const resp = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' });
-      fs.writeFileSync('xxx.xlsx', resp);
-      console.log('path.resolve(__dirname, filename) :', path.resolve(__dirname, filename));
-      fs.unlinkSync(path.resolve(__dirname, filename))
       console.log('done');
     } catch (error) {
       console.log('error :', error);
@@ -715,8 +635,8 @@ export default class CrawlerBase {
       // moment('2024-03-26'),
       // moment('2024-03-27'),
       // moment('2024-03-28'),
-      moment('2024-03-29'),
-      moment('2024-03-30'),
+      // moment('2024-03-29'),
+      // moment('2024-03-30'),
       moment('2024-03-31'),
     ], async (_, date) => {
       console.log('date :', date);
