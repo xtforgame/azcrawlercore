@@ -4,7 +4,7 @@ import moment from 'moment';
 import { google, drive_v3, gmail_v1 } from 'googleapis';
 import puppeteer, { launch, Browser } from 'puppeteer';
 import { promiseReduce, promiseWait, promiseWaitFor } from '~/utils';
-import { syncCodes } from '~/core/editorutils';
+import { scanAndSyncCodes } from '~/core/editorutils';
 import ShoplineCrawlerBase from './ShoplineCrawlerBase';
 
 export type PuppeteerLaunchOptions = Parameters<typeof launch>[0];
@@ -36,18 +36,6 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
         await page.reload({ waitUntil: 'networkidle2' });
         await promiseWait(1000);
 
-        let callback: any;
-        let resP: Promise<any> = Promise.resolve();
-        page.on('response', async (resp) => {
-          const url = resp.url();
-          console.log('url :', url);
-          if (url.includes('layout_components')) {
-            const data = await resp.json();
-            if (callback) {
-              callback(data);
-            }
-          }
-        });
         // const x = await page.$$eval('.document-file', ($lis) => {
         //   return Array.from($lis).length;
         // });
@@ -56,7 +44,7 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
 
         await page.evaluate(() => {
           console.log('test');
-          const token = document.querySelector('meta[name="csrf-token"]')!.getAttribute('content')!;
+          let token = document.querySelector('meta[name="csrf-token"]')!.getAttribute('content')!;
           fetch("https://admin.shoplineapp.com/api/admin/v1/61a6fdf071c22a002eb8ca87/layout_components/61c03bcd6f85ff13f9214320", {
             "headers": {
               "accept": "application/json, text/plain, */*",
@@ -100,7 +88,7 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
 
         throw new Error('xxxxxx');
 
-        syncCodes(page);
+        await scanAndSyncCodes(page);
       }
       console.log('done');
     } catch (error) {
