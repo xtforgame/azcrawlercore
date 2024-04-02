@@ -158,7 +158,7 @@ export default class ShoplineCrawlerBase {
   async getCode(timeMs: number) {
     const gmail = this.gmailApis[0];
     const mails = await this.listMails(gmail);
-    console.log('mails :', mails);
+    // console.log('mails :', mails);
     if (mails && mails.length > 0) {
       let code = '';
       try {
@@ -174,7 +174,7 @@ export default class ShoplineCrawlerBase {
             // console.log('First message:', message?.snippet);
             const r = /\:\s([0-9]{6})\s/gm.exec(message?.snippet || '');
             if (r?.[1]) {
-              console.log('First message:', message?.snippet);
+              // console.log('First message:', message?.snippet);
               code = r?.[1];
             }
           } else {
