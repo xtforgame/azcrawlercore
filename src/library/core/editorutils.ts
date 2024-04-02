@@ -39,7 +39,7 @@ export function fulfillablePromise<T = any>(expiryTime = 2000) {
   };
 }
 
-export function saveCode(data: any, jsonOnly = false) {
+export function saveCodePage(data: any, jsonOnly = false) {
   fs.mkdirSync(`../kanebo/json`, { recursive: true });
   if (data?.name) {
     if (!jsonOnly) {
@@ -49,38 +49,60 @@ export function saveCode(data: any, jsonOnly = false) {
   }
 }
 
-export const scanAndSyncCodes = async (page: puppeteer.Page) => {
+export function loadCodePage(pageName: string) {
+  try {
+    return JSON.parse(fs.readFileSync(`../kanebo/json/${pageName}.json`, { encoding: 'utf-8' }));
+  } catch (error) {
+    
+  }
+  return null;
+}
+
+export function listCodePages() {
+  const files = fs.readdirSync(`../kanebo/json`);
+  return files.map(fileName => fileName.substring(0, fileName.length - '.json'.length));
+}
+
+
+export const scanAndSyncCodePages = async (page: puppeteer.Page, filter: ($li: puppeteer.ElementHandle<Element>, name: string) => Promise<boolean> = async () => true) => {
   const {
     fulfill,
     createPromise,
   } = fulfillablePromise();
   page.on('response', async (resp) => {
     const url = resp.url();
-    console.log('url :', url);
     if (url.includes('layout_components')) {
+      console.log('url :', url);
       const data = await resp.json();
       fulfill(data);
     }
   });
   const $lis = await page.$$('.document-file');
+  const liNames = await page.$$eval('.document-file', ($lis) => {
+    return Array.from($lis).map(e => (e.textContent || '').trim());
+  });
 
-  await promiseReduce(Array.from($lis), async (_, $li) => {
+  await promiseReduce(Array.from($lis), async (_, $li, i) => {
+    const skip = !(await filter($li, liNames[i]));
+    if (skip) {
+      return;
+    }
     await $li.click();
     const data: any = await createPromise();
     // console.log('data :', data);
-    saveCode(data);
+    saveCodePage(data);
   }, null);
 };
 
-export const fetchCode = async (page: puppeteer.Page, id: string = '61c03bcd6f85ff13f9214320') => {
+export const fetchCodePage = async (page: puppeteer.Page, id: string = '61c03bcd6f85ff13f9214320') => {
   const {
     fulfill,
     createPromise,
   } = fulfillablePromise(5000);
   const cb = async (resp) => {
     const url = resp.url();
-    console.log('url :', url);
     if (url.includes('layout_components')) {
+      console.log('url :', url);
       const result = await resp.json();
       fulfill(result);
     }

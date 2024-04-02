@@ -4,7 +4,7 @@ import moment from 'moment';
 import { google, drive_v3, gmail_v1 } from 'googleapis';
 import puppeteer, { launch, Browser } from 'puppeteer';
 import { promiseReduce, promiseWait, promiseWaitFor } from '~/utils';
-import { scanAndSyncCodes, fetchCode, saveCode } from '~/core/editorutils';
+import { scanAndSyncCodePages, fetchCodePage, listCodePages, loadCodePage, saveCodePage } from '~/core/editorutils';
 import ShoplineCrawlerBase from './ShoplineCrawlerBase';
 
 export type PuppeteerLaunchOptions = Parameters<typeof launch>[0];
@@ -32,10 +32,18 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
 
         // await promiseWait(2000);
 
-        const code = await await fetchCode(page);
-        saveCode(code);
+        const code = await fetchCodePage(page);
+        saveCodePage(code);
 
-        // await scanAndSyncCodes(page);
+        const pageNames = listCodePages();
+        console.log('pageNames :', pageNames);
+
+        const themePage = loadCodePage('theme.liquid');
+        // console.log('themePage :', themePage);
+
+        await scanAndSyncCodePages(page, async ($li, name) => {
+          return name === 'theme.liquid';
+        });
       }
       console.log('done');
     } catch (error) {

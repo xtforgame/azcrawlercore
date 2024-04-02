@@ -1,3 +1,4 @@
+// https://developers.google.com/gmail/api/quickstart/nodejs?hl=zh-tw
 // yarn add googleapis@105 @google-cloud/local-auth@2.1.0
 import { google, gmail_v1 } from 'googleapis';
 import moment from 'moment';
