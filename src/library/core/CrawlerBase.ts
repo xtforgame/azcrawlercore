@@ -4,7 +4,7 @@ import moment from 'moment';
 import { google, drive_v3, gmail_v1 } from 'googleapis';
 import puppeteer, { launch, Browser } from 'puppeteer';
 import { promiseReduce, promiseWait, promiseWaitFor } from '~/utils';
-import { scanAndSyncCodePages, fetchCodePage, listCodePages, loadCodePage, saveCodePage } from '~/core/editorutils';
+import { scanAndSyncCodePages, updateCodeFromJson, updateCode, fetchCodePage, listCodePages, loadCodePage, saveCodePage } from '~/core/editorutils';
 import ShoplineCrawlerBase from './ShoplineCrawlerBase';
 
 export type PuppeteerLaunchOptions = Parameters<typeof launch>[0];
@@ -32,18 +32,20 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
 
         // await promiseWait(2000);
 
-        const code = await fetchCodePage(page);
-        saveCodePage(code);
+        // const code = (await fetchCodePage(page, 'theme.liquid'))!;
+        // saveCodePage(code);
 
-        const pageNames = listCodePages();
-        console.log('pageNames :', pageNames);
+        // const pageNames = listCodePages();
+        // console.log('pageNames :', pageNames);
 
-        const themePage = loadCodePage('theme.liquid');
+        // const themePage = loadCodePage('theme.liquid');
         // console.log('themePage :', themePage);
 
-        await scanAndSyncCodePages(page, async ($li, name) => {
-          return name === 'theme.liquid';
-        });
+        await updateCodeFromJson(page);
+
+        // await scanAndSyncCodePages(page, async ($li, name) => {
+        //   return name === 'theme.liquid';
+        // });
       }
       console.log('done');
     } catch (error) {
