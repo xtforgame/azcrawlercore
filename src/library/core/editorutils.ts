@@ -284,7 +284,7 @@ export const updateCodeFromJson = async (page: puppeteer.Page) => {
         lastRefresh = new Date().getTime();
         await page.reload({ waitUntil: 'networkidle2' });
       }
-      await promiseReduce(result.list, async(_, fileName) => {
+      await promiseReduce(result.list.filter(fileName => fileName && !fileName.startsWith('//')), async(_, fileName) => {
         await updateCode(page, fileName);
       }, null);
       console.log('updateed !!!!');
