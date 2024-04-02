@@ -271,6 +271,8 @@ export function loadUpdateJson(): UpdateOptions | null | true {
   return null;
 }
 
+let lastRefresh = 0;
+
 export const updateCodeFromJson = async (page: puppeteer.Page) => {
   await promiseWaitFor(2000, async () => {
     const result = await loadUpdateJson();
@@ -278,10 +280,14 @@ export const updateCodeFromJson = async (page: puppeteer.Page) => {
       return !!result;
     }
     if (!result.done) {
-      await page.reload({ waitUntil: 'networkidle2' });
+      if (new Date().getTime() - 30 * 60 * 1000 > lastRefresh) {
+        lastRefresh = new Date().getTime();
+        await page.reload({ waitUntil: 'networkidle2' });
+      }
       await promiseReduce(result.list, async(_, fileName) => {
         await updateCode(page, fileName);
       }, null);
+      console.log('updateed !!!!');
     }
     return false;
   });
