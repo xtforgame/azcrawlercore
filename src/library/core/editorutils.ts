@@ -280,7 +280,7 @@ export const updateCodeFromJson = async (page: puppeteer.Page) => {
       return !!result;
     }
     if (!result.done) {
-      if (new Date().getTime() - 30 * 60 * 1000 > lastRefresh) {
+      if (new Date().getTime() - 60 * 1000 > lastRefresh) {
         lastRefresh = new Date().getTime();
         await page.reload({ waitUntil: 'networkidle2' });
       }
