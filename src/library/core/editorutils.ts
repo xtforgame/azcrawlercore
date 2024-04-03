@@ -287,7 +287,7 @@ export const updateCodeFromJson = async (page: puppeteer.Page) => {
       await promiseReduce(result.list.filter(fileName => fileName && !fileName.startsWith('//')), async(_, fileName) => {
         await updateCode(page, fileName);
       }, null);
-      console.log('updateed !!!!');
+      console.log('updated !!!!');
     }
     return false;
   });
