@@ -109,8 +109,8 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
     });
 
     const rowsToDownload: any[] = [];
-    let pendingRow = null;
-    let discountBaseRow = null;
+    let pendingRow: any = null;
+    let discountBaseRow: any = null;
     rowsToDownloadX.forEach((r, i, arr) => {
       if (pendingRow && pendingRow['訂單號碼'] !== r['訂單號碼']) {
         rowsToDownload.push(pendingRow);
@@ -294,7 +294,7 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
           return;
         }
         try {
-          let res = await driveApi.files.delete({ 'fileId': f.id });
+          let res = await driveApi.files.delete({ 'fileId': f.id as any });
           console.log('res :', res);
         } catch (error) {
           console.log('error :', error);
@@ -513,9 +513,6 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
     await promiseReduce([
       moment('2024-04-03'),
       // moment('2024-04-04'),
-      moment('2024-04-05'),
-      moment('2024-04-06'),
-      moment('2024-04-07'),
     ], async (_, date) => {
       console.log('date :', date);
       await this.runX(date);

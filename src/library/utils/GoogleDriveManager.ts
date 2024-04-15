@@ -89,7 +89,7 @@ export default class GoogleDriveManager {
     };
     const res = await this.driveApi!.files.create(
       {
-        requestBody: fileMetadata,
+        requestBody: fileMetadata as any,
         media: {
           mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // Modified
           body: this.getStream(),

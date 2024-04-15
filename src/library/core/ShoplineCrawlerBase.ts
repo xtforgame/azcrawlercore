@@ -59,7 +59,7 @@ export default class ShoplineCrawlerBase {
     const options : PuppeteerLaunchOptions = debug ? {
       devtools: true,
       headless: false,
-      slowMo: 250,
+      slowMo: 100,
       args,
     } : {
       headless: true,
