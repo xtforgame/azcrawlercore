@@ -15,7 +15,7 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
 // created automatically when the authorization flow completes for the first
 // time.
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
-const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
+const CREDENTIALS_PATH = path.join(process.cwd(), 'secrets/googleapp_client_secrets_gmail.json');
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -70,68 +70,6 @@ async function authorize() {
   return client;
 }
 
-/**
- * Lists the labels in the user's account.
- *
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */
-async function listLabels(auth) {
-  const gmail = google.gmail({ version: 'v1', auth });
-  const res = await gmail.users.labels.list({
-    userId: 'me',
-  });
-  const { labels } = res.data;
-  if (!labels || labels.length === 0) {
-    console.log('No labels found.');
-    return;
-  }
-  console.log('Labels:');
-  labels.forEach((label) => {
-    console.log(`- ${label.name}`);
-  });
+export default async function echo<T=any>(data : T, err: any = undefined) {
+  return authorize();
 }
-
-export const listMails = async (gmail: gmail_v1.Gmail) => {
-  try {
-    const response = await gmail.users.messages.list({
-      userId: 'me',
-    });
-    return response.data.messages;
-  } catch (error) {
-    console.error('The API returned an error:', error);
-    return [];
-  }
-};
-
-// 获取邮件内容
-export const getMessage = async (gmail: gmail_v1.Gmail, messageId: string) => {
-  try {
-    const response = await gmail.users.messages.get({
-      userId: 'me',
-      id: messageId,
-    });
-    return response.data;
-  } catch (error) {
-    console.error('The API returned an error:', error);
-    return null;
-  }
-};
-
-export const run = async (timeMs: number) => {
-  const auth = await authorize();
-  const gmail = google.gmail({ version: 'v1', auth });
-  const mails = await listMails(gmail);
-  console.log('mails :', mails);
-  if (mails && mails.length > 0) {
-    const messageId = mails[0].id;
-    const message = await getMessage(gmail, messageId);
-    const dateMs = parseInt(message?.internalDate || '0');
-    if (moment(dateMs).valueOf() > moment(timeMs).valueOf()) {
-      console.log('First message:', message?.snippet);
-    }
-  } else {
-    console.log('No messages found.');
-  }
-  // await listLabels(auth);
-  return true;
-};

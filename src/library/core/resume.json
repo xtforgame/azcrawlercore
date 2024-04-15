@@ -1,0 +1,417 @@
+{
+  "data": {
+      "error": null,
+      "resume": {
+          "achievement": {
+              "layout": "1",
+              "display": 0,
+              "list": []
+          },
+          "addressDesc": "220 新北市板橋區四維路***",
+          "age": 27,
+          "areaDesc": "新北市板橋區",
+          "auto": "<p><span style=\"color:rgb(0,0,0);\">我是黃薇，1996年生，擁有</span>四年視覺設計經驗。</p><p><br /></p><p><span style=\"color:rgb(0,0,0);background-color:transparent;\">上份工作在三名治設計擔任視覺設計師，主要負責平面設計、插畫、品牌識別、包裝......等項目設計，擅長運用視覺設計塑造品牌形象，曾經參與過連鎖餐飲集團的新品牌設計規劃。</span></p><p><br /></p><p><span style=\"color:rgb(0,0,0);\">我喜歡持續學習不斷精進</span><span style=\"color:rgb(0,0,0);background-color:transparent;\">、探索更多元的可能性，</span><span style=\"color:rgb(0,0,0);\">認為自己在設計及美感上的經驗能為團隊帶來價值及貢獻，</span><span style=\"color:rgb(0,0,0);background-color:transparent;\">希望不限於平面，能有機會挑戰及執行UIUX設計</span><span style=\"color:rgb(0,0,0);\">，創作出好看好玩又好用的設計！</span></p>",
+          "autoEng": "",
+          "attachArr": [
+              {
+                  "title": "Resume",
+                  "type": 1,
+                  "link": "https://vip.104.com.tw/download/resumeAttach/1357cf588744868cdec35fe1b7f05525611e631d65126571967169a14ef10e55efb95487f6d51dbd69b5f6a06ed02b65cd9242f22f838a3a40b8b88127a68cde7d0e2fa3a17f9ebdd9f323d952e5be710ae9dc841b84ba2a2b01aa7a8db7061c10f89fd736e97cdb144d58d97c7025ca326699db09c3060026e4299eb76a059eec64f2142d6e3481c7ada99959b8a603c",
+                  "sort": 1,
+                  "filename": "黃薇Resume_2024.pdf",
+                  "preview": "https://vip.104.com.tw/download/webImg/v/1c257238a84f8c56308e68b0bf60ffa8dc940037a162c3b57a517759863072b11281908abd7b113a8845c2680a2c2e863b3169de3407380cb341b3a9ddd2c1ec945e6fea82f7ada79809c9944741e535c"
+              },
+              {
+                  "title": "黃薇UI Portfolio_2024",
+                  "type": 1,
+                  "link": "https://vip.104.com.tw/download/resumeAttach/1357cf588744868cdec35fe1b7f05525611e631d65126571967169a14ef10e55efb95487f6d51dbd69b5f6a06ed02b65c3f847b651ed5b4ef17dd9aca20bac0ecd6377eccc23752b2620c69aa85e98151fb674c84fd48f9e3ceada32dc830716aed179324bfb73b683c979e432adcd881feee68b656125640d630f69bcec3fcf91146af2885ff420705058d6ac0ffa8f545aa3e992602c9f7fce3abad18a813aa",
+                  "sort": 2,
+                  "filename": "黃薇UI Portfolio_2024.pdf",
+                  "preview": "https://vip.104.com.tw/download/webImg/v/1c257238a84f8c56308e68b0bf60ffa8dc940037a162c3b57a517759863072b11281908abd7b113a8845c2680a2c2e863b3169de3407380cb341b3a9ddd2c1ec995f8190af0943270afd616040ae23b9d"
+              },
+              {
+                  "title": "黃薇Graphic Portfolio_2024",
+                  "type": 1,
+                  "link": "https://vip.104.com.tw/download/resumeAttach/1357cf588744868cdec35fe1b7f05525611e631d65126571967169a14ef10e55efb95487f6d51dbd69b5f6a06ed02b65c3f847b651ed5b4ef17dd9aca20bac0eca46e37d65ef36fdfdddfb5070c775730a1b84c890e8c3a31835ba8cb7fa18abb16e7e06f4828e1c1da2ed03eff884df62d037ba31b59c6cfd06f419fc3610f8a814766ca0869439df3558b60fa009d6eb0b566010ae70a3e82b4986813471e0cf35cf8192cc3b39539f3d47aa8068dca",
+                  "sort": 3,
+                  "filename": "黃薇Graphic Portfolio_2024.pdf",
+                  "preview": "https://vip.104.com.tw/download/webImg/v/1c257238a84f8c56308e68b0bf60ffa8dc940037a162c3b57a517759863072b11281908abd7b113a8845c2680a2c2e863b3169de3407380cb341b3a9ddd2c1ec94bd5aaa74c8c2af0ed183a6f2a2385ae"
+              }
+          ],
+          "layoutMenu": "info,education,experience,jobCondition,skill,bio,language,portfolio",
+          "layoutBasic": "1",
+          "layoutSkill": "1",
+          "layoutEducation": "1",
+          "layoutExpJob": "1",
+          "layoutLanguageSkill": "1",
+          "layoutSearch": "1",
+          "layoutCertificate": "1",
+          "layoutAchievement": "1",
+          "layoutPortfolio": "3",
+          "layoutReferral": "1",
+          "background": {
+              "type": 1,
+              "url": "https://vip.104.com.tw/download/webImg/v/1c257238a84f8c56308e68b0bf60ffa8dc940037a162c3b57a517759863072b11281908abd7b113a8845c2680a2c2e86372c1a5c36005ef5a62274e3d6387d815d23cbf69c4a9be637e4de3b57bb6356e",
+              "thumbnailStatus": 0,
+              "thumbnailUrl": "https://vip.104.com.tw/download/webImg/v/1c257238a84f8c56308e68b0bf60ffa8dc940037a162c3b57a517759863072b11281908abd7b113a8845c2680a2c2e86372c1a5c36005ef5a62274e3d6387d815d23cbf69c4a9be637e4de3b57bb6356e",
+              "color": ""
+          },
+          "summaryDisplay": [
+              1,
+              2,
+              3,
+              4,
+              5
+          ],
+          "basicData": "85年次",
+          "callTimeDesc": "信箱: vivian612540@gmail.com",
+          "careerSkillDescForMaster": "",
+          "talentDesc": "",
+          "cerDesc2": "",
+          "certDescForMaster": "英語相關證照：TOEIC (多益測驗)",
+          "characteristic": "4年平面設計經驗、運用視覺設計塑造品牌形象、持續學習",
+          "compendium": 0,
+          "customContent": {
+              "display": 0,
+              "list": []
+          },
+          "customResume": {
+              "birthYear": "1996",
+              "cellphone": null,
+              "certificates": [
+                  {
+                      "category": "英語相關證照",
+                      "items": [
+                          "TOEIC (多益測驗)"
+                      ]
+                  }
+              ],
+              "characteristic": [
+                  "4年平面設計經驗",
+                  "運用視覺設計塑造品牌形象",
+                  "持續學習"
+              ],
+              "disRoleDesc": [],
+              "disTool": [
+                  ""
+              ],
+              "driverLicenseDesc": [],
+              "height": null,
+              "indCatNoDesc": [
+                  "產業不拘"
+              ],
+              "jobCatNoDesc": [
+                  "UI設計師",
+                  "網頁設計師"
+              ],
+              "jobTimePeriod": [
+                  "日班"
+              ],
+              "otherTimePeriod": null,
+              "remoteWork": 1,
+              "roleDesc": [
+                  "全職"
+              ],
+              "roleStatusDesc": [],
+              "subCellphone": null,
+              "tel": null,
+              "telArea": null,
+              "transportsIdDesc": [],
+              "wcityNoDesc": [
+                  "台北市",
+                  "新北市"
+              ],
+              "weight": null,
+              "workShift": false,
+              "languageList": [
+                  {
+                      "languageDesc": "英文",
+                      "listening": "中等",
+                      "speaking": "中等",
+                      "reading": "中等",
+                      "writing": "中等",
+                      "certificates": [
+                          {
+                              "name": "TOEIC (多益測驗)",
+                              "score": "625"
+                          }
+                      ]
+                  },
+                  {
+                      "languageDesc": "韓文",
+                      "listening": "略懂",
+                      "speaking": "略懂",
+                      "reading": "略懂",
+                      "writing": "不會",
+                      "certificates": []
+                  }
+              ],
+              "locallanList": []
+          },
+          "detailExpDesc": "",
+          "degreeLevelDesc": [
+              "大學"
+          ],
+          "degreeStatusDesc": [
+              "畢業"
+          ],
+          "disRoleDesc": "",
+          "disTool": "",
+          "driverLicenseDesc": "",
+          "eduDesc": "大學畢業 國立臺灣藝術大學 視覺傳達設計",
+          "eduOutput": [
+              "國立臺灣藝術大學 視覺傳達設計(2015/09 ~ 2019/06畢業)"
+          ],
+          "eduEnd": [
+              "20190601"
+          ],
+          "eduStart": [
+              "20150901"
+          ],
+          "email": "vivian612540@gmail.com",
+          "engName": "Huang Wei",
+          "expCatTimeDesc": [
+              {
+                  "expCatDesc": "平面設計／美編",
+                  "expTimeDesc": "3~4年"
+              },
+              {
+                  "expCatDesc": "視覺設計師",
+                  "expTimeDesc": "1~2年"
+              }
+          ],
+          "expJobArr": [
+              {
+                  "coSizeDesc": "1~30人",
+                  "companyVisibility": true,
+                  "expEnd": "2023/06/01",
+                  "expEndDesc": "1年7個月",
+                  "expFirm": "三名治股份有限公司",
+                  "expFirmLogo": "https://static.104.com.tw/b_profile/cust_picture/9530/130000000219530/logo.jpg?v=20230926154516",
+                  "expIndDesc": "專門設計相關業",
+                  "expJobDesc": "平面設計／美編",
+                  "expJobNote": "<ul><li>與PM、企劃、設計師合作，協助品牌形象建構。</li><li>製作品牌識別、平面、包裝、插畫、行銷圖文等項目設計，與客戶進行提案說明並完成發包，規劃撰寫品牌識別手冊。</li><li>參與連鎖餐飲集團新品牌視覺規劃，包含視覺提案、延伸製作物、室內裝潢定調與 IP 創作及設定......等。</li></ul>",
+                  "expJobSkill": [
+                      "CIS企畫設計",
+                      "設計印刷基本認知",
+                      "設計表現能力",
+                      "電腦繪圖軟體操作",
+                      "產品包裝設計",
+                      "視覺設計相關知識"
+                  ],
+                  "expJobSkillDesc": "CIS企畫設計、設計印刷基本認知、設計表現能力、電腦繪圖軟體操作、產品包裝設計、視覺設計相關知識",
+                  "expManagementDesc": null,
+                  "expPeriod": "2021/12~2023/06",
+                  "expStart": "2021/12/01",
+                  "expTitle": "平面設計師",
+                  "expWage": null,
+                  "expWageDesc": null,
+                  "expWageTypeDesc": null,
+                  "expWageYear": null
+              },
+              {
+                  "coSizeDesc": "30~100人",
+                  "companyVisibility": true,
+                  "expEnd": "2021/11/01",
+                  "expEndDesc": "1年8個月",
+                  "expFirm": "純粹創意整合行銷有限公司",
+                  "expFirmLogo": "https://static.104.com.tw/b_profile/cust_picture/5000/12629385000/logo.gif?v=20230217161943",
+                  "expIndDesc": "廣告行銷公關業",
+                  "expJobDesc": "視覺設計師",
+                  "expJobNote": "<ul><li>發想與提案各類型視覺設計，獨立完成設計作業，與印刷廠溝通執行條件，確保印刷品質。</li><li>製作全國兒少陶藝獎展覽視覺、AR 延伸物及發包，過程獨立與客戶接洽。</li><li>參與雙北及桃園的市場攤位改造計畫，總共七攤。</li></ul>",
+                  "expJobSkill": [
+                      "視覺設計相關知識",
+                      "設計表現能力",
+                      "電腦排版設計",
+                      "Illustrator",
+                      "電腦繪圖軟體操作",
+                      "電腦印前設計"
+                  ],
+                  "expJobSkillDesc": "視覺設計相關知識、設計表現能力、電腦排版設計、Illustrator、電腦繪圖軟體操作、電腦印前設計",
+                  "expManagementDesc": null,
+                  "expPeriod": "2020/04~2021/11",
+                  "expStart": "2020/04/01",
+                  "expTitle": "視覺設計師",
+                  "expWage": null,
+                  "expWageDesc": null,
+                  "expWageTypeDesc": null,
+                  "expWageYear": null
+              },
+              {
+                  "coSizeDesc": "30~100人",
+                  "companyVisibility": true,
+                  "expEnd": "2020/01/01",
+                  "expEndDesc": "4個月",
+                  "expFirm": "貝殼放大股份有限公司",
+                  "expFirmLogo": "https://static.104.com.tw/b_profile/cust_picture/1707/130000000061707/logo.png?v=20240313191941",
+                  "expIndDesc": "數位內容產業",
+                  "expJobDesc": "平面設計／美編",
+                  "expJobNote": "<ul><li>使用 Wix 及 Adobe XD 製作募資產品的一頁式網站設計。</li><li>展覽視覺延伸物及社群行銷圖文製作。</li></ul>",
+                  "expJobSkill": [
+                      "網頁設計",
+                      "設計表現能力",
+                      "繪圖工具與軟體操作"
+                  ],
+                  "expJobSkillDesc": "網頁設計、設計表現能力、繪圖工具與軟體操作",
+                  "expManagementDesc": null,
+                  "expPeriod": "2019/10~2020/01",
+                  "expStart": "2019/10/01",
+                  "expTitle": "約聘設計師",
+                  "expWage": null,
+                  "expWageDesc": null,
+                  "expWageTypeDesc": null,
+                  "expWageYear": null
+              },
+              {
+                  "coSizeDesc": "500人以上",
+                  "companyVisibility": true,
+                  "expEnd": "2019/01/01",
+                  "expEndDesc": "1年1個月",
+                  "expFirm": "誠品股份有限公司",
+                  "expFirmLogo": "",
+                  "expIndDesc": "百貨相關業",
+                  "expJobDesc": "平面設計／美編",
+                  "expJobNote": "<p>檔期POP、櫃位卡典製作。</p>",
+                  "expJobSkill": null,
+                  "expJobSkillDesc": null,
+                  "expManagementDesc": null,
+                  "expPeriod": "2018/01~2019/01",
+                  "expStart": "2018/01/01",
+                  "expTitle": "設計工讀生",
+                  "expWage": null,
+                  "expWageDesc": null,
+                  "expWageTypeDesc": null,
+                  "expWageYear": null
+              }
+          ],
+          "expPeriodDesc": "3~4年工作經驗",
+          "hiddenIndSet": [
+              2,
+              2,
+              2
+          ],
+          "hopeSalaryDesc": "月薪 38,000元以上",
+          "hunterStatus": null,
+          "idNo": "30000001640732",
+          "indCatNoDesc": "產業不拘",
+          "introduction": "<p><span style=\"color:rgb(0,0,0);\">四年視覺設計經驗，擅長溝通與跨職能合作，運用視覺設計塑造品牌形象。喜歡持續學習不斷精進，</span><span style=\"color:rgb(0,0,0);background-color:transparent;\">希望不限於平面，能有機會挑戰及執行UIUX設計</span><span style=\"color:rgb(0,0,0);\">，創作出富有美感又好用的作品。</span></p>",
+          "isContact": false,
+          "isDis": "0",
+          "isDuplicateApply": false,
+          "isHalfShow": 0,
+          "isSave": false,
+          "jobCatNoDesc": "UI設計師、網頁設計師",
+          "jobName": null,
+          "jobNo": null,
+          "languageNoDesc": [
+              "英文,中等,中等,中等,中等,TOEIC (多益測驗) 625",
+              "韓文,略懂,略懂,略懂,不會,"
+          ],
+          "locallanNoDesc": [],
+          "motto": "Just do it!",
+          "major": [
+              "視覺傳達設計"
+          ],
+          "majorCatDesc": [
+              "藝術商業設計"
+          ],
+          "military": "0",
+          "militaryStatus": "",
+          "militaryDesc": "",
+          "militaryExit": null,
+          "nationality": "",
+          "otherCourse": [],
+          "pId": "12285190",
+          "pcskillDescForMaster": "",
+          "proDesc2": "",
+          "personalPage": [
+              {
+                  "brand": "11",
+                  "url": "https://www.behance.net/vivian61250631"
+              }
+          ],
+          "personalPic": "https://vip.104.com.tw/download/webHeadShot?v=1c257238a84f8c56308e68b0bf60ffa8dc940037a162c3b57a517759863072b11281908abd7b113a8845c2680a2c2e863e6e6bc9e052d7f70c2041cfcf03ca9fb",
+          "phone": {
+              "company": "",
+              "home": "",
+              "mobile1": "0981-909-094",
+              "mobile2": ""
+          },
+          "phoneDescAll": "0981-909-094",
+          "plastActionDateDesc": "1天內有求職活動",
+          "postNum": "220",
+          "readStatus": false,
+          "recentJobDesc": "三名治股份有限公司 平面設計師",
+          "recommendArr": null,
+          "remark": [],
+          "remoteWork": 1,
+          "resumeStatus": "on",
+          "resumeType": "1",
+          "resumeVersion": "2",
+          "roleDesc": "全職",
+          "roleStatusDesc": "",
+          "roleNowDesc": "待業中",
+          "schoolCountryDesc": [
+              "台灣"
+          ],
+          "schoolName": [
+              "國立臺灣藝術大學"
+          ],
+          "sex": 0,
+          "sexDesc": "女",
+          "specialty": [
+              {
+                  "skill": "Skills & Tools",
+                  "desc": "<p><span style=\"background-color:rgb(221,221,221);\">Motion Graphic</span>: After Effects, Premiere</p><p><span style=\"background-color:rgb(221,221,221);\">Graphic Design</span>: Adobe Illustrator, Photoshop, InDesign</p><p><span style=\"background-color:rgb(221,221,221);\">UI Design</span>: Figma, Wix, Zeplin, Adobe XD</p><p><span style=\"background-color:rgb(221,221,221);\">Collaboration</span>: Slack, Google, Keynote, Clickup, Dropbox</p>"
+              },
+              {
+                  "skill": "工作技能",
+                  "desc": "<br /><br />#設計表現能力 #設計印刷基本認知 #CIS企畫設計 #包裝設計 #插畫表現技巧 #視覺設計相關知識 #Figma #Illustrator #Adobe Photoshop #電腦繪圖軟體操作 "
+              }
+          ],
+          "startDateOptionDesc": "錄取後一週可上班",
+          "studyStatusDesc": [
+              ""
+          ],
+          "switchDate": "20240406",
+          "switchStatus": "2",
+          "switchStatusView": "1",
+          "titleCat": "UI設計師",
+          "titleCatDesc": "UI設計師",
+          "transportsIdDesc": "",
+          "updateDateDesc": "2024/04/08 16:16",
+          "updateDayDesc": "2024/04/08",
+          "userName": "黃薇",
+          "versionNo": "20200128104135",
+          "wcityNoDesc": "台北市、新北市",
+          "workDesc": "<p>網頁UI設計上線、App設計</p>",
+          "workIntervalDescAll": "日班",
+          "documentSnapshotId": [],
+          "latestMemo": null
+      },
+      "browseLimit": {
+          "resumeMax": 300,
+          "onThatDayCount": 4
+      },
+      "hasOnJob": true,
+      "jobNo": null,
+      "calendarCount": 0,
+      "nccLogBaseData": {
+          "ext": {
+              "Buserid": "7Ynhtxdn0s2YI3XpJ60H",
+              "custno": "130000000055736",
+              "custType": "",
+              "pid": 17332231
+          }
+      },
+      "isHunterOrDispatch": false,
+      "companyName": "朵墨股份有限公司",
+      "userName": "陳宗麟",
+      "resumeTemplate": "0",
+      "resumeFitnessReportInfo": {
+          "switch": true,
+          "url": "https://pro.104.com.tw/asm/api/privip/auth/vip_result?idno=30000001640732&pid=12285190&custno=130000000055736&industry_id=1003002003&position_id=1&has_testing=0&manage_pid=17332231"
+      }
+  },
+  "metadata": {}
+}
