@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import querystring from 'querystring';
 import moment from 'moment';
 import { google, drive_v3, gmail_v1 } from 'googleapis';
 import puppeteer, { launch, Browser } from 'puppeteer';
@@ -103,6 +104,67 @@ export default class CrawlerBase extends CrawlerCoreBase {
     return null;
   };
 
+  fetchResume = async (page: puppeteer.Page, id: string) => {
+    const p = new Promise((resolve, reject) => {
+      const cb = (resp) => {
+        const url = resp.url();
+        // console.log('url :', url);
+        if (url.includes(`https://auth.vip.104.com.tw/vipapi/resume/search/${id}`)) {
+          if (resp.status() === 200) {
+            resolve(resp.json());
+          } else {
+            reject(resp.json());
+          }
+          page.off('response', cb);
+        }
+      }
+      page.on('response', cb);
+    });
+    await page.goto(`https://auth.vip.104.com.tw/vipapi/resume/search/${id}`, {
+      waitUntil: 'networkidle2',
+    });
+    const result = await p;
+    return result;
+  };
+
+  fetchResumeList = async (browser: puppeteer.Browser, baseUrl: string, pageNum: number = 0) => {
+    let url = baseUrl;
+    const urlParts = baseUrl.split('?')
+    const queryString = urlParts[urlParts.length - 1];
+    const query = querystring.decode(queryString);
+    if (query.page != null) {
+      delete query.page;
+    }
+    if (pageNum) {
+      query.page = `${pageNum}`;
+    }
+    url = `${urlParts[0]}?${querystring.encode(query)}`;
+    console.log('url :', url);
+    const page = await this.newPage(browser);
+    const p = new Promise((resolve, reject) => {
+      const cb = (resp) => {
+        const url = resp.url();
+        // console.log('url :', url);
+        const method = resp.request().method();
+        if (method !== 'OPTIONS' && url.includes(`https://auth.vip.104.com.tw/api/search/searchResult`)) {
+          if (resp.status() === 200) {
+            resolve(resp.json());
+          } else {
+            reject(resp.json());
+          }
+          page.off('response', cb);
+        }
+      }
+      page.on('response', cb);
+    });
+    await page.goto(url, {
+      waitUntil: 'networkidle2',
+    });
+    const result = await p;
+    await page.close();
+    return result;
+  };
+
   async runX() {
     const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(true));
     try {
@@ -110,9 +172,19 @@ export default class CrawlerBase extends CrawlerCoreBase {
         const page = await this.newPage(browser);
         await this.login(page);
 
-        // btn btn-secondary-b3 btn--sm btn--responsive
-        // https://vip.104.com.tw/company/status/repeatLogin?custNo=130000000055736&target_link_uri=https%3A%2F%2Fvip.104.com.tw%2F
-        await promiseWait(1000000);
+        const json2: any = await this.fetchResumeList(browser, `https://vip.104.com.tw/search/searchResult?kws=%E8%A8%AD%E8%A8%88%E5%B8%AB&plastActionDateType=5&updateDateType=4&contactInfo=0&jobcat=2013001005,2013001015,2013001016,2013001006&city=6001001000&home=6001001000,6001002000&workExpTimeType=all&workExpTimeMin=1&workExpTimeMax=1&edu%5B%5D=2&edu%5B%5D=4&edu%5B%5D=8&edu%5B%5D=16&edu%5B%5D=32&role%5B%5D=1&sex=2&empStatus=0&sortType=RANK&page=2`);
+        console.log('json2 :', json2.result.data.map(row => row.idNo));
+
+        const page2 = await this.newPage(browser);
+        fs.mkdirSync('exports', { recursive: true })
+        await promiseReduce(json2.result.data, async (_, row: any) => {
+          const json = await this.fetchResume(page2, row.idNo);
+          // console.log('json :', json);
+          fs.writeFileSync(`exports/${row.idNo}.json`, JSON.stringify(json, null, 2), { encoding: 'utf-8' });
+        }, null);
+        await page2.close();
+
+        // await promiseWait(1000000);
       }
       console.log('done');
     } catch (error) {
