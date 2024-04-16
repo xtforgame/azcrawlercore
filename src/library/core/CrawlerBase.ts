@@ -127,6 +127,44 @@ export default class CrawlerBase extends CrawlerCoreBase {
     return result;
   };
 
+  fetchResumePic = async (page: puppeteer.Page, picUrl: string) => {
+    const p = new Promise((resolve, reject) => {
+      const cb = (resp) => {
+        const url = resp.url();
+        // console.log('url :', url);
+        if (url.includes(picUrl)) {
+          if (resp.status() === 200) {
+            resp.buffer().then(file => {
+                const fileName = url.split('/').pop();
+                const filePath = path.resolve(__dirname, fileName);
+                const writeStream = fs.createWriteStream(filePath);
+                writeStream.write(file);
+                resolve('');
+            });
+          } else {
+            reject('');
+          }
+          page.off('response', cb);
+        }
+
+        // if (resp.request().resourceType() === 'image') {
+        //   resp.buffer().then(file => {
+        //       const fileName = url.split('/').pop();
+        //       const filePath = path.resolve(__dirname, fileName);
+        //       const writeStream = fs.createWriteStream(filePath);
+        //       writeStream.write(file);
+        //   });
+        // }
+      }
+      page.on('response', cb);
+    });
+    await page.goto(picUrl, {
+      waitUntil: 'networkidle2',
+    });
+    const result = await p;
+    return result;
+  };
+
   fetchResumeList = async (browser: puppeteer.Browser, baseUrl: string, pageNum: number = 0) => {
     let url = baseUrl;
     const urlParts = baseUrl.split('?')
@@ -176,11 +214,71 @@ export default class CrawlerBase extends CrawlerCoreBase {
         console.log('json2 :', json2.result.data.map(row => row.idNo));
 
         const page2 = await this.newPage(browser);
-        fs.mkdirSync('exports', { recursive: true })
+        const personalPicTmpPath = 'exports/downloaded-personal-pics';
+        const personalPicPath = 'exports/personal-pics';
+        const resumePath = 'exports/resume';
+        fs.mkdirSync(personalPicTmpPath, { recursive: true });
+        fs.mkdirSync(personalPicPath, { recursive: true });
+        fs.mkdirSync(resumePath, { recursive: true });
+        await page2._client.send('Page.setDownloadBehavior', {
+          behavior: 'allow',
+          downloadPath: personalPicTmpPath,
+        });
         await promiseReduce(json2.result.data, async (_, row: any) => {
-          const json = await this.fetchResume(page2, row.idNo);
-          // console.log('json :', json);
-          fs.writeFileSync(`exports/${row.idNo}.json`, JSON.stringify(json, null, 2), { encoding: 'utf-8' });
+          const json: any = await this.fetchResume(page2, row.idNo);
+          if (json?.data?.resume?.personalPic) {
+            const waitImg = async () => {
+              const files = fs.readdirSync(personalPicTmpPath);
+              for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file !== '.DS_Store' && !file.includes('.crdownload')) {
+                  const extname = path.extname(file);
+                  const stats = fs.statSync(path.join(personalPicTmpPath, file))
+                  if (!stats.size) {
+                    return false;
+                  }
+                  fs.renameSync(path.join(personalPicTmpPath, file), path.join(personalPicPath, `${row.idNo}${extname}`));
+                  return true;
+                }
+              }
+              return false;
+            };
+            try {
+              const noPhoto = 'photo-resume-no-photo.png';
+              if (json?.data?.resume?.personalPic.includes(noPhoto)) {
+                console.log('json?.data?.resume?.personalPic :', json?.data?.resume?.personalPic);
+                // console.log('json :', json);
+                const cb = (resp) => {
+                  const url = resp.url();
+                  console.log('url :', url);
+                  if (url.includes(noPhoto)) {
+                    console.log('url.includes(noPhoto)');
+                    resp.buffer().then(file => {
+                      const filePath = path.resolve(personalPicTmpPath, noPhoto);
+                      console.log('filePath :', filePath);
+                      const writeStream = fs.createWriteStream(filePath);
+                      writeStream.write(file);
+                    });
+                    page2.off('response', cb);
+                  }
+                }
+                page2.on('response', cb);
+                await page2.goto(json?.data?.resume?.personalPic, {
+                  waitUntil: 'networkidle2',
+                });
+              } else {
+                await page2._client.send('Page.navigate', {
+                  url: json?.data?.resume?.personalPic,
+                })
+              }
+
+              await promiseWaitFor(100, waitImg);
+            } catch (error) {
+              console.log('error :', error);
+            }
+          }
+          
+          fs.writeFileSync(`${resumePath}/${row.idNo}.json`, JSON.stringify(json, null, 2), { encoding: 'utf-8' });
         }, null);
         await page2.close();
 
