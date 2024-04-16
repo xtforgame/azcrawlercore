@@ -184,7 +184,7 @@ export default class CrawlerBase extends CrawlerCoreBase {
         }, null);
         await page2.close();
 
-        // await promiseWait(1000000);
+        await promiseWait(1000000);
       }
       console.log('done');
     } catch (error) {
