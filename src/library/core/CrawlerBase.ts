@@ -210,21 +210,24 @@ export default class CrawlerBase extends CrawlerCoreBase {
         const page = await this.newPage(browser);
         await this.login(page);
 
-        const json2: any = await this.fetchResumeList(browser, `https://vip.104.com.tw/search/searchResult?kws=%E8%A8%AD%E8%A8%88%E5%B8%AB&plastActionDateType=5&updateDateType=4&contactInfo=0&jobcat=2013001005,2013001015,2013001016,2013001006&city=6001001000&home=6001001000,6001002000&workExpTimeType=all&workExpTimeMin=1&workExpTimeMax=1&edu%5B%5D=2&edu%5B%5D=4&edu%5B%5D=8&edu%5B%5D=16&edu%5B%5D=32&role%5B%5D=1&sex=2&empStatus=0&sortType=RANK&page=2`);
-        console.log('json2 :', json2.result.data.map(row => row.idNo));
-
-        const page2 = await this.newPage(browser);
+        const resumeList: any = await this.fetchResumeList(browser, `https://vip.104.com.tw/search/searchResult?kws=%E8%A8%AD%E8%A8%88%E5%B8%AB&plastActionDateType=5&updateDateType=4&contactInfo=0&jobcat=2013001005,2013001015,2013001016,2013001006&city=6001001000&home=6001001000,6001002000&workExpTimeType=all&workExpTimeMin=1&workExpTimeMax=1&edu%5B%5D=2&edu%5B%5D=4&edu%5B%5D=8&edu%5B%5D=16&edu%5B%5D=32&role%5B%5D=1&sex=2&empStatus=0&sortType=RANK&page=2`);
+        console.log('resumeList :', resumeList.result.data.map(row => row.idNo));
         const personalPicTmpPath = 'exports/downloaded-personal-pics';
         const personalPicPath = 'exports/personal-pics';
+        const resumeListPath = 'exports/list';
         const resumePath = 'exports/resume';
         fs.mkdirSync(personalPicTmpPath, { recursive: true });
         fs.mkdirSync(personalPicPath, { recursive: true });
+        fs.mkdirSync(resumeListPath, { recursive: true });
         fs.mkdirSync(resumePath, { recursive: true });
+        fs.writeFileSync(`${resumeListPath}/list.json`, JSON.stringify(resumeList, null, 2), { encoding: 'utf-8' });
+
+        const page2 = await this.newPage(browser);
         await page2._client.send('Page.setDownloadBehavior', {
           behavior: 'allow',
           downloadPath: personalPicTmpPath,
         });
-        await promiseReduce(json2.result.data, async (_, row: any) => {
+        await promiseReduce(resumeList.result.data, async (_, row: any) => {
           const json: any = await this.fetchResume(page2, row.idNo);
           if (json?.data?.resume?.personalPic) {
             const waitImg = async () => {
@@ -281,8 +284,6 @@ export default class CrawlerBase extends CrawlerCoreBase {
           fs.writeFileSync(`${resumePath}/${row.idNo}.json`, JSON.stringify(json, null, 2), { encoding: 'utf-8' });
         }, null);
         await page2.close();
-
-        await promiseWait(1000000);
       }
       console.log('done');
     } catch (error) {
