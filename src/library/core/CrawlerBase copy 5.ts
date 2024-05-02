@@ -363,67 +363,771 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
     // return files;
   }
 
+
+  generateReport = async (page: puppeteer.Page, date: moment.Moment) => {
+    await page.evaluate(async (dateStringFrom, dateStringTo) => {
+      let azslToken = document.querySelector('meta[name="csrf-token"]')!.getAttribute('content')!;
+      try {
+        await fetch("https://admin.shoplineapp.com/api/admin/v2/614ae3db97e6f100235c99ff/orders/export_sales?locale=zh-hant", {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+            "content-type": "application/json;charset=UTF-8",
+            "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"92\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-csrf-token": azslToken,
+            "x-requested-with": "XMLHttpRequest"
+          },
+          "referrer": "https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin",
+          "referrerPolicy": "strict-origin-when-cross-origin",
+          "body": JSON.stringify({
+            "performer_id": "5ec7197f48b68e0048f193be",
+            "type": "by_row",
+            "date": "range",
+            "filters": {
+                "createdBy": "admin",
+                "start_date": dateStringFrom,
+                "end_date": dateStringTo,
+                "selected_filter_option": "created_at"
+            },
+            "order_ids": [],
+            "fields": [
+                {
+                    "name": "order_number",
+                    "type": "order",
+                    "typeIndex": 0
+                },
+                {
+                    "name": "delivery.option",
+                    "type": "delivery",
+                    "typeIndex": 0
+                },
+                {
+                    "name": "delivery.status",
+                    "type": "delivery",
+                    "typeIndex": 1
+                },
+                {
+                    "name": "delivery_data.recipient_name",
+                    "type": "delivery",
+                    "typeIndex": 2
+                },
+                {
+                    "name": "delivery_data.recipient_phone",
+                    "type": "delivery",
+                    "typeIndex": 3
+                },
+                {
+                    "name": "delivery_address.address_1",
+                    "type": "delivery",
+                    "typeIndex": 4
+                },
+                {
+                    "name": "delivery_address.address_2",
+                    "type": "delivery",
+                    "typeIndex": 5
+                },
+                {
+                    "name": "delivery_address.city",
+                    "type": "delivery",
+                    "typeIndex": 6
+                },
+                {
+                    "name": "delivery_address.state",
+                    "type": "delivery",
+                    "typeIndex": 7
+                },
+                {
+                    "name": "delivery_address.country",
+                    "type": "delivery",
+                    "typeIndex": 8
+                },
+                {
+                    "name": "delivery_address.postcode",
+                    "type": "delivery",
+                    "typeIndex": 9
+                },
+                {
+                    "name": "comments",
+                    "type": "delivery",
+                    "typeIndex": 11
+                },
+                {
+                    "name": "delivery_data.location_name",
+                    "type": "delivery",
+                    "typeIndex": 13
+                },
+                {
+                    "name": "invoice_request.tax_id",
+                    "type": "invoice",
+                    "typeIndex": 0
+                },
+                {
+                    "name": "invoice_request.mailing_address",
+                    "type": "invoice",
+                    "typeIndex": 1
+                },
+                {
+                    "name": "sku",
+                    "type": "product",
+                    "typeIndex": 0
+                },
+                {
+                    "name": "title",
+                    "type": "product",
+                    "typeIndex": 1
+                },
+                {
+                    "name": "variation",
+                    "type": "product",
+                    "typeIndex": 2
+                },
+                {
+                    "name": "product_price",
+                    "type": "product",
+                    "typeIndex": 4
+                },
+                {
+                    "name": "checkout_price",
+                    "type": "product",
+                    "typeIndex": 5
+                },
+                {
+                    "name": "price_type",
+                    "type": "product",
+                    "typeIndex": 6
+                },
+                {
+                    "name": "quantity",
+                    "type": "product",
+                    "typeIndex": 8
+                },
+                {
+                    "name": "item_type",
+                    "type": "product",
+                    "typeIndex": 9
+                },
+                {
+                    "name": "parent_order_number",
+                    "type": "order",
+                    "typeIndex": 1
+                },
+                {
+                    "name": "fb_page_name",
+                    "type": "order",
+                    "typeIndex": 5
+                },
+                {
+                    "name": "live_stream_name",
+                    "type": "order",
+                    "typeIndex": 6
+                },
+                {
+                    "name": "created_by",
+                    "type": "order",
+                    "typeIndex": 7
+                },
+                {
+                    "name": "created_at",
+                    "type": "order",
+                    "typeIndex": 9
+                },
+                {
+                    "name": "status",
+                    "type": "order",
+                    "typeIndex": 10
+                },
+                {
+                    "name": "preorder",
+                    "type": "order",
+                    "typeIndex": 11
+                },
+                {
+                    "name": "payment.option",
+                    "type": "order",
+                    "typeIndex": 12
+                },
+                {
+                    "name": "payment.paid_at",
+                    "type": "order",
+                    "typeIndex": 13
+                },
+                {
+                    "name": "payment.status",
+                    "type": "order",
+                    "typeIndex": 14
+                },
+                {
+                    "name": "payment.currency",
+                    "type": "order",
+                    "typeIndex": 15
+                },
+                {
+                    "name": "payment.from",
+                    "type": "order",
+                    "typeIndex": 16
+                },
+                {
+                    "name": "payment.amount",
+                    "type": "order",
+                    "typeIndex": 17
+                },
+                {
+                    "name": "payment.refund_amount",
+                    "type": "order",
+                    "typeIndex": 18
+                },
+                {
+                    "name": "subtotal",
+                    "type": "order",
+                    "typeIndex": 19
+                },
+                {
+                    "name": "delivery.fee",
+                    "type": "order",
+                    "typeIndex": 20
+                },
+                {
+                    "name": "payment.fee",
+                    "type": "order",
+                    "typeIndex": 21
+                },
+                {
+                    "name": "discount",
+                    "type": "order",
+                    "typeIndex": 22
+                },
+                {
+                    "name": "custom_discount",
+                    "type": "order",
+                    "typeIndex": 23
+                },
+                {
+                    "name": "user_credit",
+                    "type": "order",
+                    "typeIndex": 24
+                },
+                {
+                    "name": "point_discount",
+                    "type": "order",
+                    "typeIndex": 25
+                },
+                {
+                    "name": "applied_points",
+                    "type": "order",
+                    "typeIndex": 26
+                },
+                {
+                    "name": "total",
+                    "type": "order",
+                    "typeIndex": 28
+                },
+                {
+                    "name": "order_tags",
+                    "type": "order",
+                    "typeIndex": 29
+                },
+                {
+                    "name": "order_remarks",
+                    "type": "order",
+                    "typeIndex": 30
+                },
+                {
+                    "name": "cancelled_reason",
+                    "type": "order",
+                    "typeIndex": 31
+                },
+                {
+                    "name": "payment.txn_id",
+                    "type": "order",
+                    "typeIndex": 32
+                },
+                {
+                    "name": "edited_at",
+                    "type": "order",
+                    "typeIndex": 33
+                },
+                {
+                    "name": "return_order.return_order_number",
+                    "type": "order",
+                    "typeIndex": 34
+                },
+                {
+                    "name": "return_order.return_tracking_number",
+                    "type": "order",
+                    "typeIndex": 35
+                },
+                {
+                    "name": "tax_fee",
+                    "type": "order",
+                    "typeIndex": 36
+                },
+                {
+                    "name": "affiliate.partner",
+                    "type": "order",
+                    "typeIndex": 40
+                },
+                {
+                    "name": "自訂訂單欄位 1 (店主備註)",
+                    "field_id": null,
+                    "field_idx": 0,
+                    "type": "order",
+                    "typeIndex": 41
+                },
+                {
+                    "name": "自訂訂單欄位 2 (店主備註)",
+                    "field_id": null,
+                    "field_idx": 1,
+                    "type": "order",
+                    "typeIndex": 42
+                },
+                {
+                    "name": "自訂訂單欄位 3",
+                    "field_id": "",
+                    "field_idx": 2,
+                    "type": "order",
+                    "typeIndex": 43
+                },
+                {
+                    "name": "自訂訂單欄位 4",
+                    "field_id": "",
+                    "field_idx": 3,
+                    "type": "order",
+                    "typeIndex": 44
+                },
+                {
+                    "name": "自訂訂單欄位 5",
+                    "field_id": "",
+                    "field_idx": 4,
+                    "type": "order",
+                    "typeIndex": 45
+                },
+                {
+                    "name": "product_subscription.recurring_count",
+                    "type": "product_subscription",
+                    "typeIndex": 0
+                },
+                {
+                    "name": "product_subscription.next_subscription_date",
+                    "type": "product_subscription",
+                    "typeIndex": 1
+                },
+                {
+                    "name": "product_subscription.code",
+                    "type": "product_subscription",
+                    "typeIndex": 2
+                },
+                {
+                    "name": "delivery_address.full_address",
+                    "type": "delivery",
+                    "typeIndex": 10
+                },
+                {
+                    "name": "delivery.remarks",
+                    "type": "delivery",
+                    "typeIndex": 12
+                },
+                {
+                    "name": "delivery.delivery_status",
+                    "type": "delivery",
+                    "typeIndex": 14
+                },
+                {
+                    "name": "delivery_data.tracking_number",
+                    "type": "delivery",
+                    "typeIndex": 15
+                },
+                {
+                    "name": "delivery_data.location_code",
+                    "type": "delivery",
+                    "typeIndex": 16
+                },
+                {
+                    "name": "delivery_data.time_slot",
+                    "type": "delivery",
+                    "typeIndex": 17
+                },
+                {
+                    "name": "delivery_data.scheduled_delivery_date",
+                    "type": "delivery",
+                    "typeIndex": 18
+                },
+                {
+                    "name": "stock_picking_last_exported_at",
+                    "type": "delivery",
+                    "typeIndex": 19
+                },
+                {
+                    "name": "invoice_last_exported_at",
+                    "type": "delivery",
+                    "typeIndex": 20
+                },
+                {
+                    "name": "label_last_printed_at",
+                    "type": "delivery",
+                    "typeIndex": 21
+                },
+                {
+                    "name": "delivery.shipped_at",
+                    "type": "delivery",
+                    "typeIndex": 22
+                },
+                {
+                    "name": "delivery.arrived_at",
+                    "type": "delivery",
+                    "typeIndex": 23
+                },
+                {
+                    "name": "delivery.collected_at",
+                    "type": "delivery",
+                    "typeIndex": 24
+                },
+                {
+                    "name": "delivery.returned_at",
+                    "type": "delivery",
+                    "typeIndex": 25
+                },
+                {
+                    "name": "invoice_request.invoice_type",
+                    "type": "invoice",
+                    "typeIndex": 2
+                },
+                {
+                    "name": "invoice_request.invoice_format",
+                    "type": "invoice",
+                    "typeIndex": 3
+                },
+                {
+                    "name": "invoice_request.carrier_type",
+                    "type": "invoice",
+                    "typeIndex": 4
+                },
+                {
+                    "name": "invoice_request.carrier_number",
+                    "type": "invoice",
+                    "typeIndex": 5
+                },
+                {
+                    "name": "invoice_request.buyer_name",
+                    "type": "invoice",
+                    "typeIndex": 6
+                },
+                {
+                    "name": "invoice_request.invoice_number",
+                    "type": "invoice",
+                    "typeIndex": 7
+                },
+                {
+                    "name": "invoice_request.donation_unit",
+                    "type": "invoice",
+                    "typeIndex": 8
+                },
+                {
+                    "name": "invoice_request.invoice_status",
+                    "type": "invoice",
+                    "typeIndex": 9
+                },
+                {
+                    "name": "invoice_request.invoice_created_at",
+                    "type": "invoice",
+                    "typeIndex": 10
+                },
+                {
+                    "name": "invoice_request.invoice_tax_type",
+                    "type": "invoice",
+                    "typeIndex": 11
+                },
+                {
+                    "name": "invoice_request.invoice_cancelled_at",
+                    "type": "invoice",
+                    "typeIndex": 12
+                },
+                {
+                    "name": "product_cost",
+                    "type": "product",
+                    "typeIndex": 3
+                },
+                {
+                    "name": "is_preorder",
+                    "type": "product",
+                    "typeIndex": 10
+                },
+                {
+                    "name": "preorder_note",
+                    "type": "product",
+                    "typeIndex": 11
+                },
+                {
+                    "name": "addon_item_type",
+                    "type": "product",
+                    "typeIndex": 12
+                },
+                {
+                    "name": "location_id",
+                    "type": "product",
+                    "typeIndex": 13
+                },
+                {
+                    "name": "product_level_promotion",
+                    "type": "product",
+                    "typeIndex": 14
+                },
+                {
+                    "name": "product_level_discount",
+                    "type": "product",
+                    "typeIndex": 15
+                },
+                {
+                    "name": "order_level_promotion",
+                    "type": "product",
+                    "typeIndex": 16
+                },
+                {
+                    "name": "order_level_discount",
+                    "type": "product",
+                    "typeIndex": 17
+                },
+                {
+                    "name": "customer_id",
+                    "type": "customer",
+                    "typeIndex": 0
+                },
+                {
+                    "name": "customer_name",
+                    "type": "customer",
+                    "typeIndex": 1
+                },
+                {
+                    "name": "customer_email",
+                    "type": "customer",
+                    "typeIndex": 2
+                },
+                {
+                    "name": "customer_phone",
+                    "type": "customer",
+                    "typeIndex": 3
+                },
+                {
+                    "name": "customer_info.gender",
+                    "type": "customer",
+                    "typeIndex": 4
+                },
+                {
+                    "name": "customer_info.birthday",
+                    "type": "customer",
+                    "typeIndex": 5
+                },
+                {
+                    "name": "customer_registered",
+                    "type": "customer",
+                    "typeIndex": 6
+                },
+                {
+                    "name": "customer_registered_at",
+                    "type": "customer",
+                    "typeIndex": 8
+                },
+                {
+                    "name": "customer_registered_by",
+                    "type": "customer",
+                    "typeIndex": 9
+                },
+                {
+                    "name": "utm_source",
+                    "type": "marketing",
+                    "typeIndex": 0
+                },
+                {
+                    "name": "utm_medium",
+                    "type": "marketing",
+                    "typeIndex": 1
+                },
+                {
+                    "name": "utm_source_and_utm_medium",
+                    "type": "marketing",
+                    "typeIndex": 2
+                },
+                {
+                    "name": "utm_campaign",
+                    "type": "marketing",
+                    "typeIndex": 3
+                },
+                {
+                    "name": "utm_term",
+                    "type": "marketing",
+                    "typeIndex": 4
+                },
+                {
+                    "name": "utm_content",
+                    "type": "marketing",
+                    "typeIndex": 5
+                },
+                {
+                    "name": "utm_time",
+                    "type": "marketing",
+                    "typeIndex": 6
+                },
+                {
+                    "name": "customer_membership_tier",
+                    "type": "customer",
+                    "typeIndex": 7
+                },
+                {
+                    "name": "customer_referrer.name",
+                    "type": "customer",
+                    "typeIndex": 12
+                },
+                {
+                    "name": "customer_referrer.email",
+                    "type": "customer",
+                    "typeIndex": 13
+                },
+                {
+                    "name": "customer_referrer.phone",
+                    "type": "customer",
+                    "typeIndex": 14
+                },
+                {
+                    "name": "platform",
+                    "type": "order",
+                    "typeIndex": 4
+                },
+                {
+                    "name": "redeemed_points",
+                    "type": "order",
+                    "typeIndex": 27
+                },
+                {
+                    "name": "affiliate.campaign",
+                    "type": "order",
+                    "typeIndex": 37
+                },
+                {
+                    "name": "affiliate.code",
+                    "type": "order",
+                    "typeIndex": 38
+                },
+                {
+                    "name": "affiliate.reward",
+                    "type": "order",
+                    "typeIndex": 39
+                },
+                {
+                    "name": "product_points",
+                    "type": "product",
+                    "typeIndex": 7
+                },
+                {
+                    "name": "手機號碼",
+                    "field_id": "619c7dc22d22f300388f34bf",
+                    "type": "customer",
+                    "typeIndex": 10
+                },
+                {
+                    "name": "姓名",
+                    "field_id": "61d6c8ec8cdf20439bbd05b6",
+                    "type": "customer",
+                    "typeIndex": 11
+                },
+                {
+                    "name": "combined_to_order_number",
+                    "type": "order",
+                    "typeIndex": 2
+                },
+                {
+                    "name": "combined_from_order_numbers",
+                    "type": "order",
+                    "typeIndex": 3
+                },
+                {
+                    "name": "agent",
+                    "type": "order",
+                    "typeIndex": 8
+                }
+            ]
+          }),
+          "method": "POST",
+          "mode": "cors",
+          "credentials": "include"
+        });
+      } catch (error) {
+        console.log('date :', date);
+        console.log('error :', error);
+      }
+    }, date.toISOString(), moment(date).add(1, 'd').toISOString());
+  };
+
   async runX(date) {
     const browser = await puppeteer.launch(this.getPuppeteerLaunchOptions(true));
     try {
       if (1 == 1) {
         const page = await this.newPage(browser);
         await this.login(page);
-        // await promiseWait(5000);
-        await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin', {
-          waitUntil: 'networkidle2',
-        });
+        if (0) {
+          // await promiseWait(5000);
+          await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin', {
+            waitUntil: 'networkidle2',
+          });
+
+          await promiseWait(2000);
+
+          try {
+            await page.click('.intercom-post-close');
+            await promiseWait(2000);
+          } catch (error) {
+          }
+          await promiseWait(1000);
+
+          // await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+          await page.reload({ waitUntil: 'networkidle2' });
+          await promiseWait(1000);
+
+          await page.click('.btn.btn-primary.ng-binding.dropdown-toggle');
+          await page.$$eval('li.export-item a.ng-binding', ($as) => {
+            Array.from($as).forEach(($a) => {
+              if ($a.innerHTML.includes('匯出訂單報表')) {
+                $a.click();
+              }
+            });
+          });
+          await promiseWait(3000);
+          await page.click('input[name=duringDates]');
+
+          await promiseWait(1000);
+          await page.type('input[name=duringDates] ~ div div:nth-child(1) div.date-picker-container.date-picker-v2.date input', date.format('YYYY/MM/DD'), {
+            delay: 200,
+          });
+          // await page.type('input[name=duringDates] ~ div div:nth-child(2) div.date-picker-container.date-picker-v2.date input', '2021/04/12');
+          // await page.$$eval('div.date-picker-container.date-picker-v2.date input', ($inputs) => {
+          //   console.log('$inputs :', $inputs);
+          //   Array.from($inputs).forEach(($input) => {
+          //     $input.value = '2021/04/12';
+          //   });
+          // });
+
+          const p = new Promise((resolve, reject) => {
+            page.on('response', (resp) => {
+              const url = resp.url();
+              if (url.includes('export_sales')) {
+                if (resp.status() === 200) {
+                  resolve(resp.status());
+                } else {
+                  reject(resp.status());
+                }
+              }
+            });
+          });
+          await page.click('.modal-footer.clearfix button.btn.btn-primary.ng-binding');
+          await p;
+        }
+
+
+        await this.generateReport(page, date);
 
         await promiseWait(2000);
-
-        try {
-          await page.click('.intercom-post-close');
-          await promiseWait(2000);
-        } catch (error) {
-        }
-        await promiseWait(1000);
-
-        // await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
-        await page.reload({ waitUntil: 'networkidle2' });
-        await promiseWait(1000);
-
-        await page.click('.btn.btn-primary.ng-binding.dropdown-toggle');
-        await page.$$eval('li.export-item a.ng-binding', ($as) => {
-          Array.from($as).forEach(($a) => {
-            if ($a.innerHTML.includes('匯出訂單報表')) {
-              $a.click();
-            }
-          });
-        });
-        await promiseWait(3000);
-        await page.click('input[name=duringDates]');
-
-        await promiseWait(1000);
-        await page.type('input[name=duringDates] ~ div div:nth-child(1) div.date-picker-container.date-picker-v2.date input', date.format('YYYY/MM/DD'), {
-          delay: 200,
-        });
-        // await page.type('input[name=duringDates] ~ div div:nth-child(2) div.date-picker-container.date-picker-v2.date input', '2021/04/12');
-        // await page.$$eval('div.date-picker-container.date-picker-v2.date input', ($inputs) => {
-        //   console.log('$inputs :', $inputs);
-        //   Array.from($inputs).forEach(($input) => {
-        //     $input.value = '2021/04/12';
-        //   });
-        // });
-
-        const p = new Promise((resolve, reject) => {
-          page.on('response', (resp) => {
-            const url = resp.url();
-            if (url.includes('export_sales')) {
-              if (resp.status() === 200) {
-                resolve(resp.status());
-              } else {
-                reject(resp.status());
-              }
-            }
-          });
-        });
-        await page.click('.modal-footer.clearfix button.btn.btn-primary.ng-binding');
-        await p;
 
         let xlsUrl = '';
         let xlsFilname = '';
@@ -511,8 +1215,15 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
     //   await this.cleanFolder(driveApi);
     // }, null)
     await promiseReduce([
-      moment('2024-04-03'),
+      // moment('2024-04-03'),
       // moment('2024-04-04'),
+      // moment('2024-04-26'),
+      // moment('2024-04-27'),
+      // moment('2024-04-28'),
+      // moment('2024-04-29'),
+      // moment('2024-04-30'),
+      // moment('2024-05-01'),
+      moment('2024-05-02'),
     ], async (_, date) => {
       console.log('date :', date);
       await this.runX(date);
