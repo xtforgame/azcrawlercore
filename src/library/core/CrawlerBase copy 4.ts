@@ -44,6 +44,10 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
         await updateCodeFromJson(page);
 
         // await scanAndSyncCodePages(page, async ($li, name) => {
+        //   return true;
+        // });
+
+        // await scanAndSyncCodePages(page, async ($li, name) => {
         //   return name === 'theme.liquid';
         // });
       }

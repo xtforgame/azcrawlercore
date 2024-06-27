@@ -38,6 +38,7 @@ export default class ShoplineCrawlerBase extends CrawlerCoreBase {
     await page.click('input[name=commit]');
     await promiseWaitFor(2000, async () => (page.url() !== 'https://sso.shoplineapp.com/users/two_factor_authentication')
       && (page.url() !== 'https://sso.shoplineapp.com/users/sign_in'));
+    return session;
   }
 
   async getCode(timeMs: number) {

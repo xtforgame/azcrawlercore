@@ -1065,7 +1065,7 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
     try {
       if (1 == 1) {
         const page = await this.newPage(browser);
-        await this.login(page);
+        const session = await this.login(page);
         if (0) {
           // await promiseWait(5000);
           await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/orders?createdBy=admin', {
@@ -1146,10 +1146,22 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
           await page.goto('https://admin.shoplineapp.com/admin/addictionbeauty/jobs', {
             waitUntil: 'networkidle2',
           });
-          await page._client.send('Page.setDownloadBehavior', {
-            behavior: 'allow',
-            downloadPath: __dirname,
-          });
+
+          try {
+            await session.send('Page.setDownloadBehavior', {
+              behavior: 'allow',
+              downloadPath: __dirname,
+            });
+          } catch (error) {
+            console.log('error :', error);
+            throw error;
+          }
+
+          // page.on('download', (download: any) => {
+          //   const downloadPath = `${__dirname}/${download.filename}`;
+          //   download.save(downloadPath);
+          // });
+
           await page.click('table.table.table-hover.ng-scope tr:nth-child(1) td div.btn.btn-default.ng-scope');
           return true;
         });
@@ -1223,7 +1235,17 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
       // moment('2024-04-29'),
       // moment('2024-04-30'),
       // moment('2024-05-01'),
-      moment('2024-05-02'),
+      // moment('2024-05-02'),
+      // moment('2024-05-17'),
+      // moment('2024-05-18'),
+      // moment('2024-05-19'),
+      // moment('2024-05-20'),
+      // moment('2024-05-21'),
+      // moment('2024-05-22'),
+      moment('2024-05-23'),
+      moment('2024-05-24'),
+      moment('2024-05-25'),
+      moment('2024-05-26'),
     ], async (_, date) => {
       console.log('date :', date);
       await this.runX(date);
