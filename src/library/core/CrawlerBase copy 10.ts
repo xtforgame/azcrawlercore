@@ -10,7 +10,7 @@ import ShoplineCrawlerBase from './ShoplineCrawlerBase';
 
 export type PuppeteerLaunchOptions = Parameters<typeof launch>[0];
 
-process.env.OPENAI_API_KEY = '....';
+process.env.OPENAI_API_KEY = '.....';
 
 const openai = new OpenAI();
 
@@ -50,7 +50,7 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
         //   $input.dispatchEvent(event);
         // });
 
-        // const urls: any = {};
+        const urls: any = {};
 
         const p = new Promise((resolve, reject) => {
           const cb = (resp) => {
@@ -58,22 +58,29 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
             const contentType = resp.headers()['content-type'];
             if (contentType.includes('application/json')) {
               resp.json()
-              .then((j) => {
-                // urls[url] = j;
-                if (j?.data?.xdt_shortcode_media) {
-                  resolve(j?.data?.xdt_shortcode_media);
-                }
-              })
-              .catch(e => {});
+              .then(j => urls[url] = j);
+            }
+            // urls[url] = resp.headers()['content-type'];
+            // console.log('resp.headers :', resp.headers());
+            // console.log('url :', url);
+            if (url.includes('xxxxxxxxxx')) {
+              if (resp.status() === 200) {
+                resolve(resp.json());
+              } else {
+                reject(resp.json());
+              }
+              page.off('response', cb);
             }
           }
           page.on('response', cb);
         });
-        await page.goto(`https://www.instagram.com/p/C73NgVBSOfU`, {
+        await page.goto(`https://www.instagram.com/p/C70htPASygx`, {
           waitUntil: 'networkidle2',
         });
-        const json = await p;
-        fs.writeFileSync('igurls.json', JSON.stringify(json, null, 2));
+        setTimeout(() => {
+          fs.writeFileSync('igurls.json', JSON.stringify(urls, null, 2));
+        }, 10000);
+        await p;
       }
       console.log('done');
     } catch (error) {

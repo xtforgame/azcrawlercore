@@ -54,7 +54,7 @@ export default class CrawlerCoreBase {
 
   getPuppeteerLaunchOptions(debug : boolean = false) : PuppeteerLaunchOptions {
     const args = [
-      `--window-size=1920,1080`,
+      `--window-size=1920,1110`, // `--window-size=1920,1080`,
     ];
     const options : PuppeteerLaunchOptions = debug ? {
       devtools: true,

@@ -1,0 +1,848 @@
+{
+  "https://www.instagram.com/api/v1/web/get_ruling_for_media_content_logged_out/?media_id=3384233041190250452&owner_id=4558512094": {
+    "title": "",
+    "description": "",
+    "session_id": "",
+    "blocks_logging_data": "",
+    "status": "ok"
+  },
+  "https://www.instagram.com/graphql/query": {
+    "data": {
+      "xdt_shortcode_media": {
+        "__typename": "XDTGraphSidecar",
+        "__isXDTGraphMediaInterface": "XDTGraphSidecar",
+        "id": "3384233041190250452",
+        "shortcode": "C73NgVBSOfU",
+        "thumbnail_src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYBEEHd5qBXs8JY3K7mWUUSLoktOPWdHJ6kIOjjHsX419w&oe=66934BFC&_nc_sid=d885a2",
+        "dimensions": {
+          "height": 1080,
+          "width": 1080
+        },
+        "gating_info": null,
+        "fact_check_overall_rating": null,
+        "fact_check_information": null,
+        "sensitivity_friction_info": null,
+        "sharing_friction_info": {
+          "should_have_sharing_friction": false,
+          "bloks_app_url": null
+        },
+        "media_overlay_info": null,
+        "media_preview": null,
+        "display_url": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s1080x1080&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYDnWwRktU_sAdGkwEBZFsjHjzu1nqIovnkaQJSYc2iB4Q&oe=66934BFC&_nc_sid=d885a2",
+        "display_resources": [
+          {
+            "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s640x640_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYBEEHd5qBXs8JY3K7mWUUSLoktOPWdHJ6kIOjjHsX419w&oe=66934BFC&_nc_sid=d885a2",
+            "config_width": 640,
+            "config_height": 640
+          },
+          {
+            "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s750x750_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYDO2N8ZZxm4lFUJr3_R0AzmcFq-GWqjTzSeZ3pPIffr7g&oe=66934BFC&_nc_sid=d885a2",
+            "config_width": 750,
+            "config_height": 750
+          },
+          {
+            "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s1080x1080&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYDnWwRktU_sAdGkwEBZFsjHjzu1nqIovnkaQJSYc2iB4Q&oe=66934BFC&_nc_sid=d885a2",
+            "config_width": 1080,
+            "config_height": 1080
+          }
+        ],
+        "is_video": false,
+        "tracking_token": "eyJ2ZXJzaW9uIjo1LCJwYXlsb2FkIjp7ImlzX2FuYWx5dGljc190cmFja2VkIjpmYWxzZSwidXVpZCI6IjM0Njc1ZjdkNGNlZjQwNjNhMWMxZTJkM2IyOTljYWQ3MzM4NDIzMzA0MTE5MDI1MDQ1MiJ9LCJzaWduYXR1cmUiOiIifQ==",
+        "upcoming_event": null,
+        "edge_media_to_tagged_user": {
+          "edges": [
+            {
+              "node": {
+                "user": {
+                  "full_name": "STUDIO DOE",
+                  "followed_by_viewer": false,
+                  "id": "4211614332",
+                  "is_verified": false,
+                  "profile_pic_url": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-19/186546407_209191997500797_7827722110048620638_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=1&_nc_ohc=eD63RrwPJsMQ7kNvgH2OoCo&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYAK9hI3eCGC9oyxSFNUuaJHKv2i3aseSuIaqm3ntB6eyQ&oe=6693345A&_nc_sid=d885a2",
+                  "username": "studiodoe"
+                },
+                "x": 0.40283203,
+                "y": 0.3766059,
+                "id": "3384233041190250452@4211614332"
+              }
+            }
+          ]
+        },
+        "owner": {
+          "id": "4558512094",
+          "username": "xtforgame",
+          "is_verified": false,
+          "profile_pic_url": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.2885-19/16465372_1306393149420798_3549196227058860032_a.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=106&_nc_ohc=2Iilg3CEMrkQ7kNvgGRTVJM&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYB9SPJAcU_jvsHVOAyqILz8brFVLiOTATARzdnhy799gQ&oe=66932B83&_nc_sid=d885a2",
+          "blocked_by_viewer": false,
+          "restricted_by_viewer": null,
+          "followed_by_viewer": false,
+          "full_name": "Rick  Chen",
+          "has_blocked_viewer": false,
+          "is_embeds_disabled": false,
+          "is_private": false,
+          "is_unpublished": false,
+          "requested_by_viewer": false,
+          "pass_tiering_recommendation": true,
+          "edge_owner_to_timeline_media": {
+            "count": 2
+          },
+          "edge_followed_by": {
+            "count": 54
+          }
+        },
+        "accessibility_caption": "Photo shared by Rick  Chen on June 05, 2024 tagging @studiodoe. May be an image of 1 person, baby, sleeping and diaper.",
+        "edge_sidecar_to_children": {
+          "edges": [
+            {
+              "node": {
+                "__typename": "XDTGraphImage",
+                "id": "3384233032256406565",
+                "shortcode": "C73NgMsyUQl",
+                "dimensions": {
+                  "height": 1080,
+                  "width": 1080
+                },
+                "gating_info": null,
+                "fact_check_overall_rating": null,
+                "fact_check_information": null,
+                "sensitivity_friction_info": null,
+                "sharing_friction_info": {
+                  "should_have_sharing_friction": false,
+                  "bloks_app_url": null
+                },
+                "media_overlay_info": null,
+                "media_preview": "ACoqXTx99voP60XKs8qjHGOD+PP9PwqSxXbEPVyT/QfyrWyB8voKUtWxx91Iw3RVfBA5HoOopjKOwH5VqzKGIB6GsyRSpwakpu5A1R09zUVAjW3PEFEeOOOfTFXLclgSTkk/5xVLdUqS7QAMde9AyeZcg469qyndm+9nrnFahLHk4xWZIQzEjpmgRUY1HT34NR0wNAvT4pPm6ZGDVY0J94UAXRJzhuE54/r/AICoWTacU0U9aAK8ycZqpWm/3azD1oA//9k=",
+                "display_url": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s1080x1080&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYDnWwRktU_sAdGkwEBZFsjHjzu1nqIovnkaQJSYc2iB4Q&oe=66934BFC&_nc_sid=d885a2",
+                "display_resources": [
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s640x640_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYBEEHd5qBXs8JY3K7mWUUSLoktOPWdHJ6kIOjjHsX419w&oe=66934BFC&_nc_sid=d885a2",
+                    "config_width": 640,
+                    "config_height": 640
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s750x750_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYDO2N8ZZxm4lFUJr3_R0AzmcFq-GWqjTzSeZ3pPIffr7g&oe=66934BFC&_nc_sid=d885a2",
+                    "config_width": 750,
+                    "config_height": 750
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s1080x1080&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYDnWwRktU_sAdGkwEBZFsjHjzu1nqIovnkaQJSYc2iB4Q&oe=66934BFC&_nc_sid=d885a2",
+                    "config_width": 1080,
+                    "config_height": 1080
+                  }
+                ],
+                "accessibility_caption": "Photo shared by Rick  Chen on June 05, 2024 tagging @studiodoe. May be an image of 1 person, baby, sleeping and diaper.",
+                "is_video": false,
+                "tracking_token": "eyJ2ZXJzaW9uIjo1LCJwYXlsb2FkIjp7ImlzX2FuYWx5dGljc190cmFja2VkIjpmYWxzZSwidXVpZCI6IjM0Njc1ZjdkNGNlZjQwNjNhMWMxZTJkM2IyOTljYWQ3MzM4NDIzMzAzMjI1NjQwNjU2NSJ9LCJzaWduYXR1cmUiOiIifQ==",
+                "upcoming_event": null,
+                "edge_media_to_tagged_user": {
+                  "edges": [
+                    {
+                      "node": {
+                        "user": {
+                          "full_name": "STUDIO DOE",
+                          "followed_by_viewer": false,
+                          "id": "4211614332",
+                          "is_verified": false,
+                          "profile_pic_url": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-19/186546407_209191997500797_7827722110048620638_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=1&_nc_ohc=eD63RrwPJsMQ7kNvgH2OoCo&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYAK9hI3eCGC9oyxSFNUuaJHKv2i3aseSuIaqm3ntB6eyQ&oe=6693345A&_nc_sid=d885a2",
+                          "username": "studiodoe"
+                        },
+                        "x": 0.40283203,
+                        "y": 0.3766059,
+                        "id": "3384233032256406565@4211614332"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "node": {
+                "__typename": "XDTGraphImage",
+                "id": "3384233032407371018",
+                "shortcode": "C73NgM1yM0K",
+                "dimensions": {
+                  "height": 1080,
+                  "width": 1080
+                },
+                "gating_info": null,
+                "fact_check_overall_rating": null,
+                "fact_check_information": null,
+                "sensitivity_friction_info": null,
+                "sharing_friction_info": {
+                  "should_have_sharing_friction": false,
+                  "bloks_app_url": null
+                },
+                "media_overlay_info": null,
+                "media_preview": "ACoqpW6+ZKq9s5P0HP8AhWtPC064XqCDz0/ziqWnpw0h7/KPw6/rW2q7QB+P51E3dlQVkZ81sSu3IFVQpRQrdR/kfpWpMMiqdyOFPqMVmaN3KjVHmnmoc0yTUiQRKqdh1P6mrqksS3Y4xWeWqyDlQc4FAEzHNZszhvl5ypI9sf5NWm+QbicD361REbyFnAOD04oAiNV81adGThhiqZNMDSJqeFsnHp0qtQDikBoAAnJ7VLnNMHX8qRjgUhlG5O58egx/U1T8mrA5pKYj/9k=",
+                "display_url": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.29350-15/447935468_352415600849069_1396552033804816349_n.heic?stp=dst-jpg_e35_s1080x1080&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=105&_nc_ohc=yC_zfNQ43hQQ7kNvgHg6MNw&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYBOJ4M5C_xNTjwJU90PHt3MFM2dVcypf6mJ3zqhCKZgYA&oe=6693172A&_nc_sid=d885a2",
+                "display_resources": [
+                  {
+                    "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.29350-15/447935468_352415600849069_1396552033804816349_n.heic?stp=dst-jpg_e35_s640x640_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=105&_nc_ohc=yC_zfNQ43hQQ7kNvgHg6MNw&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYA3Hjcfu1fFLhfZGdb7EB6v-jI4eMKjENba7fbG-rxw_Q&oe=6693172A&_nc_sid=d885a2",
+                    "config_width": 640,
+                    "config_height": 640
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.29350-15/447935468_352415600849069_1396552033804816349_n.heic?stp=dst-jpg_e35_s750x750_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=105&_nc_ohc=yC_zfNQ43hQQ7kNvgHg6MNw&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYDzSQVfuSCHDEoOpApBdBEE99vWlCHdLosbt6LeN4aKLw&oe=6693172A&_nc_sid=d885a2",
+                    "config_width": 750,
+                    "config_height": 750
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.29350-15/447935468_352415600849069_1396552033804816349_n.heic?stp=dst-jpg_e35_s1080x1080&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=105&_nc_ohc=yC_zfNQ43hQQ7kNvgHg6MNw&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYBOJ4M5C_xNTjwJU90PHt3MFM2dVcypf6mJ3zqhCKZgYA&oe=6693172A&_nc_sid=d885a2",
+                    "config_width": 1080,
+                    "config_height": 1080
+                  }
+                ],
+                "accessibility_caption": "Photo shared by Rick  Chen on June 05, 2024 tagging @studiodoe. May be an image of 1 person, baby, sleeping, diaper and baby bed.",
+                "is_video": false,
+                "tracking_token": "eyJ2ZXJzaW9uIjo1LCJwYXlsb2FkIjp7ImlzX2FuYWx5dGljc190cmFja2VkIjpmYWxzZSwidXVpZCI6IjM0Njc1ZjdkNGNlZjQwNjNhMWMxZTJkM2IyOTljYWQ3MzM4NDIzMzAzMjQwNzM3MTAxOCJ9LCJzaWduYXR1cmUiOiIifQ==",
+                "upcoming_event": null,
+                "edge_media_to_tagged_user": {
+                  "edges": [
+                    {
+                      "node": {
+                        "user": {
+                          "full_name": "STUDIO DOE",
+                          "followed_by_viewer": false,
+                          "id": "4211614332",
+                          "is_verified": false,
+                          "profile_pic_url": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-19/186546407_209191997500797_7827722110048620638_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=1&_nc_ohc=eD63RrwPJsMQ7kNvgH2OoCo&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYAK9hI3eCGC9oyxSFNUuaJHKv2i3aseSuIaqm3ntB6eyQ&oe=6693345A&_nc_sid=d885a2",
+                          "username": "studiodoe"
+                        },
+                        "x": 0.4807129,
+                        "y": 0.4031901,
+                        "id": "3384233032407371018@4211614332"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "node": {
+                "__typename": "XDTGraphImage",
+                "id": "3384233032374009937",
+                "shortcode": "C73NgMzy8BR",
+                "dimensions": {
+                  "height": 1080,
+                  "width": 1080
+                },
+                "gating_info": null,
+                "fact_check_overall_rating": null,
+                "fact_check_information": null,
+                "sensitivity_friction_info": null,
+                "sharing_friction_info": {
+                  "should_have_sharing_friction": false,
+                  "bloks_app_url": null
+                },
+                "media_overlay_info": null,
+                "media_preview": "ACoqrkZOPWnOpCEqOcceuaeq5yevYVZj+Y8jGKjYrczYLZlGcHn161dgXK8jkVoBKaeOKlblt6WMt1H2hB6YJ/U1nkFjnHXmr7H987f3Fb9Fx/Os3a3v+VaGZuKuOlWYVwKrscD6/wBatRtkVMhonFM2807mmSnapPoCf0pRGzFjb/WyHJGMce5qiS3YjH0b/CtK2X9yx9WA/L/9VO2VQi4VDDB6GmruiIJ5B4z/AIj6/wBalSpE6ilIESKc81BeHbEx7nA/M0zoWxxyKTUP9SPr/jUxGyvbj9wP9pif8/nTsUsf+pj+h/mKdVCP/9k=",
+                "display_url": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447681157_417151324529986_4988104017869170267_n.heic?stp=dst-jpg_e35_s1080x1080&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=e_6QhAQsU9AQ7kNvgEXG3hd&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYBJzetj8HlkjrYjIB1BaSpKNNtUslSuZW-OhdlZElSScA&oe=66931C12&_nc_sid=d885a2",
+                "display_resources": [
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447681157_417151324529986_4988104017869170267_n.heic?stp=dst-jpg_e35_s640x640_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=e_6QhAQsU9AQ7kNvgEXG3hd&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYAcx31th7wsRI13OIh-w4vPxjZQmeuWRWsNQ9KFUE-qVQ&oe=66931C12&_nc_sid=d885a2",
+                    "config_width": 640,
+                    "config_height": 640
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447681157_417151324529986_4988104017869170267_n.heic?stp=dst-jpg_e35_s750x750_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=e_6QhAQsU9AQ7kNvgEXG3hd&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYBLkxkVC7hDMJMPiCgKR-u06OyoQDTEhOdP1uu5HUZTOg&oe=66931C12&_nc_sid=d885a2",
+                    "config_width": 750,
+                    "config_height": 750
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447681157_417151324529986_4988104017869170267_n.heic?stp=dst-jpg_e35_s1080x1080&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=e_6QhAQsU9AQ7kNvgEXG3hd&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYBJzetj8HlkjrYjIB1BaSpKNNtUslSuZW-OhdlZElSScA&oe=66931C12&_nc_sid=d885a2",
+                    "config_width": 1080,
+                    "config_height": 1080
+                  }
+                ],
+                "accessibility_caption": "Photo shared by Rick  Chen on June 05, 2024 tagging @studiodoe. May be an image of 1 person, baby, sleeping, diaper, baby bed and hospital.",
+                "is_video": false,
+                "tracking_token": "eyJ2ZXJzaW9uIjo1LCJwYXlsb2FkIjp7ImlzX2FuYWx5dGljc190cmFja2VkIjpmYWxzZSwidXVpZCI6IjM0Njc1ZjdkNGNlZjQwNjNhMWMxZTJkM2IyOTljYWQ3MzM4NDIzMzAzMjM3NDAwOTkzNyJ9LCJzaWduYXR1cmUiOiIifQ==",
+                "upcoming_event": null,
+                "edge_media_to_tagged_user": {
+                  "edges": [
+                    {
+                      "node": {
+                        "user": {
+                          "full_name": "STUDIO DOE",
+                          "followed_by_viewer": false,
+                          "id": "4211614332",
+                          "is_verified": false,
+                          "profile_pic_url": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-19/186546407_209191997500797_7827722110048620638_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=1&_nc_ohc=eD63RrwPJsMQ7kNvgH2OoCo&edm=ANTKIIoBAAAA&ccb=7-5&oh=00_AYAK9hI3eCGC9oyxSFNUuaJHKv2i3aseSuIaqm3ntB6eyQ&oe=6693345A&_nc_sid=d885a2",
+                          "username": "studiodoe"
+                        },
+                        "x": 0.43676758,
+                        "y": 0.5127821,
+                        "id": "3384233032374009937@4211614332"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "edge_media_to_caption": {
+          "edges": [
+            {
+              "node": {
+                "created_at": "1717652039",
+                "text": "來自我弟寶寶的試穿報告（由媽媽玟瑄發表）：\n\n今天LouLou擔任Studio Doe小小模特兒~\n試穿感想：第一次嘗試套頭還有點不習慣，原本以為頭太大領口會過不去，沒想到咻~就穿過去了，毛料質感非常棒，即使這個天氣穿，在冷氣房剛剛好，睡得很舒服~~\n尾巴是人魚造型（？）",
+                "id": "17999171771628669"
+              }
+            }
+          ]
+        },
+        "can_see_insights_as_brand": false,
+        "caption_is_edited": false,
+        "has_ranked_comments": false,
+        "like_and_view_counts_disabled": false,
+        "edge_media_to_parent_comment": {
+          "count": 0,
+          "page_info": {
+            "has_next_page": false,
+            "end_cursor": null
+          },
+          "edges": []
+        },
+        "edge_media_to_hoisted_comment": {
+          "edges": []
+        },
+        "edge_media_preview_comment": {
+          "count": 0,
+          "edges": []
+        },
+        "comments_disabled": false,
+        "commenting_disabled_for_viewer": false,
+        "taken_at_timestamp": 1717652038,
+        "edge_media_preview_like": {
+          "count": 7,
+          "edges": []
+        },
+        "edge_media_to_sponsor_user": {
+          "edges": []
+        },
+        "is_affiliate": false,
+        "is_paid_partnership": false,
+        "location": null,
+        "nft_asset_info": null,
+        "viewer_has_liked": false,
+        "viewer_has_saved": false,
+        "viewer_has_saved_to_collection": false,
+        "viewer_in_photo_of_you": false,
+        "viewer_can_reshare": true,
+        "is_ad": false,
+        "edge_web_media_to_related_media": {
+          "edges": []
+        },
+        "coauthor_producers": [],
+        "pinned_for_users": []
+      }
+    },
+    "extensions": {
+      "is_final": true
+    },
+    "status": "ok"
+  },
+  "https://www.instagram.com/graphql/query/?doc_id=17867389474812335&variables=%7B%22include_logged_out%22%3Atrue%2C%22include_reel%22%3Afalse%2C%22shortcode%22%3A%22C73NgVBSOfU%22%7D": {
+    "data": {
+      "shortcode_media": {
+        "owner": {
+          "id": "4558512094",
+          "has_public_story": false
+        }
+      }
+    },
+    "extensions": {
+      "is_final": true
+    },
+    "status": "ok"
+  },
+  "https://www.instagram.com/graphql/query/?doc_id=26421364234117322&variables=%7B%22id%22%3A%224558512094%22%2C%22include_clips_attribution_info%22%3Afalse%2C%22first%22%3A12%7D": {
+    "data": {
+      "user": {
+        "edge_owner_to_timeline_media": {
+          "count": 2,
+          "page_info": {
+            "has_next_page": false,
+            "end_cursor": ""
+          },
+          "edges": [
+            {
+              "node": {
+                "__typename": "GraphSidecar",
+                "id": "3384233041190250452",
+                "gating_info": null,
+                "fact_check_overall_rating": null,
+                "fact_check_information": null,
+                "media_overlay_info": null,
+                "sensitivity_friction_info": null,
+                "sharing_friction_info": {
+                  "should_have_sharing_friction": false,
+                  "bloks_app_url": null
+                },
+                "dimensions": {
+                  "height": 1080,
+                  "width": 1080
+                },
+                "display_url": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s1080x1080&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDWszTKG8rjqDpGvfIvGS05ajnBYgrdW4MGYKooOgM2lA&oe=66934BFC&_nc_sid=bc0c2c",
+                "display_resources": [
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s640x640_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCcWak5xfPNnSNM9Sne8p8MtCeil4iaI04buJqA4c0t8Q&oe=66934BFC&_nc_sid=bc0c2c",
+                    "config_width": 640,
+                    "config_height": 640
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s750x750_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYBMWrvw2sBYjpwI8Zg8uMozc9ApUfAT8G8jCLGKq8fpUA&oe=66934BFC&_nc_sid=bc0c2c",
+                    "config_width": 750,
+                    "config_height": 750
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s1080x1080&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDWszTKG8rjqDpGvfIvGS05ajnBYgrdW4MGYKooOgM2lA&oe=66934BFC&_nc_sid=bc0c2c",
+                    "config_width": 1080,
+                    "config_height": 1080
+                  }
+                ],
+                "is_video": false,
+                "media_preview": null,
+                "tracking_token": "eyJ2ZXJzaW9uIjo1LCJwYXlsb2FkIjp7ImlzX2FuYWx5dGljc190cmFja2VkIjpmYWxzZSwidXVpZCI6IjYzNDBhNTQ3ZmUzYTQ1YTU5ZTBkZDk5YzgzMjRkYzc5MzM4NDIzMzA0MTE5MDI1MDQ1MiJ9LCJzaWduYXR1cmUiOiIifQ==",
+                "has_upcoming_event": false,
+                "edge_media_to_tagged_user": {
+                  "edges": [
+                    {
+                      "node": {
+                        "user": {
+                          "full_name": "STUDIO DOE",
+                          "followed_by_viewer": false,
+                          "id": "4211614332",
+                          "is_verified": false,
+                          "profile_pic_url": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-19/186546407_209191997500797_7827722110048620638_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=1&_nc_ohc=eD63RrwPJsMQ7kNvgH2OoCo&edm=APU89FABAAAA&ccb=7-5&oh=00_AYADzm2CZJqyVcSNxvcNBSosT3WJxqk4nKLaZ176GdezDg&oe=6693345A&_nc_sid=bc0c2c",
+                          "username": "studiodoe"
+                        },
+                        "x": 0.40283203,
+                        "y": 0.3766059
+                      }
+                    }
+                  ]
+                },
+                "accessibility_caption": "Photo shared by Rick  Chen on June 05, 2024 tagging @studiodoe. May be an image of 1 person, baby, sleeping and diaper.",
+                "edge_media_to_caption": {
+                  "edges": [
+                    {
+                      "node": {
+                        "text": "來自我弟寶寶的試穿報告（由媽媽玟瑄發表）：\n\n今天LouLou擔任Studio Doe小小模特兒~\n試穿感想：第一次嘗試套頭還有點不習慣，原本以為頭太大領口會過不去，沒想到咻~就穿過去了，毛料質感非常棒，即使這個天氣穿，在冷氣房剛剛好，睡得很舒服~~\n尾巴是人魚造型（？）"
+                      }
+                    }
+                  ]
+                },
+                "shortcode": "C73NgVBSOfU",
+                "edge_media_to_comment": {
+                  "count": 0,
+                  "page_info": {
+                    "has_next_page": false,
+                    "end_cursor": null
+                  }
+                },
+                "edge_media_to_sponsor_user": {
+                  "edges": []
+                },
+                "is_affiliate": false,
+                "is_paid_partnership": false,
+                "comments_disabled": false,
+                "taken_at_timestamp": 1717652038,
+                "edge_media_preview_like": {
+                  "count": 7,
+                  "edges": []
+                },
+                "owner": {
+                  "id": "4558512094",
+                  "username": "xtforgame"
+                },
+                "location": null,
+                "nft_asset_info": null,
+                "viewer_has_liked": false,
+                "viewer_has_saved": false,
+                "viewer_has_saved_to_collection": false,
+                "viewer_in_photo_of_you": false,
+                "viewer_can_reshare": true,
+                "thumbnail_src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCcWak5xfPNnSNM9Sne8p8MtCeil4iaI04buJqA4c0t8Q&oe=66934BFC&_nc_sid=bc0c2c",
+                "thumbnail_resources": [
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s150x150&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYBacjPkrGHrXx4-GHJgNRTM7DQ1Rk8KBRpsO7_Krk8xzA&oe=66934BFC&_nc_sid=bc0c2c",
+                    "config_width": 150,
+                    "config_height": 150
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s240x240&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&gid=6340a547fe3a45a59e0dd99c8324dc79&edm=APU89FABAAAA&ccb=7-5&oh=00_AYArKXwWH-tHarC2X8A2sy7xplPy8gId_Kc9KWu4HcC9Nw&oe=66934BFC&_nc_sid=bc0c2c",
+                    "config_width": 240,
+                    "config_height": 240
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s320x320&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDmHeaghyrgKu7z_gOCWhmTNz7s2nHEh-aLCKvHGoz_8w&oe=66934BFC&_nc_sid=bc0c2c",
+                    "config_width": 320,
+                    "config_height": 320
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s480x480&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDJQ9mSAjpEqAkea2W-qOlCyQ_f4LduBI7wFQAfip2uig&oe=66934BFC&_nc_sid=bc0c2c",
+                    "config_width": 480,
+                    "config_height": 480
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s640x640_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCcWak5xfPNnSNM9Sne8p8MtCeil4iaI04buJqA4c0t8Q&oe=66934BFC&_nc_sid=bc0c2c",
+                    "config_width": 640,
+                    "config_height": 640
+                  }
+                ],
+                "coauthor_producers": [],
+                "pinned_for_users": [],
+                "like_and_view_counts_disabled": false,
+                "edge_sidecar_to_children": {
+                  "edges": [
+                    {
+                      "node": {
+                        "__typename": "GraphImage",
+                        "id": "3384233032256406565",
+                        "gating_info": null,
+                        "fact_check_overall_rating": null,
+                        "fact_check_information": null,
+                        "media_overlay_info": null,
+                        "sensitivity_friction_info": null,
+                        "sharing_friction_info": {
+                          "should_have_sharing_friction": false,
+                          "bloks_app_url": null
+                        },
+                        "dimensions": {
+                          "height": 1080,
+                          "width": 1080
+                        },
+                        "display_url": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s1080x1080&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDWszTKG8rjqDpGvfIvGS05ajnBYgrdW4MGYKooOgM2lA&oe=66934BFC&_nc_sid=bc0c2c",
+                        "display_resources": [
+                          {
+                            "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s640x640_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCcWak5xfPNnSNM9Sne8p8MtCeil4iaI04buJqA4c0t8Q&oe=66934BFC&_nc_sid=bc0c2c",
+                            "config_width": 640,
+                            "config_height": 640
+                          },
+                          {
+                            "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s750x750_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYBMWrvw2sBYjpwI8Zg8uMozc9ApUfAT8G8jCLGKq8fpUA&oe=66934BFC&_nc_sid=bc0c2c",
+                            "config_width": 750,
+                            "config_height": 750
+                          },
+                          {
+                            "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447701985_1367036953973374_2389016714254737881_n.heic?stp=dst-jpg_e35_s1080x1080&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=pJYX7Y8hsDoQ7kNvgH-lAG3&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDWszTKG8rjqDpGvfIvGS05ajnBYgrdW4MGYKooOgM2lA&oe=66934BFC&_nc_sid=bc0c2c",
+                            "config_width": 1080,
+                            "config_height": 1080
+                          }
+                        ],
+                        "is_video": false,
+                        "media_preview": "ACoqXTx99voP60XKs8qjHGOD+PP9PwqSxXbEPVyT/QfyrWyB8voKUtWxx91Iw3RVfBA5HoOopjKOwH5VqzKGIB6GsyRSpwakpu5A1R09zUVAjW3PEFEeOOOfTFXLclgSTkk/5xVLdUqS7QAMde9AyeZcg469qyndm+9nrnFahLHk4xWZIQzEjpmgRUY1HT34NR0wNAvT4pPm6ZGDVY0J94UAXRJzhuE54/r/AICoWTacU0U9aAK8ycZqpWm/3azD1oA//9k=",
+                        "tracking_token": "eyJ2ZXJzaW9uIjo1LCJwYXlsb2FkIjp7ImlzX2FuYWx5dGljc190cmFja2VkIjpmYWxzZSwidXVpZCI6IjYzNDBhNTQ3ZmUzYTQ1YTU5ZTBkZDk5YzgzMjRkYzc5MzM4NDIzMzAzMjI1NjQwNjU2NSJ9LCJzaWduYXR1cmUiOiIifQ==",
+                        "has_upcoming_event": false,
+                        "edge_media_to_tagged_user": {
+                          "edges": [
+                            {
+                              "node": {
+                                "user": {
+                                  "full_name": "STUDIO DOE",
+                                  "followed_by_viewer": false,
+                                  "id": "4211614332",
+                                  "is_verified": false,
+                                  "profile_pic_url": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-19/186546407_209191997500797_7827722110048620638_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=1&_nc_ohc=eD63RrwPJsMQ7kNvgH2OoCo&edm=APU89FABAAAA&ccb=7-5&oh=00_AYADzm2CZJqyVcSNxvcNBSosT3WJxqk4nKLaZ176GdezDg&oe=6693345A&_nc_sid=bc0c2c",
+                                  "username": "studiodoe"
+                                },
+                                "x": 0.40283203,
+                                "y": 0.3766059
+                              }
+                            }
+                          ]
+                        },
+                        "accessibility_caption": "Photo shared by Rick  Chen on June 05, 2024 tagging @studiodoe. May be an image of 1 person, baby, sleeping and diaper."
+                      }
+                    },
+                    {
+                      "node": {
+                        "__typename": "GraphImage",
+                        "id": "3384233032407371018",
+                        "gating_info": null,
+                        "fact_check_overall_rating": null,
+                        "fact_check_information": null,
+                        "media_overlay_info": null,
+                        "sensitivity_friction_info": null,
+                        "sharing_friction_info": {
+                          "should_have_sharing_friction": false,
+                          "bloks_app_url": null
+                        },
+                        "dimensions": {
+                          "height": 1080,
+                          "width": 1080
+                        },
+                        "display_url": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.29350-15/447935468_352415600849069_1396552033804816349_n.heic?stp=dst-jpg_e35_s1080x1080&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=105&_nc_ohc=yC_zfNQ43hQQ7kNvgHg6MNw&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDsC40MazkCUU_1aHNoY9rVZk1aSNaK4UgfFK7UQLmFMQ&oe=6693172A&_nc_sid=bc0c2c",
+                        "display_resources": [
+                          {
+                            "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.29350-15/447935468_352415600849069_1396552033804816349_n.heic?stp=dst-jpg_e35_s640x640_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=105&_nc_ohc=yC_zfNQ43hQQ7kNvgHg6MNw&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCx5mej32vhgB3_pBOXPkYOxFfiG00vZ_FEV5Wi3H8Nxg&oe=6693172A&_nc_sid=bc0c2c",
+                            "config_width": 640,
+                            "config_height": 640
+                          },
+                          {
+                            "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.29350-15/447935468_352415600849069_1396552033804816349_n.heic?stp=dst-jpg_e35_s750x750_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=105&_nc_ohc=yC_zfNQ43hQQ7kNvgHg6MNw&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDkEpVKgeSv6x-mjYy6nsFYdJoUXoXnx4X1YYe8o4zv7A&oe=6693172A&_nc_sid=bc0c2c",
+                            "config_width": 750,
+                            "config_height": 750
+                          },
+                          {
+                            "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.29350-15/447935468_352415600849069_1396552033804816349_n.heic?stp=dst-jpg_e35_s1080x1080&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=105&_nc_ohc=yC_zfNQ43hQQ7kNvgHg6MNw&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDsC40MazkCUU_1aHNoY9rVZk1aSNaK4UgfFK7UQLmFMQ&oe=6693172A&_nc_sid=bc0c2c",
+                            "config_width": 1080,
+                            "config_height": 1080
+                          }
+                        ],
+                        "is_video": false,
+                        "media_preview": "ACoqpW6+ZKq9s5P0HP8AhWtPC064XqCDz0/ziqWnpw0h7/KPw6/rW2q7QB+P51E3dlQVkZ81sSu3IFVQpRQrdR/kfpWpMMiqdyOFPqMVmaN3KjVHmnmoc0yTUiQRKqdh1P6mrqksS3Y4xWeWqyDlQc4FAEzHNZszhvl5ypI9sf5NWm+QbicD361REbyFnAOD04oAiNV81adGThhiqZNMDSJqeFsnHp0qtQDikBoAAnJ7VLnNMHX8qRjgUhlG5O58egx/U1T8mrA5pKYj/9k=",
+                        "tracking_token": "eyJ2ZXJzaW9uIjo1LCJwYXlsb2FkIjp7ImlzX2FuYWx5dGljc190cmFja2VkIjpmYWxzZSwidXVpZCI6IjYzNDBhNTQ3ZmUzYTQ1YTU5ZTBkZDk5YzgzMjRkYzc5MzM4NDIzMzAzMjQwNzM3MTAxOCJ9LCJzaWduYXR1cmUiOiIifQ==",
+                        "has_upcoming_event": false,
+                        "edge_media_to_tagged_user": {
+                          "edges": [
+                            {
+                              "node": {
+                                "user": {
+                                  "full_name": "STUDIO DOE",
+                                  "followed_by_viewer": false,
+                                  "id": "4211614332",
+                                  "is_verified": false,
+                                  "profile_pic_url": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-19/186546407_209191997500797_7827722110048620638_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=1&_nc_ohc=eD63RrwPJsMQ7kNvgH2OoCo&edm=APU89FABAAAA&ccb=7-5&oh=00_AYADzm2CZJqyVcSNxvcNBSosT3WJxqk4nKLaZ176GdezDg&oe=6693345A&_nc_sid=bc0c2c",
+                                  "username": "studiodoe"
+                                },
+                                "x": 0.4807129,
+                                "y": 0.4031901
+                              }
+                            }
+                          ]
+                        },
+                        "accessibility_caption": "Photo shared by Rick  Chen on June 05, 2024 tagging @studiodoe. May be an image of 1 person, baby, sleeping, diaper and baby bed."
+                      }
+                    },
+                    {
+                      "node": {
+                        "__typename": "GraphImage",
+                        "id": "3384233032374009937",
+                        "gating_info": null,
+                        "fact_check_overall_rating": null,
+                        "fact_check_information": null,
+                        "media_overlay_info": null,
+                        "sensitivity_friction_info": null,
+                        "sharing_friction_info": {
+                          "should_have_sharing_friction": false,
+                          "bloks_app_url": null
+                        },
+                        "dimensions": {
+                          "height": 1080,
+                          "width": 1080
+                        },
+                        "display_url": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447681157_417151324529986_4988104017869170267_n.heic?stp=dst-jpg_e35_s1080x1080&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=e_6QhAQsU9AQ7kNvgEXG3hd&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDT7Hp79uE0Mp7MugJ6DVLYaEpey8xRyEfktiduTCz-BQ&oe=66931C12&_nc_sid=bc0c2c",
+                        "display_resources": [
+                          {
+                            "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447681157_417151324529986_4988104017869170267_n.heic?stp=dst-jpg_e35_s640x640_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=e_6QhAQsU9AQ7kNvgEXG3hd&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDjXYIcA5NQThKPQGV97FB4pajgNAKr2OByAIXKJ3Rmig&oe=66931C12&_nc_sid=bc0c2c",
+                            "config_width": 640,
+                            "config_height": 640
+                          },
+                          {
+                            "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447681157_417151324529986_4988104017869170267_n.heic?stp=dst-jpg_e35_s750x750_sh0.08&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=e_6QhAQsU9AQ7kNvgEXG3hd&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCShL8bfwyZtWOjXCR7qDNeaiUnSGQAynp6bvfJqRPO5w&oe=66931C12&_nc_sid=bc0c2c",
+                            "config_width": 750,
+                            "config_height": 750
+                          },
+                          {
+                            "src": "https://instagram.ftpe3-1.fna.fbcdn.net/v/t51.29350-15/447681157_417151324529986_4988104017869170267_n.heic?stp=dst-jpg_e35_s1080x1080&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTA4eDExMDguc2RyLmYyOTM1MCJ9&_nc_ht=instagram.ftpe3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=e_6QhAQsU9AQ7kNvgEXG3hd&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDT7Hp79uE0Mp7MugJ6DVLYaEpey8xRyEfktiduTCz-BQ&oe=66931C12&_nc_sid=bc0c2c",
+                            "config_width": 1080,
+                            "config_height": 1080
+                          }
+                        ],
+                        "is_video": false,
+                        "media_preview": "ACoqrkZOPWnOpCEqOcceuaeq5yevYVZj+Y8jGKjYrczYLZlGcHn161dgXK8jkVoBKaeOKlblt6WMt1H2hB6YJ/U1nkFjnHXmr7H987f3Fb9Fx/Os3a3v+VaGZuKuOlWYVwKrscD6/wBatRtkVMhonFM2807mmSnapPoCf0pRGzFjb/WyHJGMce5qiS3YjH0b/CtK2X9yx9WA/L/9VO2VQi4VDDB6GmruiIJ5B4z/AIj6/wBalSpE6ilIESKc81BeHbEx7nA/M0zoWxxyKTUP9SPr/jUxGyvbj9wP9pif8/nTsUsf+pj+h/mKdVCP/9k=",
+                        "tracking_token": "eyJ2ZXJzaW9uIjo1LCJwYXlsb2FkIjp7ImlzX2FuYWx5dGljc190cmFja2VkIjpmYWxzZSwidXVpZCI6IjYzNDBhNTQ3ZmUzYTQ1YTU5ZTBkZDk5YzgzMjRkYzc5MzM4NDIzMzAzMjM3NDAwOTkzNyJ9LCJzaWduYXR1cmUiOiIifQ==",
+                        "has_upcoming_event": false,
+                        "edge_media_to_tagged_user": {
+                          "edges": [
+                            {
+                              "node": {
+                                "user": {
+                                  "full_name": "STUDIO DOE",
+                                  "followed_by_viewer": false,
+                                  "id": "4211614332",
+                                  "is_verified": false,
+                                  "profile_pic_url": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-19/186546407_209191997500797_7827722110048620638_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=1&_nc_ohc=eD63RrwPJsMQ7kNvgH2OoCo&edm=APU89FABAAAA&ccb=7-5&oh=00_AYADzm2CZJqyVcSNxvcNBSosT3WJxqk4nKLaZ176GdezDg&oe=6693345A&_nc_sid=bc0c2c",
+                                  "username": "studiodoe"
+                                },
+                                "x": 0.43676758,
+                                "y": 0.5127821
+                              }
+                            }
+                          ]
+                        },
+                        "accessibility_caption": "Photo shared by Rick  Chen on June 05, 2024 tagging @studiodoe. May be an image of 1 person, baby, sleeping, diaper, baby bed and hospital."
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "node": {
+                "__typename": "GraphImage",
+                "id": "1441697011152876541",
+                "gating_info": null,
+                "fact_check_overall_rating": null,
+                "fact_check_information": null,
+                "media_overlay_info": null,
+                "sensitivity_friction_info": null,
+                "sharing_friction_info": {
+                  "should_have_sharing_friction": false,
+                  "bloks_app_url": null
+                },
+                "dimensions": {
+                  "height": 612,
+                  "width": 612
+                },
+                "display_url": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-15/16464538_1660941247533175_4138356033720418304_n.jpg?stp=dst-jpg_e15&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=bDbcvWFoIHgQ7kNvgE0Qj89&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCOdq8mk30OLkuZ4vEFK5CNKnqEALfyn9rvkrKz53lorg&oe=66931DC0&_nc_sid=bc0c2c",
+                "display_resources": [
+                  {
+                    "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-15/16464538_1660941247533175_4138356033720418304_n.jpg?stp=dst-jpg_e15&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42MTJ4NjEyLnNkci5mMjg4NSJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=bDbcvWFoIHgQ7kNvgE0Qj89&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCOdq8mk30OLkuZ4vEFK5CNKnqEALfyn9rvkrKz53lorg&oe=66931DC0&_nc_sid=bc0c2c",
+                    "config_width": 640,
+                    "config_height": 640
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-15/16464538_1660941247533175_4138356033720418304_n.jpg?stp=dst-jpg_e15&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42MTJ4NjEyLnNkci5mMjg4NSJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=bDbcvWFoIHgQ7kNvgE0Qj89&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCOdq8mk30OLkuZ4vEFK5CNKnqEALfyn9rvkrKz53lorg&oe=66931DC0&_nc_sid=bc0c2c",
+                    "config_width": 750,
+                    "config_height": 750
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-15/16464538_1660941247533175_4138356033720418304_n.jpg?stp=dst-jpg_e15&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42MTJ4NjEyLnNkci5mMjg4NSJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=bDbcvWFoIHgQ7kNvgE0Qj89&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCOdq8mk30OLkuZ4vEFK5CNKnqEALfyn9rvkrKz53lorg&oe=66931DC0&_nc_sid=bc0c2c",
+                    "config_width": 1080,
+                    "config_height": 1080
+                  }
+                ],
+                "is_video": false,
+                "media_preview": null,
+                "tracking_token": "eyJ2ZXJzaW9uIjo1LCJwYXlsb2FkIjp7ImlzX2FuYWx5dGljc190cmFja2VkIjpmYWxzZSwidXVpZCI6IjYzNDBhNTQ3ZmUzYTQ1YTU5ZTBkZDk5YzgzMjRkYzc5MTQ0MTY5NzAxMTE1Mjg3NjU0MSJ9LCJzaWduYXR1cmUiOiIifQ==",
+                "has_upcoming_event": false,
+                "edge_media_to_tagged_user": {
+                  "edges": []
+                },
+                "accessibility_caption": "Photo by Rick  Chen on February 02, 2017.",
+                "edge_media_to_caption": {
+                  "edges": []
+                },
+                "shortcode": "BQB78sPgnP9",
+                "edge_media_to_comment": {
+                  "count": 1,
+                  "page_info": {
+                    "has_next_page": true,
+                    "end_cursor": ""
+                  }
+                },
+                "edge_media_to_sponsor_user": {
+                  "edges": []
+                },
+                "is_affiliate": false,
+                "is_paid_partnership": false,
+                "comments_disabled": false,
+                "taken_at_timestamp": 1486083698,
+                "edge_media_preview_like": {
+                  "count": 1,
+                  "edges": []
+                },
+                "owner": {
+                  "id": "4558512094",
+                  "username": "xtforgame"
+                },
+                "location": null,
+                "nft_asset_info": null,
+                "viewer_has_liked": false,
+                "viewer_has_saved": false,
+                "viewer_has_saved_to_collection": false,
+                "viewer_in_photo_of_you": false,
+                "viewer_can_reshare": true,
+                "thumbnail_src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-15/16464538_1660941247533175_4138356033720418304_n.jpg?stp=dst-jpg_e15&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=bDbcvWFoIHgQ7kNvgE0Qj89&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCOdq8mk30OLkuZ4vEFK5CNKnqEALfyn9rvkrKz53lorg&oe=66931DC0&_nc_sid=bc0c2c",
+                "thumbnail_resources": [
+                  {
+                    "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-15/16464538_1660941247533175_4138356033720418304_n.jpg?stp=dst-jpg_e15_s150x150&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42MTJ4NjEyLnNkci5mMjg4NSJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=bDbcvWFoIHgQ7kNvgE0Qj89&edm=APU89FABAAAA&ccb=7-5&oh=00_AYAA7fxYhgYq6pAxPCuaQQBIcZhVk54sN_ra093ZbeKrYw&oe=66931DC0&_nc_sid=bc0c2c",
+                    "config_width": 150,
+                    "config_height": 150
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-15/16464538_1660941247533175_4138356033720418304_n.jpg?stp=dst-jpg_e15_s240x240&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42MTJ4NjEyLnNkci5mMjg4NSJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=bDbcvWFoIHgQ7kNvgE0Qj89&edm=APU89FABAAAA&ccb=7-5&oh=00_AYAClDyjG2BGX4ndyWLsHnQdSgG9P93n6VTki21fWpA-1w&oe=66931DC0&_nc_sid=bc0c2c",
+                    "config_width": 240,
+                    "config_height": 240
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-15/16464538_1660941247533175_4138356033720418304_n.jpg?stp=dst-jpg_e15_s320x320&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42MTJ4NjEyLnNkci5mMjg4NSJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=bDbcvWFoIHgQ7kNvgE0Qj89&gid=6340a547fe3a45a59e0dd99c8324dc79&edm=APU89FABAAAA&ccb=7-5&oh=00_AYDm-rv0MQJRQN4uAah_47oOzZFPxUt54vwtPpgZFrCIwQ&oe=66931DC0&_nc_sid=bc0c2c",
+                    "config_width": 320,
+                    "config_height": 320
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-15/16464538_1660941247533175_4138356033720418304_n.jpg?stp=dst-jpg_e15_s480x480&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42MTJ4NjEyLnNkci5mMjg4NSJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=bDbcvWFoIHgQ7kNvgE0Qj89&gid=6340a547fe3a45a59e0dd99c8324dc79&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCTaLEVHVtxK-zWYHPxxtshy-thWBuHp4wgFaDvMjTtAw&oe=66931DC0&_nc_sid=bc0c2c",
+                    "config_width": 480,
+                    "config_height": 480
+                  },
+                  {
+                    "src": "https://instagram.ftpe3-2.fna.fbcdn.net/v/t51.2885-15/16464538_1660941247533175_4138356033720418304_n.jpg?stp=dst-jpg_e15&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi42MTJ4NjEyLnNkci5mMjg4NSJ9&_nc_ht=instagram.ftpe3-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=bDbcvWFoIHgQ7kNvgE0Qj89&edm=APU89FABAAAA&ccb=7-5&oh=00_AYCOdq8mk30OLkuZ4vEFK5CNKnqEALfyn9rvkrKz53lorg&oe=66931DC0&_nc_sid=bc0c2c",
+                    "config_width": 640,
+                    "config_height": 640
+                  }
+                ],
+                "coauthor_producers": [],
+                "pinned_for_users": [],
+                "like_and_view_counts_disabled": false
+              }
+            }
+          ]
+        }
+      }
+    },
+    "extensions": {
+      "is_final": true
+    },
+    "status": "ok"
+  },
+  "https://www.instagram.com/data/manifest.json/": {
+    "name": "Instagram",
+    "short_name": "Instagram",
+    "description": "Instagram is a simple way to capture and share the world's moments.",
+    "start_url": "/?utm_source=pwa_homescreen&__pwa=1",
+    "orientation": "portrait",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "prompt_message": "新增主畫面圖示，輕鬆存取 Instagram",
+    "icons": [
+      {
+        "src": "https://static.cdninstagram.com/rsrc.php/v3/yM/r/7xwrlYffOBb.png",
+        "sizes": "144x144",
+        "type": "image/png"
+      },
+      {
+        "src": "https://static.cdninstagram.com/rsrc.php/v3/ym/r/c6ROUpIItFg.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "gcm_sender_id": "524223308106",
+    "gcm_user_visible_only": true,
+    "related_applications": [
+      {
+        "platform": "play",
+        "id": "com.instagram.lite"
+      },
+      {
+        "platform": "play",
+        "id": "com.instagram.android"
+      }
+    ],
+    "edge_side_panel": {
+      "preferred_width": 496
+    }
+  },
+  "https://graph.instagram.com/logging_client_events": {
+    "checksum": "",
+    "config": "",
+    "config_owner_id": "",
+    "app_data": "{}",
+    "qpl_version": "",
+    "client_debug_config": ""
+  }
+}
