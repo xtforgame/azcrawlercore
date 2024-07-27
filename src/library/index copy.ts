@@ -48,9 +48,567 @@ function extractDonationData(donations) {
   });
 }
 
+function extractUserData(users) {
+  return users.map(user => {
+    const {
+      email,
+      name,
+      realName,
+      data: {
+        bio,
+        email: email2,
+        extraData: {
+          avatar,
+          mobile,
+          birthday,
+          lastName,
+          firstName,
+          receiptType,
+          receiptTitle,
+          donorIdNumber,
+          receiptAddress,
+        } = {} as any,
+      } = {} as any,
+      created_at
+    } = user;
+
+    return {
+      email,
+      name,
+      realName,
+      email2,
+      mobile,
+      birthday,
+      lastName,
+      firstName,
+      donorIdNumber,
+      receiptAddress,
+      created_at,
+    };
+  });
+}
+
 // 假設你有一個 GraphQL 查詢結果的 JSON 物件
 const queryResult = {
   "data": {
+    "users": [
+      {
+        "email": "ruooo.q+001@gmail.com",
+        "name": "ruooo.q+001@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm ruooo.q+001@gmail.com",
+          "email": "ruooo.q+001@gmail.com",
+          "extraData": {
+            "mobile": "0910999476",
+            "birthday": "1987-11-28",
+            "lastName": "LIU",
+            "firstName": "RUO LING"
+          }
+        },
+        "created_at": "2023-06-07T04:57:20.66+00:00"
+      },
+      {
+        "email": "ruooo.q+002@gmail.com",
+        "name": "ruooo.q+002@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm ruooo.q+002@gmail.com",
+          "email": "ruooo.q+002@gmail.com",
+          "extraData": {
+            "avatar": null,
+            "mobile": "0910999476",
+            "birthday": "1987-11-28",
+            "lastName": "劉",
+            "firstName": "若羚",
+            "receiptType": "paper",
+            "receiptTitle": "",
+            "donorIdNumber": "J222398313",
+            "receiptAddress": ""
+          }
+        },
+        "created_at": "2023-06-20T08:30:07.331+00:00"
+      },
+      {
+        "email": "hi@test.com",
+        "name": "hi@test.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm hi@test.com",
+          "email": "hi@test.com",
+          "extraData": {
+            "mobile": "0912321654",
+            "birthday": "1994",
+            "lastName": "王",
+            "firstName": "一一"
+          }
+        },
+        "created_at": "2023-08-15T01:18:30.931+00:00"
+      },
+      {
+        "email": "yuzhen7910@gmail.com",
+        "name": "yuzhen7910@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm yuzhen7910@gmail.com",
+          "email": "yuzhen7910@gmail.com",
+          "extraData": {
+            "mobile": "0936056998",
+            "birthday": "1990",
+            "lastName": "林",
+            "firstName": "妤蓁"
+          }
+        },
+        "created_at": "2023-12-07T03:57:08.562+00:00"
+      },
+      {
+        "email": "sharon7478@nocsh.ntpc.edu.tw",
+        "name": "sharon7478@nocsh.ntpc.edu.tw",
+        "realName": null,
+        "data": {
+          "bio": "I'm sharon7478@nocsh.ntpc.edu.tw",
+          "email": "sharon7478@nocsh.ntpc.edu.tw",
+          "extraData": {
+            "mobile": "0919547187",
+            "birthday": "1985",
+            "lastName": "張",
+            "firstName": "琇茹"
+          }
+        },
+        "created_at": "2023-12-11T10:37:29.86+00:00"
+      },
+      {
+        "email": "richcfh@gmail.com",
+        "name": "richcfh@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm richcfh@gmail.com",
+          "email": "richcfh@gmail.com",
+          "extraData": {
+            "mobile": "+886983889888",
+            "birthday": "1971",
+            "lastName": "莊",
+            "firstName": "富翔"
+          }
+        },
+        "created_at": "2024-02-07T06:41:10.052+00:00"
+      },
+      {
+        "email": "per_yoyosa@hotmail.com",
+        "name": "per_yoyosa@hotmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm per_yoyosa@hotmail.com",
+          "email": "per_yoyosa@hotmail.com",
+          "extraData": {
+            "mobile": "0928700953",
+            "birthday": "1985",
+            "lastName": "吳",
+            "firstName": "家怡"
+          }
+        },
+        "created_at": "2024-05-01T06:49:52.702+00:00"
+      },
+      {
+        "email": "dearjesus@hotmail.com",
+        "name": "dearjesus@hotmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm dearjesus@hotmail.com",
+          "email": "dearjesus@hotmail.com",
+          "extraData": {
+            "avatar": null,
+            "mobile": "0917613780",
+            "birthday": "1984",
+            "lastName": "余",
+            "firstName": "子淳",
+            "receiptType": "paper",
+            "receiptTitle": "余子淳",
+            "donorIdNumber": "F126249861",
+            "receiptAddress": "新北市板橋區陽明街29巷1弄1號5樓"
+          }
+        },
+        "created_at": "2024-05-01T06:46:41.252+00:00"
+      },
+      {
+        "email": "service@api-consultant.com",
+        "name": "service@api-consultant.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm service@api-consultant.com",
+          "email": "service@api-consultant.com",
+          "extraData": {
+            "mobile": "0917613703",
+            "birthday": "2015",
+            "lastName": "api ",
+            "firstName": "api"
+          }
+        },
+        "created_at": "2024-05-13T10:14:24.398+00:00"
+      },
+      {
+        "email": "tzu821121@gamil.com",
+        "name": "tzu821121@gamil.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm tzu821121@gamil.com",
+          "email": "tzu821121@gamil.com",
+          "extraData": {
+            "mobile": "0984326553",
+            "birthday": "1993",
+            "lastName": "李",
+            "firstName": "婉慈"
+          }
+        },
+        "created_at": "2024-05-21T04:40:27.391+00:00"
+      },
+      {
+        "email": "test.user.1@foo.bar",
+        "name": "TestUser1",
+        "realName": null,
+        "data": {
+          "bio": "I'm TestUser1",
+          "email": "test.user.1@foo.bar"
+        },
+        "created_at": "2023-02-22T18:18:35.719+00:00"
+      },
+      {
+        "email": "test.user.2@foo.bar",
+        "name": "TestUser2",
+        "realName": null,
+        "data": {
+          "bio": "I'm TestUser2",
+          "email": "test.user.2@foo.bar"
+        },
+        "created_at": "2023-02-22T18:18:35.822+00:00"
+      },
+      {
+        "email": "nico19811009@gmail.com",
+        "name": "nico19811009@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm nico19811009@gmail.com",
+          "email": "nico19811009@gmail.com",
+          "extraData": {
+            "mobile": "0932543686",
+            "birthday": "1981",
+            "lastName": "劉",
+            "firstName": "宛畇"
+          }
+        },
+        "created_at": "2024-05-01T12:41:38.388+00:00"
+      },
+      {
+        "email": "tzu821121@gmail.com",
+        "name": "tzu821121@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm tzu821121@gmail.com",
+          "email": "tzu821121@gmail.com",
+          "extraData": {
+            "avatar": null,
+            "mobile": "0984326553",
+            "birthday": "1993",
+            "lastName": "李",
+            "firstName": "婉慈",
+            "receiptType": "paper",
+            "receiptTitle": "李婉慈",
+            "donorIdNumber": "D222644119",
+            "receiptAddress": ""
+          }
+        },
+        "created_at": "2023-12-21T09:35:53.772+00:00"
+      },
+      {
+        "email": null,
+        "name": null,
+        "realName": null,
+        "data": {
+          "cart": {
+            "id": "2674a18f-f1b1-4909-80a4-bea2a128f8e7",
+            "items": []
+          },
+          "snackbar": {
+            "done": true,
+            "text": ""
+          },
+          "lastVisit": 1677157506165,
+          "redirectPath": ""
+        },
+        "created_at": "2023-02-23T13:05:06.166+00:00"
+      },
+      {
+        "email": null,
+        "name": null,
+        "realName": null,
+        "data": {
+          "cart": {
+            "id": "29ff9f4a-b00f-4d10-9f67-8f02a28b5bea",
+            "items": []
+          },
+          "snackbar": {
+            "done": true,
+            "text": ""
+          },
+          "lastVisit": 1677157544127,
+          "redirectPath": ""
+        },
+        "created_at": "2023-02-23T13:05:44.127+00:00"
+      },
+      {
+        "email": "cindy7314@gmail.com",
+        "name": "cindy7314@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm cindy7314@gmail.com",
+          "email": "cindy7314@gmail.com",
+          "extraData": {
+            "avatar": null,
+            "mobile": "0917613703",
+            "birthday": "1984",
+            "lastName": "林",
+            "firstName": "怡伈",
+            "receiptType": "paper",
+            "receiptTitle": "林怡伈",
+            "donorIdNumber": "A226081188",
+            "receiptAddress": "新北市板橋區陽明街29巷1弄1號5樓"
+          }
+        },
+        "created_at": "2024-05-01T06:50:09.662+00:00"
+      },
+      {
+        "email": "jk2003041@gmail.com",
+        "name": "jk2003041@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm jk2003041@gmail.com",
+          "email": "jk2003041@gmail.com",
+          "extraData": {
+            "avatar": null,
+            "mobile": "0901052862",
+            "birthday": "1992",
+            "lastName": "黃",
+            "firstName": "柏霖",
+            "receiptType": "paper",
+            "receiptTitle": "黃柏霖",
+            "donorIdNumber": "G121786806",
+            "receiptAddress": "宜蘭縣五結鄉鎮安村西河五路28巷1號"
+          }
+        },
+        "created_at": "2024-07-13T05:59:55.678+00:00"
+      },
+      {
+        "email": "admin@foo.bar",
+        "name": "Admin",
+        "realName": null,
+        "data": {
+          "bio": "I'm Admin",
+          "email": "admin@foo.bar",
+          "extraData": {
+            "avatar": {
+              "id": "9f0ecc6e-4c88-42ef-b08d-c2f5d4648c35",
+              "fileEx": {
+                "id": "9f0ecc6e-4c88-42ef-b08d-c2f5d4648c35",
+                "url": "https://localhost:8443/api/minio-storage/ae4aae6311ea8245c6a15584021f2c33c4a630a8f5424d92a30836c62219d37d.jpeg",
+                "hash": "ae4aae6311ea8245c6a15584021f2c33c4a630a8f5424d92a30836c62219d37d.jpeg",
+                "name": "01f86afb37ea4908bd95dac5ad2ff429.jpeg",
+                "metadata": {},
+                "thumbnail": {
+                  "url": "https://localhost:8443/api/minio-storage/ae4aae6311ea8245c6a15584021f2c33c4a630a8f5424d92a30836c62219d37d.jpeg"
+                }
+              },
+              "content": "01f86afb37ea4908bd95dac5ad2ff429.jpeg"
+            },
+            "mobile": "09876",
+            "birthday": "2023-03-01",
+            "lastName": "Chen",
+            "firstName": "Rick",
+            "receiptType": "paper",
+            "receiptTitle": "Rick Chen",
+            "donorIdNumber": "A123456789",
+            "receiptAddress": "XXXXXXX"
+          }
+        },
+        "created_at": "2023-02-22T18:18:35.568+00:00"
+      },
+      {
+        "email": null,
+        "name": null,
+        "realName": null,
+        "data": {
+          "cart": {
+            "id": "223a0667-c091-416f-b93f-03a65f6acc0f",
+            "items": []
+          },
+          "snackbar": {
+            "done": true,
+            "text": ""
+          },
+          "lastVisit": 1677157548833,
+          "redirectPath": ""
+        },
+        "created_at": "2023-02-23T13:05:48.833+00:00"
+      },
+      {
+        "email": "alicepetrovka@gmail.com",
+        "name": "alicepetrovka@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm alicepetrovka@gmail.com",
+          "email": "alicepetrovka@gmail.com",
+          "extraData": {
+            "mobile": "0988838189",
+            "birthday": "2023-02-08",
+            "lastName": "chen",
+            "firstName": "fwf"
+          }
+        },
+        "created_at": "2023-02-23T15:24:30.957+00:00"
+      },
+      {
+        "email": "aaa@bbb.ccc",
+        "name": "aaa@bbb.ccc",
+        "realName": null,
+        "data": {
+          "bio": "I'm aaa@bbb.ccc",
+          "email": "aaa@bbb.ccc",
+          "extraData": {
+            "mobile": "0",
+            "birthday": "2023-03-11",
+            "lastName": "q",
+            "firstName": "q"
+          }
+        },
+        "created_at": "2023-03-11T14:09:07.842+00:00"
+      },
+      {
+        "email": "matthew.him@gmail.com",
+        "name": "matthew.him@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm matthew.him@gmail.com",
+          "email": "matthew.him@gmail.com",
+          "extraData": {
+            "mobile": "0988236624",
+            "birthday": "1986-07-25",
+            "lastName": "許",
+            "firstName": "文謙"
+          }
+        },
+        "created_at": "2023-04-01T05:36:46.87+00:00"
+      },
+      {
+        "email": "ruoling.liu.starworks@gmail.com",
+        "name": "ruoling.liu.starworks@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm ruoling.liu.starworks@gmail.com",
+          "email": "ruoling.liu.starworks@gmail.com",
+          "extraData": {
+            "mobile": "0910999476",
+            "birthday": "1987-11-28",
+            "lastName": "劉",
+            "firstName": "若羚"
+          }
+        },
+        "created_at": "2023-04-13T14:13:38.3+00:00"
+      },
+      {
+        "email": "xtforgame@gmail.com",
+        "name": "xtforgame@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm xtforgame@gmail.com",
+          "email": "xtforgame@gmail.com",
+          "extraData": {
+            "avatar": null,
+            "mobile": "0987654321",
+            "birthday": "1985-10-24",
+            "lastName": "Chen",
+            "firstName": "Rick",
+            "receiptType": "paper",
+            "receiptTitle": "cacev",
+            "donorIdNumber": "A11111111",
+            "receiptAddress": "svevesvesv"
+          }
+        },
+        "created_at": "2023-03-05T14:35:17.561+00:00"
+      },
+      {
+        "email": "ruooo.q@gmail.com",
+        "name": "ruooo.q@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm ruooo.q@gmail.com",
+          "email": "ruooo.q@gmail.com",
+          "extraData": {
+            "avatar": null,
+            "mobile": "0910999476",
+            "birthday": "1987",
+            "lastName": "劉",
+            "firstName": "若羚",
+            "receiptType": "paper",
+            "receiptTitle": "劉若羚",
+            "donorIdNumber": "J222398313",
+            "receiptAddress": "桃園市八德區中山路128巷60弄11號"
+          }
+        },
+        "created_at": "2023-03-06T06:39:28.282+00:00"
+      },
+      {
+        "email": "ruolingliuux@gmail.com",
+        "name": "ruolingliuux@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm ruolingliuux@gmail.com",
+          "email": "ruolingliuux@gmail.com",
+          "extraData": {
+            "avatar": null,
+            "mobile": "0910999476",
+            "birthday": "2023",
+            "lastName": "劉",
+            "firstName": "若羚",
+            "receiptType": "none",
+            "receiptTitle": "",
+            "donorIdNumber": "",
+            "receiptAddress": ""
+          }
+        },
+        "created_at": "2023-02-25T14:49:44.577+00:00"
+      },
+      {
+        "email": "roy.promos@gmail.com",
+        "name": "roy.promos@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm roy.promos@gmail.com",
+          "email": "roy.promos@gmail.com",
+          "extraData": {
+            "mobile": "0910996106",
+            "birthday": "1979",
+            "lastName": "張",
+            "firstName": "家榮"
+          }
+        },
+        "created_at": "2024-05-05T05:59:08.212+00:00"
+      },
+      {
+        "email": "buy72399@gmail.com",
+        "name": "buy72399@gmail.com",
+        "realName": null,
+        "data": {
+          "bio": "I'm buy72399@gmail.com",
+          "email": "buy72399@gmail.com",
+          "extraData": {
+            "mobile": "0920979738",
+            "birthday": "1990",
+            "lastName": "劉",
+            "firstName": "彰澤"
+          }
+        },
+        "created_at": "2024-07-13T05:58:55.319+00:00"
+      }
+    ],
     "donationSubscriptions": [
       {
         "data": {},
@@ -12694,14 +13252,17 @@ const queryResult = {
 export default async function echo<T=any>(data : T, err: any = undefined) {
   const donationSubscriptions = queryResult.data.donationSubscriptions;
   const donations = queryResult.data.donations;
+  const users = queryResult.data.users;
 
   const extractedDonationSubscriptionsData = extractDonationData(donationSubscriptions);
   const extractedDonationsData = extractDonationData(donations);
+  const extractedUsersData = extractUserData(users);
 
   // 使用 json2csv 將提取的數據轉換為 CSV
   const json2csvParser = new Parser();
   const csvDonationSubscriptions = json2csvParser.parse(extractedDonationSubscriptionsData);
   const csvDonations = json2csvParser.parse(extractedDonationsData);
+  const csvUsers = json2csvParser.parse(extractedUsersData);
 
   // 將 CSV 寫入文件
   fs.writeFile('donationSubscriptions.csv', csvDonationSubscriptions, function(err) {
@@ -12712,6 +13273,11 @@ export default async function echo<T=any>(data : T, err: any = undefined) {
   fs.writeFile('donations.csv', csvDonations, function(err) {
     if (err) throw err;
     console.log('CSV file saved as donations.csv');
+  });
+
+  fs.writeFile('users.csv', csvUsers, function(err) {
+    if (err) throw err;
+    console.log('CSV file saved as users.csv');
   });
 }
 
