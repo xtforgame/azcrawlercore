@@ -51,6 +51,7 @@ function extractDonationData(donations) {
 function extractUserData(users) {
   return users.map(user => {
     const {
+      id,
       email,
       name,
       realName,
@@ -73,6 +74,7 @@ function extractUserData(users) {
     } = user;
 
     return {
+      id,
       email,
       name,
       realName,
@@ -93,6 +95,7 @@ const queryResult = {
   "data": {
     "users": [
       {
+        "id": 23,
         "email": "ruooo.q+001@gmail.com",
         "name": "ruooo.q+001@gmail.com",
         "realName": null,
@@ -109,6 +112,7 @@ const queryResult = {
         "created_at": "2023-06-07T04:57:20.66+00:00"
       },
       {
+        "id": 24,
         "email": "ruooo.q+002@gmail.com",
         "name": "ruooo.q+002@gmail.com",
         "realName": null,
@@ -130,6 +134,7 @@ const queryResult = {
         "created_at": "2023-06-20T08:30:07.331+00:00"
       },
       {
+        "id": 29,
         "email": "hi@test.com",
         "name": "hi@test.com",
         "realName": null,
@@ -146,6 +151,7 @@ const queryResult = {
         "created_at": "2023-08-15T01:18:30.931+00:00"
       },
       {
+        "id": 30,
         "email": "yuzhen7910@gmail.com",
         "name": "yuzhen7910@gmail.com",
         "realName": null,
@@ -162,6 +168,7 @@ const queryResult = {
         "created_at": "2023-12-07T03:57:08.562+00:00"
       },
       {
+        "id": 31,
         "email": "sharon7478@nocsh.ntpc.edu.tw",
         "name": "sharon7478@nocsh.ntpc.edu.tw",
         "realName": null,
@@ -178,6 +185,7 @@ const queryResult = {
         "created_at": "2023-12-11T10:37:29.86+00:00"
       },
       {
+        "id": 35,
         "email": "richcfh@gmail.com",
         "name": "richcfh@gmail.com",
         "realName": null,
@@ -194,6 +202,7 @@ const queryResult = {
         "created_at": "2024-02-07T06:41:10.052+00:00"
       },
       {
+        "id": 37,
         "email": "per_yoyosa@hotmail.com",
         "name": "per_yoyosa@hotmail.com",
         "realName": null,
@@ -210,6 +219,7 @@ const queryResult = {
         "created_at": "2024-05-01T06:49:52.702+00:00"
       },
       {
+        "id": 36,
         "email": "dearjesus@hotmail.com",
         "name": "dearjesus@hotmail.com",
         "realName": null,
@@ -231,6 +241,7 @@ const queryResult = {
         "created_at": "2024-05-01T06:46:41.252+00:00"
       },
       {
+        "id": 41,
         "email": "service@api-consultant.com",
         "name": "service@api-consultant.com",
         "realName": null,
@@ -247,6 +258,7 @@ const queryResult = {
         "created_at": "2024-05-13T10:14:24.398+00:00"
       },
       {
+        "id": 43,
         "email": "tzu821121@gamil.com",
         "name": "tzu821121@gamil.com",
         "realName": null,
@@ -263,6 +275,7 @@ const queryResult = {
         "created_at": "2024-05-21T04:40:27.391+00:00"
       },
       {
+        "id": 2,
         "email": "test.user.1@foo.bar",
         "name": "TestUser1",
         "realName": null,
@@ -273,6 +286,7 @@ const queryResult = {
         "created_at": "2023-02-22T18:18:35.719+00:00"
       },
       {
+        "id": 3,
         "email": "test.user.2@foo.bar",
         "name": "TestUser2",
         "realName": null,
@@ -283,6 +297,7 @@ const queryResult = {
         "created_at": "2023-02-22T18:18:35.822+00:00"
       },
       {
+        "id": 39,
         "email": "nico19811009@gmail.com",
         "name": "nico19811009@gmail.com",
         "realName": null,
@@ -299,6 +314,7 @@ const queryResult = {
         "created_at": "2024-05-01T12:41:38.388+00:00"
       },
       {
+        "id": 33,
         "email": "tzu821121@gmail.com",
         "name": "tzu821121@gmail.com",
         "realName": null,
@@ -320,6 +336,7 @@ const queryResult = {
         "created_at": "2023-12-21T09:35:53.772+00:00"
       },
       {
+        "id": 5,
         "email": null,
         "name": null,
         "realName": null,
@@ -338,6 +355,7 @@ const queryResult = {
         "created_at": "2023-02-23T13:05:06.166+00:00"
       },
       {
+        "id": 6,
         "email": null,
         "name": null,
         "realName": null,
@@ -356,6 +374,7 @@ const queryResult = {
         "created_at": "2023-02-23T13:05:44.127+00:00"
       },
       {
+        "id": 38,
         "email": "cindy7314@gmail.com",
         "name": "cindy7314@gmail.com",
         "realName": null,
@@ -377,6 +396,7 @@ const queryResult = {
         "created_at": "2024-05-01T06:50:09.662+00:00"
       },
       {
+        "id": 46,
         "email": "jk2003041@gmail.com",
         "name": "jk2003041@gmail.com",
         "realName": null,
@@ -398,6 +418,7 @@ const queryResult = {
         "created_at": "2024-07-13T05:59:55.678+00:00"
       },
       {
+        "id": 1,
         "email": "admin@foo.bar",
         "name": "Admin",
         "realName": null,
@@ -432,6 +453,7 @@ const queryResult = {
         "created_at": "2023-02-22T18:18:35.568+00:00"
       },
       {
+        "id": 7,
         "email": null,
         "name": null,
         "realName": null,
@@ -450,6 +472,7 @@ const queryResult = {
         "created_at": "2023-02-23T13:05:48.833+00:00"
       },
       {
+        "id": 8,
         "email": "alicepetrovka@gmail.com",
         "name": "alicepetrovka@gmail.com",
         "realName": null,
@@ -466,6 +489,7 @@ const queryResult = {
         "created_at": "2023-02-23T15:24:30.957+00:00"
       },
       {
+        "id": 13,
         "email": "aaa@bbb.ccc",
         "name": "aaa@bbb.ccc",
         "realName": null,
@@ -482,6 +506,7 @@ const queryResult = {
         "created_at": "2023-03-11T14:09:07.842+00:00"
       },
       {
+        "id": 15,
         "email": "matthew.him@gmail.com",
         "name": "matthew.him@gmail.com",
         "realName": null,
@@ -498,6 +523,7 @@ const queryResult = {
         "created_at": "2023-04-01T05:36:46.87+00:00"
       },
       {
+        "id": 17,
         "email": "ruoling.liu.starworks@gmail.com",
         "name": "ruoling.liu.starworks@gmail.com",
         "realName": null,
@@ -514,6 +540,7 @@ const queryResult = {
         "created_at": "2023-04-13T14:13:38.3+00:00"
       },
       {
+        "id": 10,
         "email": "xtforgame@gmail.com",
         "name": "xtforgame@gmail.com",
         "realName": null,
@@ -535,6 +562,7 @@ const queryResult = {
         "created_at": "2023-03-05T14:35:17.561+00:00"
       },
       {
+        "id": 11,
         "email": "ruooo.q@gmail.com",
         "name": "ruooo.q@gmail.com",
         "realName": null,
@@ -556,6 +584,7 @@ const queryResult = {
         "created_at": "2023-03-06T06:39:28.282+00:00"
       },
       {
+        "id": 9,
         "email": "ruolingliuux@gmail.com",
         "name": "ruolingliuux@gmail.com",
         "realName": null,
@@ -577,6 +606,7 @@ const queryResult = {
         "created_at": "2023-02-25T14:49:44.577+00:00"
       },
       {
+        "id": 40,
         "email": "roy.promos@gmail.com",
         "name": "roy.promos@gmail.com",
         "realName": null,
@@ -593,6 +623,7 @@ const queryResult = {
         "created_at": "2024-05-05T05:59:08.212+00:00"
       },
       {
+        "id": 44,
         "email": "buy72399@gmail.com",
         "name": "buy72399@gmail.com",
         "realName": null,
@@ -13285,6 +13316,7 @@ export default async function echo<T=any>(data : T, err: any = undefined) {
 /*
 query MyQuery {
   users {
+    id
     email
     data
     created_at
