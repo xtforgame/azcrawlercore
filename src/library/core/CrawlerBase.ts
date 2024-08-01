@@ -1274,7 +1274,13 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
       // moment('2024-07-22'),
       // moment('2024-07-23'),
       // moment('2024-07-24'),
-      moment('2024-07-25'),
+      // moment('2024-07-25'),
+      // moment('2024-07-26'),
+      // moment('2024-07-27'),
+      // moment('2024-07-28'),
+      // moment('2024-07-29'),
+      // moment('2024-07-30'),
+      moment('2024-07-31'),
     ], async (_, date) => {
       console.log('date :', date);
       await this.runX(date);
