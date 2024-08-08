@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import moment from 'moment';
-import OpenAI from 'openai';
 import { google, drive_v3, gmail_v1 } from 'googleapis';
 import puppeteer, { launch, Browser, ElementHandle, Page } from 'puppeteer';
 import { promiseReduce, promiseWait, promiseWaitFor } from '~/utils';
@@ -9,21 +8,6 @@ import { scanAndSyncCodePages, updateCodeFromJson, updateCode, fetchCodePage, li
 import ShoplineCrawlerBase from './ShoplineCrawlerBase';
 
 export type PuppeteerLaunchOptions = Parameters<typeof launch>[0];
-
-process.env.OPENAI_API_KEY = '.....';
-
-const openai = new OpenAI();
-
-type CompletionData = {
-  messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
-  // completion: OpenAI.Chat.Completions.ChatCompletion,
-};
-
-type ReplyOptions = {
-  userId?: any;
-  systemMessages?: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
-  messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
-}
 
 export default class CrawlerBase extends ShoplineCrawlerBase {
   async init() {

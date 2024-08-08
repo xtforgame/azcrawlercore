@@ -59,7 +59,7 @@ export default class CrawlerCoreBase {
     const options : PuppeteerLaunchOptions = debug ? {
       devtools: true,
       headless: false,
-      slowMo: 100,
+      slowMo: 25,
       args,
     } : {
       headless: true,
