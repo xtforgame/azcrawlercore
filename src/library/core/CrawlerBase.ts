@@ -155,11 +155,7 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
         // const memberFilterBase = '?assignment_filter=all&limit=50&pinned=false&processing_state=resolved';
         // const memberFilterBase = '?assignment_filter=all&limit=50&pinned=true&processing_state=new';
         const memberFilterBase = '?assignment_filter=all&limit=50&pinned=false&processing_state=resolved';
-
-
         const messageFilterBase = '?limit=50';
-
-
         {
           const page = await this.newPage(browser);
           await page.setExtraHTTPHeaders({
