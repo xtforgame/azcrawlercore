@@ -168,6 +168,7 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
             await callbackFunc(records, page);
             await promiseWait(500);
             while (records.cursor.after) {
+              counter++;
               const nextRecords = await fetchFunc(page, records.cursor.after.replace(/\=/gm, '%3D'));
               if (exportListFolderName) {
                 fs.writeFileSync(`${exportFolder}/${exportListFolderName}/list-${counter}.json`, JSON.stringify(records, null, 2));
