@@ -19,7 +19,7 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
   }
 
   getMessages = async (page: Page, memberId: string, query: string) => {
-    const p = new Promise<string>((resolve, reject) => {
+    const p = new Promise<any>((resolve, reject) => {
       const cb = (resp) => {
         const url = resp.url();
         const contentType = resp.headers()['content-type'];
@@ -49,7 +49,7 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
   };
 
   getMembers = async (page: Page, query: string) => {
-    const p = new Promise<string>((resolve, reject) => {
+    const p = new Promise<any>((resolve, reject) => {
       const cb = (resp) => {
         const url = resp.url();
         const contentType = resp.headers()['content-type'];
@@ -135,30 +135,85 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
 
         await promiseWait(2000);
 
-        // const memberFilterBase = '?assignment_filter=all&limit=50&pinned=true&processing_state=resolved';
-        // const memberFilterBase = '?assignment_filter=all&limit=50&pinned=false&processing_state=resolved';
-        // const memberFilterBase = '?assignment_filter=all&limit=50&pinned=true&processing_state=new';
-        const memberFilterBase = '?assignment_filter=all&limit=50&pinned=false&processing_state=resolved';
-        const messageFilterBase = '?limit=50';
         {
+
+          // const memberFilterBase = '?assignment_filter=all&limit=50&pinned=true&processing_state=resolved';
+          // const memberFilterBase = '?assignment_filter=all&limit=50&pinned=false&processing_state=resolved';
+          // const memberFilterBase = '?assignment_filter=all&limit=50&pinned=true&processing_state=new';
+          const memberFilterBase = '?assignment_filter=all&limit=50&pinned=false&processing_state=resolved';
+          const messageFilterBase = '?limit=50';
+          const exportFolder = 'chat/export';
+
+          fs.mkdirSync(exportFolder, { recursive: true });
+          fs.mkdirSync(`${exportFolder}/members`, { recursive: true });
+          fs.mkdirSync(`${exportFolder}/member-map`, { recursive: true });
+          fs.mkdirSync(`${exportFolder}/messages`, { recursive: true });
+          fs.mkdirSync(`${exportFolder}/message-map`, { recursive: true });
+
+          type ResouceItems = {
+            cursor: {
+              after: string | null;
+            };
+            [s: string]: any;
+          };
+          type FetchFunc<T extends ResouceItems> = (page: Page, cursor?: string) => Promise<T>;
+          type CallbackFunc<T extends ResouceItems> = (data: T, page: Page, cursor?: string) => Promise<any>;
+          async function forList<T extends ResouceItems>(fetchFunc: FetchFunc<T>, callbackFunc: CallbackFunc<T>, exportListFolderName?: string) {
+            let counter = 0;
+            let records = await fetchFunc(page);
+            if (exportListFolderName) {
+              fs.mkdirSync(`${exportFolder}/${exportListFolderName}`, { recursive: true });
+              fs.writeFileSync(`${exportFolder}/${exportListFolderName}/list-${counter}.json`, JSON.stringify(records, null, 2));
+            }
+            await callbackFunc(records, page);
+            await promiseWait(500);
+            while (records.cursor.after) {
+              const nextRecords = await fetchFunc(page, records.cursor.after.replace(/\=/gm, '%3D'));
+              if (exportListFolderName) {
+                fs.writeFileSync(`${exportFolder}/${exportListFolderName}/list-${counter}.json`, JSON.stringify(records, null, 2));
+              }
+              await callbackFunc(records, page, records.cursor.after.replace(/\=/gm, '%3D'));
+              records = nextRecords;
+              await promiseWait(500);
+            }
+          }
+          /// =========
           const page = await this.newPage(browser);
           await page.setExtraHTTPHeaders({
             "authorization": authorization,
           });
-          let counter = 0;
-          let members: any = await this.getMembers(page, memberFilterBase);
-          if (members?.cursor?.after) {
-            fs.writeFileSync(`x-${counter}.json`, JSON.stringify(members, null, 2));
-            if (members?.members?.[0]) {
-              let messages: any = await this.getMessages(page, members?.members?.[0].id, `${messageFilterBase}`);
-              console.log('messages :', messages);
+          await forList(async (page, cursor) => {
+            if (cursor) {
+              return this.getMembers(page, `${memberFilterBase}&cursor=${cursor}`)
+            } else {
+              return this.getMembers(page, memberFilterBase)
             }
-            await promiseWait(1000);
-            ++counter;
-            console.log('counter :', counter);
-            members = await this.getMembers(page, `${memberFilterBase}&cursor=${members?.cursor?.after.replace(/\=/gm, '%3D')}`);
-            console.log('d :', members?.cursor?.after);
-          }
+          }, async (members) => {
+            await promiseReduce((members?.members || []), async (_, member: any) => {
+              const memberFilePath = `${exportFolder}/member-map/${member.id}.json`;
+              try {
+                const file = JSON.parse(fs.readFileSync(memberFilePath, { encoding: 'utf-8' }));
+                if (file && file.updated_at === member.updated_at) {
+                  return;
+                }
+              } catch (error) {
+              }
+              let allMessage: any[] = [];
+              await forList(async (page, cursor) => {
+                if (cursor) {
+                  return this.getMessages(page, member.id, `${messageFilterBase}&cursor=${cursor}`)
+                } else {
+                  return this.getMessages(page, member.id, messageFilterBase)
+                }
+              }, async (messages) => {
+                allMessage = [...allMessage, ...(messages?.messages || [])];
+              });
+              const messageFilePath = `${exportFolder}/message-map/${member.id}.json`;
+              // fs.writeFileSync(messageFilePath, JSON.stringify(allMessage, null, 2));
+              member.messages = allMessage;
+              fs.writeFileSync(memberFilePath, JSON.stringify(member, null, 2));
+            }, null);
+          }, 'members');
           page.close();
         }
 
