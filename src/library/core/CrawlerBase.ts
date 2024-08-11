@@ -48,6 +48,36 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
     return p;
   };
 
+  getMember = async (page: Page, memberId: string) => {
+    const p = new Promise<any>((resolve, reject) => {
+      const cb = (resp) => {
+        const url = resp.url();
+        const contentType = resp.headers()['content-type'];
+        if (resp.request().method().toUpperCase() === 'OPTION') {
+          return;
+        }
+        if (contentType && contentType.includes('application/json')) {
+          if (url.includes('chat/members')) {
+            if (resp.status() === 200) {
+              resolve(resp.json());
+            } else {
+              reject(null);
+            }
+            page.off('response', cb);
+          }
+        }
+        // urls[url] = resp.headers()['content-type'];
+        // console.log('resp.headers :', resp.headers());
+        // console.log('url :', url);
+      }
+      page.on('response', cb);
+    });
+    await page.goto(`https://api.caac.cresclab.com/api/v1/orgs/1612/chat/members/${memberId}`, {
+      waitUntil: 'networkidle2',
+    });
+    return p;
+  };
+
   getMembers = async (page: Page, query: string) => {
     const p = new Promise<any>((resolve, reject) => {
       const cb = (resp) => {
@@ -199,6 +229,7 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
                 }
               } catch (error) {
               }
+              const memberDetail: any = await this.getMember(page, member.id);
               let allMessage: any[] = [];
               await forList(async (page, cursor) => {
                 if (cursor) {
@@ -209,10 +240,10 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
               }, async (messages) => {
                 allMessage = [...allMessage, ...(messages?.messages || [])];
               });
-              const messageFilePath = `${exportFolder}/message-map/${member.id}.json`;
+              // const messageFilePath = `${exportFolder}/message-map/${member.id}.json`;
               // fs.writeFileSync(messageFilePath, JSON.stringify(allMessage, null, 2));
-              member.messages = allMessage;
-              fs.writeFileSync(memberFilePath, JSON.stringify(member, null, 2));
+              memberDetail.messages = allMessage;
+              fs.writeFileSync(memberFilePath, JSON.stringify(memberDetail, null, 2));
             }, null);
           }, 'members');
           page.close();
