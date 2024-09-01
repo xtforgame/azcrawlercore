@@ -37,14 +37,14 @@ export default class CrawlerCoreBase {
   }
 
   async createGmailApi(tokenName: string) {
-    const clientSecrets : any = await this.loadJsonFile(path.join('secrets', 'googleapp_client_secrets_gmail.json'));
+    const clientSecrets : any = await this.loadJsonFile(path.join('secrets', 'googleapp_client_secrets.json'));
     const goa2c = new GoogleOAuth2Client(
       'calendarManager',
       {
         scopes: [
           'https://www.googleapis.com/auth/gmail.readonly',
         ],
-        clientSecrets: clientSecrets.installed,
+        clientSecrets: clientSecrets.web,
       }
     );
     const tokens = await this.loadJsonFile(path.join('secrets', tokenName));

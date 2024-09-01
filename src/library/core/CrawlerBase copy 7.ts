@@ -51,7 +51,7 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
       // await this.createDriveApi('googleapp_tokens-c2.json'),
     ]);
     this.driveApis = await Promise.all([
-      await this.createDriveApi('googleapp_tokens-r.json'),
+      // await this.createDriveApi('googleapp_tokens-r.json'),
       await this.createDriveApi('googleapp_tokens-c1.json'),
       // await this.createDriveApi('googleapp_tokens-c2.json'),
     ]);
@@ -1288,7 +1288,31 @@ export default class CrawlerBase extends ShoplineCrawlerBase {
       // moment('2024-08-05'),
       // moment('2024-08-06'),
       // moment('2024-08-07'),
-      moment('2024-08-08'),
+      // moment('2024-08-08'),
+      // moment('2024-08-09'),
+      // moment('2024-08-10'),
+      // moment('2024-08-11'),
+      // moment('2024-08-12'),
+      // moment('2024-08-13'),
+      // moment('2024-08-14'),
+      // moment('2024-08-15'),
+      // moment('2024-08-16'),
+      // moment('2024-08-17'),
+      // moment('2024-08-18'),
+      // moment('2024-08-19'),
+      // moment('2024-08-20'),
+      // moment('2024-08-21'),
+      // moment('2024-08-22'),
+      // moment('2024-08-23'),
+      // moment('2024-08-24'),
+      // moment('2024-08-25'),
+      // moment('2024-08-26'),
+      // moment('2024-08-27'),
+      // moment('2024-08-28'),
+      // moment('2024-08-29'),
+      moment('2024-08-30'),
+      moment('2024-08-31'),
+      moment('2024-09-01'),
     ], async (_, date) => {
       console.log('date :', date);
       await this.runX(date);
